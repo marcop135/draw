@@ -43,5 +43,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD_PRODUCTION }}
           server-dir: /draw.marcopontili.com/
           local-dir: ./dist/
-          protocol: ftp
+          protocol: ftps
           port: 21
