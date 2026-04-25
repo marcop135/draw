@@ -8,6 +8,9 @@
   # `always` covers error responses too. Skip `preload` until HTTPS has been
   # stable for a few weeks — preload is a one-way door (max-age >= 2yr).
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # Belt-and-braces with the <meta name="robots"> tags + robots.txt: this
+  # header reaches crawlers that ignore HTML and fetch raw assets too.
+  Header set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex"
 </IfModule>
 
 # Long-cache hashed Vite assets (JS / CSS / fonts / images).
