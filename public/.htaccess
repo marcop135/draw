@@ -5,6 +5,9 @@
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
   Header set X-Frame-Options "DENY"
+  # `always` covers error responses too. Skip `preload` until HTTPS has been
+  # stable for a few weeks — preload is a one-way door (max-age >= 2yr).
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>
 
 # Long-cache hashed Vite assets (JS / CSS / fonts / images).

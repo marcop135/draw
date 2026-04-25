@@ -1,13 +1,24 @@
-import { useCallback, useRef, useState } from "react";
-import { Excalidraw } from "@excalidraw/excalidraw";
+import { lazy, Suspense, useCallback, useRef, useState } from "react";
+import { Excalidraw, MainMenu } from "@excalidraw/excalidraw";
 import "@excalidraw/excalidraw/index.css";
 import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 import type { SceneSnapshot } from "./lib/export";
 import { ExportMenu } from "./components/ExportMenu";
 import { InsertMenu } from "./components/InsertMenu";
-import { LatexModal } from "./components/LatexModal";
-import { MermaidModal } from "./components/MermaidModal";
-import { MarkdownModal } from "./components/MarkdownModal";
+
+// Heavy modals — split out so the Mermaid parser, KaTeX, and marked/DOMPurify
+// only ship to clients who actually click "Insert".
+const LatexModal = lazy(() =>
+  import("./components/LatexModal").then((m) => ({ default: m.LatexModal })),
+);
+const MermaidModal = lazy(() =>
+  import("./components/MermaidModal").then((m) => ({ default: m.MermaidModal })),
+);
+const MarkdownModal = lazy(() =>
+  import("./components/MarkdownModal").then((m) => ({
+    default: m.MarkdownModal,
+  })),
+);
 
 type ModalKind = null | "latex" | "mermaid" | "markdown";
 
@@ -48,8 +59,18 @@ export default function App() {
             setTheme(appState.theme);
           }
         }}
-      />
-
+      >
+        <MainMenu>
+          <MainMenu.DefaultItems.LoadScene />
+          <MainMenu.DefaultItems.CommandPalette />
+          <MainMenu.DefaultItems.SearchMenu />
+          <MainMenu.DefaultItems.Help />
+          <MainMenu.DefaultItems.ClearCanvas />
+          <MainMenu.Separator />
+          <MainMenu.DefaultItems.ToggleTheme />
+          <MainMenu.DefaultItems.ChangeCanvasBackground />
+        </MainMenu>
+      </Excalidraw>
       <div className={`app-toolbar${theme === "dark" ? " dark" : ""}`}>
         <InsertMenu
           dark={theme === "dark"}
@@ -58,15 +79,17 @@ export default function App() {
         <ExportMenu getScene={getScene} dark={theme === "dark"} />
       </div>
 
-      {modal === "latex" && apiRef.current ? (
-        <LatexModal api={apiRef.current} onClose={() => setModal(null)} />
-      ) : null}
-      {modal === "mermaid" && apiRef.current ? (
-        <MermaidModal api={apiRef.current} onClose={() => setModal(null)} />
-      ) : null}
-      {modal === "markdown" && apiRef.current ? (
-        <MarkdownModal api={apiRef.current} onClose={() => setModal(null)} />
-      ) : null}
+      <Suspense fallback={null}>
+        {modal === "latex" && apiRef.current ? (
+          <LatexModal api={apiRef.current} onClose={() => setModal(null)} />
+        ) : null}
+        {modal === "mermaid" && apiRef.current ? (
+          <MermaidModal api={apiRef.current} onClose={() => setModal(null)} />
+        ) : null}
+        {modal === "markdown" && apiRef.current ? (
+          <MarkdownModal api={apiRef.current} onClose={() => setModal(null)} />
+        ) : null}
+      </Suspense>
     </>
   );
 }
