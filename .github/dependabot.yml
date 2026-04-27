@@ -11,7 +11,9 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - dependencies
-    # Group updates so we don't get one PR per package.
+    # Group ALL updates (incl. majors) so we get one PR per dep type, not
+    # one PR per package. Majors still need a manual review of the
+    # changelog before merging — that's expected.
     groups:
       runtime:
         applies-to: version-updates
@@ -19,12 +21,14 @@ updates:
         update-types:
           - patch
           - minor
+          - major
       dev:
         applies-to: version-updates
         dependency-type: development
         update-types:
           - patch
           - minor
+          - major
       security:
         applies-to: security-updates
         patterns:
