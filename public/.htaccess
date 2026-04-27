@@ -1,6 +1,6 @@
 # Security headers — applied to every response Apache serves from this dir.
 <IfModule mod_headers.c>
-  Header set Content-Security-Policy "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+  Header set Content-Security-Policy "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; worker-src 'self'; manifest-src 'self'; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
@@ -20,8 +20,10 @@
   </IfModule>
 </FilesMatch>
 
-# HTML shell must always be re-fetched so a deploy is picked up immediately.
-<FilesMatch "\.html$">
+# HTML shell, the service worker, and the PWA manifest must always be
+# re-fetched so a deploy is picked up immediately. The SW file in particular
+# MUST NOT be long-cached or the auto-update flow stalls.
+<FilesMatch "\.html$|^sw\.js$|^registerSW\.js$|^workbox-.*\.js$|\.webmanifest$">
   <IfModule mod_headers.c>
     Header set Cache-Control "no-cache, must-revalidate"
   </IfModule>
