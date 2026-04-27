@@ -1,9 +1,10 @@
-name: Deploy site in production on push
+name: Deploy site to production (manual)
 
+# Manual-only. Triggered from the GitHub UI ("Run workflow" button on the
+# Actions tab) or via `gh workflow run "Deploy site to production (manual)"`.
+# Push events deliberately do NOT trigger this — pushes/merges to main land
+# the code, deploys are an explicit decision.
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 concurrency:
