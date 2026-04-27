@@ -5,6 +5,51 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] — 2026-04-27
+
+### Added
+
+- **`.excalidraw` export.** New format alongside PNG/JPEG/SVG/PDF that
+  round-trips: open it later via Excalidraw's "Open" menu and you're back
+  exactly where you left off, including images and styles. Uses
+  `serializeAsJSON` from `@excalidraw/excalidraw`. (`src/lib/export.ts`,
+  `src/components/ExportMenu.tsx`)
+- **PWA / installable web app.** `vite-plugin-pwa` generates a service
+  worker (Workbox) that precaches the HTML shell + main bundles and
+  runtime-caches `/assets/` and `/fonts/`. The site can be installed and
+  works offline once visited. Web App Manifest at `/manifest.webmanifest`,
+  `display: standalone`, brand colours wired up.
+- **Mobile UX.**
+  - Floating toolbar moves to bottom-right on viewports ≤640px so it no
+    longer collides with Excalidraw's own mobile top-bar.
+  - Insert/Export popups now flip up on mobile (relative to their button,
+    not page).
+  - Touch targets bumped to 40px+ on mobile and `font-size: 16px` on
+    textareas to suppress iOS auto-zoom.
+  - Modals use `100dvh` and full width on phones.
+- `.github/dependabot.yml` — weekly grouped npm + monthly grouped
+  GitHub Actions updates, targeting `develop`. Transitive deps already
+  pinned via `overrides` are ignored to keep the noise out.
+
+### Changed
+
+- `@excalidraw/mermaid-to-excalidraw` direct dep `^1.1.2 → ^2.2.2`,
+  matching the version Excalidraw 0.18 already bundles internally. This
+  drops a duplicate copy plus its older `mermaid 10.9.4`, `uuid 9`, and
+  `nanoid 4` chains. `npm ls @excalidraw/mermaid-to-excalidraw` now
+  shows a single deduped `2.2.2`.
+
+### Security
+
+- CSP gains `worker-src 'self'` and `manifest-src 'self'` for the
+  service worker + manifest.
+- Cache-control rules in `dist/.htaccess` updated so `sw.js`,
+  `workbox-*.js`, and `manifest.webmanifest` are no-cache (otherwise the
+  PWA auto-update flow stalls).
+- Added `serialize-javascript ^7.0.5` to the `overrides` block (clears
+  the high-severity Workbox-build advisory pulled in transitively by
+  `vite-plugin-pwa`). `npm audit` still reports 0 vulnerabilities.
+
 ## [0.1.2] — 2026-04-27
 
 ### Fixed

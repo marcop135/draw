@@ -1,7 +1,14 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { registerSW } from "virtual:pwa-register";
 import App from "./App";
 import "./styles.css";
+
+// Register the service worker for offline support and asset caching.
+// `autoUpdate` mode means the SW silently swaps to a fresh version on the
+// next page load — fine for a personal tool; if we ever ship a stable user
+// base, we'd switch to a prompt-the-user-to-reload pattern.
+registerSW({ immediate: true });
 
 // Self-host Excalidraw fonts: copied to /fonts/ at build time by vite.config.ts.
 // Must be set BEFORE Excalidraw is imported/rendered.

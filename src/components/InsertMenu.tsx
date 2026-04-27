@@ -10,7 +10,7 @@ type Props = {
 export function InsertMenu({ onPick, dark }: Props) {
   const [open, setOpen] = useState(false);
   return (
-    <>
+    <div className="menu-anchor">
       <button
         type="button"
         className="app-btn"
@@ -21,11 +21,7 @@ export function InsertMenu({ onPick, dark }: Props) {
         Insert ▾
       </button>
       {open ? (
-        <div
-          className={`menu-pop${dark ? " dark" : ""}`}
-          role="menu"
-          style={{ right: 88, top: 56 }}
-        >
+        <div className={`menu-pop${dark ? " dark" : ""}`} role="menu">
           <button onClick={() => { onPick("latex"); setOpen(false); }}>
             LaTeX
           </button>
@@ -37,6 +33,6 @@ export function InsertMenu({ onPick, dark }: Props) {
           </button>
         </div>
       ) : null}
-    </>
+    </div>
   );
 }

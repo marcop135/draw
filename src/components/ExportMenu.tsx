@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  exportExcalidraw,
   exportPng,
   exportJpeg,
   exportSvg,
@@ -31,7 +32,7 @@ export function ExportMenu({ getScene, dark }: Props) {
   }
 
   return (
-    <>
+    <div className="menu-anchor">
       <button
         type="button"
         className="app-btn"
@@ -42,11 +43,10 @@ export function ExportMenu({ getScene, dark }: Props) {
         Export ▾
       </button>
       {open ? (
-        <div
-          className={`menu-pop${dark ? " dark" : ""}`}
-          role="menu"
-          style={{ right: 12, top: 56 }}
-        >
+        <div className={`menu-pop${dark ? " dark" : ""}`} role="menu">
+          <button onClick={() => run(exportExcalidraw)} disabled={busy}>
+            Excalidraw (.excalidraw)
+          </button>
           <button onClick={() => run(exportPng)} disabled={busy}>
             PNG
           </button>
@@ -66,6 +66,6 @@ export function ExportMenu({ getScene, dark }: Props) {
           ) : null}
         </div>
       ) : null}
-    </>
+    </div>
   );
 }
