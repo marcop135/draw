@@ -1,5 +1,12 @@
 import { useState } from "react";
 import {
+  Download,
+  FileJson,
+  Image as ImageIcon,
+  FileImage,
+  FileText,
+} from "lucide-react";
+import {
   exportExcalidraw,
   exportPng,
   exportJpeg,
@@ -35,36 +42,51 @@ export function ExportMenu({ getScene, dark }: Props) {
     <div className="menu-anchor">
       <button
         type="button"
-        className="app-btn"
+        className="app-btn app-fab"
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
+        aria-label="Export"
       >
-        Export ▾
+        <Download size={18} aria-hidden="true" />
+        <span className="btn-label">Export</span>
       </button>
       {open ? (
-        <div className={`menu-pop${dark ? " dark" : ""}`} role="menu">
-          <button onClick={() => run(exportExcalidraw)} disabled={busy}>
-            Excalidraw (.excalidraw)
-          </button>
-          <button onClick={() => run(exportPng)} disabled={busy}>
-            PNG
-          </button>
-          <button onClick={() => run(exportJpeg)} disabled={busy}>
-            JPEG
-          </button>
-          <button onClick={() => run(exportSvg)} disabled={busy}>
-            SVG
-          </button>
-          <button onClick={() => run(exportPdf)} disabled={busy}>
-            PDF
-          </button>
-          {error ? (
-            <p className="app-error" style={{ padding: "6px 12px" }}>
-              {error}
-            </p>
-          ) : null}
-        </div>
+        <>
+          <div
+            className="menu-scrim"
+            onClick={() => setOpen(false)}
+            aria-hidden="true"
+          />
+          <div className={`menu-pop${dark ? " dark" : ""}`} role="menu">
+            <div className="sheet-handle" aria-hidden="true" />
+            <button onClick={() => run(exportExcalidraw)} disabled={busy}>
+              <FileJson size={20} aria-hidden="true" />
+              <span>Excalidraw (.excalidraw)</span>
+            </button>
+            <button onClick={() => run(exportPng)} disabled={busy}>
+              <ImageIcon size={20} aria-hidden="true" />
+              <span>PNG</span>
+            </button>
+            <button onClick={() => run(exportJpeg)} disabled={busy}>
+              <ImageIcon size={20} aria-hidden="true" />
+              <span>JPEG</span>
+            </button>
+            <button onClick={() => run(exportSvg)} disabled={busy}>
+              <FileImage size={20} aria-hidden="true" />
+              <span>SVG</span>
+            </button>
+            <button onClick={() => run(exportPdf)} disabled={busy}>
+              <FileText size={20} aria-hidden="true" />
+              <span>PDF</span>
+            </button>
+            {error ? (
+              <p className="app-error" style={{ padding: "6px 12px" }}>
+                {error}
+              </p>
+            ) : null}
+          </div>
+        </>
       ) : null}
     </div>
   );
