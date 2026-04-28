@@ -46,5 +46,9 @@ jobs:
           local-dir: ./dist/
           protocol: ftps
           port: 21
-          security: strict
+          # "strict" fails: Netsons' shared FTPS cert is issued to
+          # hostingssd94.netsons.net and does not include custom domains
+          # in its SAN (ERR_TLS_CERT_ALTNAME_INVALID). To use strict,
+          # set FTP_HOST to the server's actual hostname instead.
+          security: loose
           dangerous-clean-slate: false
