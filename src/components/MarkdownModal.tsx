@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 import { marked } from "marked";
 import { Modal } from "./Modal";
-import { renderMarkdown } from "../lib/markdown";
+import { MARKDOWN_SANITIZE_CONFIG, renderMarkdown } from "../lib/markdown";
 import { insertImageElement } from "../lib/insertImage";
 import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 
@@ -36,13 +36,7 @@ export function MarkdownModal({ api, onClose }: Props) {
         marked.setOptions({ gfm: true, breaks: true });
         const raw = await marked.parse(src);
         if (cancelled) return;
-        setPreviewHtml(
-          DOMPurify.sanitize(raw, {
-            USE_PROFILES: { html: true },
-            FORBID_TAGS: ["script", "iframe", "object", "embed", "form", "input"],
-            FORBID_ATTR: ["onerror", "onload", "onclick", "onmouseover", "style"],
-          }),
-        );
+        setPreviewHtml(DOMPurify.sanitize(raw, MARKDOWN_SANITIZE_CONFIG));
       } catch (e) {
         if (!cancelled) {
           setError(e instanceof Error ? e.message : "Markdown render failed.");
