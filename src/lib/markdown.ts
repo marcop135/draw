@@ -1,7 +1,8 @@
 import { marked } from "marked";
 import DOMPurify from "dompurify";
+import type { Config as DOMPurifyConfig } from "dompurify";
 
-export const MARKDOWN_SANITIZE_CONFIG: DOMPurify.Config = {
+export const MARKDOWN_SANITIZE_CONFIG: DOMPurifyConfig = {
   USE_PROFILES: { html: true },
   FORBID_TAGS: ["script", "iframe", "object", "embed", "form", "input"],
   FORBID_ATTR: ["onerror", "onload", "onclick", "onmouseover", "style"],
