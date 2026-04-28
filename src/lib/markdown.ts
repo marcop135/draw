@@ -1,5 +1,14 @@
 import { marked } from "marked";
 import DOMPurify from "dompurify";
+import type { Config as DOMPurifyConfig } from "dompurify";
+
+export const MARKDOWN_SANITIZE_CONFIG: DOMPurifyConfig = {
+  USE_PROFILES: { html: true },
+  FORBID_TAGS: ["script", "iframe", "object", "embed", "form", "input"],
+  FORBID_ATTR: ["onerror", "onload", "onclick", "onmouseover", "style"],
+  ALLOWED_URI_REGEXP:
+    /^(?:(?:https?|mailto):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
+};
 
 /**
  * Render Markdown to a sanitized HTML string, then wrap inside an SVG
@@ -17,12 +26,7 @@ export async function renderMarkdown(
   marked.setOptions({ gfm: true, breaks: true });
   const rawHtml = await marked.parse(source);
 
-  const cleanHtml = DOMPurify.sanitize(rawHtml, {
-    USE_PROFILES: { html: true },
-    FORBID_TAGS: ["script", "iframe", "object", "embed", "form", "input"],
-    FORBID_ATTR: ["onerror", "onload", "onclick", "onmouseover", "style"],
-    ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
-  });
+  const cleanHtml = DOMPurify.sanitize(rawHtml, MARKDOWN_SANITIZE_CONFIG);
 
   // Measure by mounting offscreen so the SVG is sized to fit the content.
   const probe = document.createElement("div");

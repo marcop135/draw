@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get latest code
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 20
           cache: npm
@@ -37,7 +37,7 @@ jobs:
         run: npm run build
 
       - name: Sync files via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        uses: SamKirkland/FTP-Deploy-Action@110f9186c050f71550953127052e77650219c287 # v4.4.0
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME_PRODUCTION }}
@@ -46,5 +46,9 @@ jobs:
           local-dir: ./dist/
           protocol: ftps
           port: 21
+          # "strict" fails: Netsons' shared FTPS cert is issued to
+          # hostingssd94.netsons.net and does not include custom domains
+          # in its SAN (ERR_TLS_CERT_ALTNAME_INVALID). To use strict,
+          # set FTP_HOST to the server's actual hostname instead.
           security: loose
           dangerous-clean-slate: false
