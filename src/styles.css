@@ -451,7 +451,74 @@ body,
   /* Top tool palette breathes a little more so the rounded shell reads as a
      pill, not a clipped rectangle. */
   .excalidraw .App-toolbar--mobile {
-    padding: 6px 8px !important;
+    padding: 6px 6px !important;
+    overflow: hidden;
+  }
+
+  /* The inner stack ships from Excalidraw as a fixed-column CSS grid (inline
+     grid-template-columns), which forces 24px tools and overflows when we ask
+     for bigger touch targets. Flatten it to a flex row that scrolls
+     horizontally — no column constraints, hidden scrollbar, momentum scroll
+     on iOS. The fade mask hints at off-screen tools without an ugly bar. */
+  .excalidraw .App-toolbar--mobile .Stack_horizontal {
+    display: flex !important;
+    grid-template-columns: none !important;
+    gap: 4px !important;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 12px,
+      #000 calc(100% - 48px),
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 12px,
+      #000 calc(100% - 48px),
+      #000 100%
+    );
+  }
+  .excalidraw .App-toolbar--mobile .Stack_horizontal::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Bigger touch targets on each shape tool — 40dp square, comfortable thumb
+     hit area. */
+  .excalidraw .App-toolbar--mobile .ToolIcon {
+    flex: 0 0 auto;
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .excalidraw .App-toolbar--mobile .ToolIcon__icon,
+  .excalidraw .App-toolbar--mobile .ToolIcon > * {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Extra-tools trigger ("…" / chevron at the right) sticks to the right edge
+     so it's always reachable even when the tool row has scrolled, and matches
+     the FAB-style 40dp size of the tools next to it. */
+  .excalidraw
+    .App-toolbar--mobile
+    .App-toolbar__extra-tools-trigger {
+    position: sticky;
+    right: 0;
+    width: 40px !important;
+    height: 40px !important;
+    flex: 0 0 auto;
+    margin-left: auto;
+    background: var(--island-bg-color, #fff);
+    z-index: 1;
+  }
+  /* Hide the 1px separator that Excalidraw renders before the trigger — the
+     sticky trigger reads clearly enough on its own. */
+  .excalidraw .App-toolbar--mobile .Stack_horizontal > .Separator {
+    display: none;
   }
 
   /* Bottom-bar hamburger + extra-tools triggers become circular Material chips,
