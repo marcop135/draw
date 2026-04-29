@@ -275,11 +275,12 @@ body,
     display: none;
   }
 
-  /* Circular FABs (Material 3 standard size: 56dp). */
+  /* Circular FABs — slightly under Material's 56dp so they sit lighter on
+     screen alongside Excalidraw's own controls. */
   .app-toolbar .app-fab {
-    width: 56px;
-    height: 56px;
-    min-height: 56px;
+    width: 48px;
+    height: 48px;
+    min-height: 48px;
     padding: 0;
     border: none;
     border-radius: 50%;
@@ -294,8 +295,8 @@ body,
     transition: transform 80ms ease, box-shadow 120ms ease;
   }
   .app-toolbar .app-fab svg {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
   }
   .app-toolbar .app-fab:active {
     transform: scale(0.95);
@@ -423,6 +424,42 @@ body,
     padding: 0 24px;
     font-size: 15px;
     font-weight: 500;
+  }
+
+  /* ---------- Excalidraw native chrome — Material 3 surface treatment ---------- */
+  /* Excalidraw renders its own mobile UI: a top tool palette and a bottom bar
+     with the hamburger / lock / library buttons. We restyle just the surfaces
+     (radius, elevation, container background) without touching the size or
+     position of any interactive child — that keeps Excalidraw's tool selection,
+     drag, and hit testing intact. */
+
+  .excalidraw .App-toolbar--mobile,
+  .excalidraw .App-bottom-bar > .Island {
+    border-radius: 28px !important;
+    box-shadow:
+      0 3px 8px rgba(0, 0, 0, 0.18),
+      0 1px 3px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  .excalidraw.theme--dark .App-toolbar--mobile,
+  .excalidraw.theme--dark .App-bottom-bar > .Island {
+    box-shadow:
+      0 3px 8px rgba(0, 0, 0, 0.45),
+      0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* Top tool palette breathes a little more so the rounded shell reads as a
+     pill, not a clipped rectangle. */
+  .excalidraw .App-toolbar--mobile {
+    padding: 6px 8px !important;
+  }
+
+  /* Bottom-bar hamburger + extra-tools triggers become circular Material chips,
+     matching the visual language of our own FABs. */
+  .excalidraw .dropdown-menu-button--mobile {
+    border-radius: 50% !important;
+    width: 36px !important;
+    height: 36px !important;
   }
 }
 
