@@ -215,6 +215,11 @@ body,
   gap: 8px;
 }
 
+.app-modal label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
 .app-modal textarea {
   width: 100%;
   min-height: 140px;
@@ -389,7 +394,7 @@ body,
 
   .app-modal-header {
     min-height: 56px;
-    padding: 8px 12px;
+    padding: 8px 16px;
     gap: 8px;
   }
   .app-modal-back {
@@ -399,8 +404,6 @@ body,
     font-size: 20px;
     font-weight: 500;
   }
-  /* Hide the redundant trailing close button on mobile — the back arrow is
-     the Material full-screen dialog convention. */
   .app-modal-close {
     display: none;
   }
@@ -408,9 +411,11 @@ body,
   .app-modal-body {
     padding: 16px;
   }
+  .app-modal-body label {
+    font-size: 15px;
+  }
   .app-modal textarea {
     min-height: 120px;
-    /* iOS prevents auto-zoom when the input font-size is >= 16px. */
     font-size: 16px;
   }
 
@@ -424,15 +429,26 @@ body,
     padding: 0 24px;
     font-size: 15px;
     font-weight: 500;
+    border-radius: 24px;
   }
 
-  /* ---------- Excalidraw native chrome — Material 3 surface treatment ---------- */
-  /* Excalidraw renders its own mobile UI: a top tool palette and a bottom bar
-     with the hamburger / lock / library buttons. We restyle just the surfaces
-     (radius, elevation, container background) without touching the size or
-     position of any interactive child — that keeps Excalidraw's tool selection,
-     drag, and hit testing intact. */
+  /* Preview and error text — readable on mobile */
+  .app-preview {
+    font-size: 15px;
+  }
+  .app-error {
+    font-size: 14px;
+  }
 
+  /* ====================================================================== */
+  /* Excalidraw native chrome — Material 3 surface treatment                */
+  /* ====================================================================== */
+  /* Excalidraw renders its own mobile UI: a top tool palette and a bottom  */
+  /* bar with the hamburger / lock / library / undo-redo buttons. We        */
+  /* restyle surfaces, touch targets, and font sizes to match Material 3    */
+  /* without touching position or hit-testing of interactive children.      */
+
+  /* ---- Shared surface: pill shape + elevation ---- */
   .excalidraw .App-toolbar--mobile,
   .excalidraw .App-bottom-bar > .Island {
     border-radius: 28px !important;
@@ -440,7 +456,6 @@ body,
       0 3px 8px rgba(0, 0, 0, 0.18),
       0 1px 3px rgba(0, 0, 0, 0.12) !important;
   }
-
   .excalidraw.theme--dark .App-toolbar--mobile,
   .excalidraw.theme--dark .App-bottom-bar > .Island {
     box-shadow:
@@ -448,18 +463,14 @@ body,
       0 1px 3px rgba(0, 0, 0, 0.3) !important;
   }
 
-  /* Top tool palette breathes a little more so the rounded shell reads as a
-     pill, not a clipped rectangle. */
+  /* ---- Top tool palette ---- */
   .excalidraw .App-toolbar--mobile {
-    padding: 6px 6px !important;
+    padding: 6px !important;
     overflow: hidden;
   }
 
-  /* The inner stack ships from Excalidraw as a fixed-column CSS grid (inline
-     grid-template-columns), which forces 24px tools and overflows when we ask
-     for bigger touch targets. Flatten it to a flex row that scrolls
-     horizontally — no column constraints, hidden scrollbar, momentum scroll
-     on iOS. The fade mask hints at off-screen tools without an ugly bar. */
+  /* Flatten Excalidraw's fixed-column CSS grid into a flex row that scrolls
+     horizontally with momentum scrolling and hidden scrollbar. */
   .excalidraw .App-toolbar--mobile .Stack_horizontal {
     display: flex !important;
     grid-template-columns: none !important;
@@ -487,12 +498,11 @@ body,
     display: none;
   }
 
-  /* Bigger touch targets on each shape tool — 40dp square, comfortable thumb
-     hit area. */
+  /* Each shape tool — 44dp, Material-recommended minimum. */
   .excalidraw .App-toolbar--mobile .ToolIcon {
     flex: 0 0 auto;
-    width: 40px !important;
-    height: 40px !important;
+    width: 44px !important;
+    height: 44px !important;
   }
   .excalidraw .App-toolbar--mobile .ToolIcon__icon,
   .excalidraw .App-toolbar--mobile .ToolIcon > * {
@@ -500,33 +510,159 @@ body,
     height: 100%;
   }
 
-  /* Extra-tools trigger ("…" / chevron at the right) sticks to the right edge
-     so it's always reachable even when the tool row has scrolled, and matches
-     the FAB-style 40dp size of the tools next to it. */
-  .excalidraw
-    .App-toolbar--mobile
-    .App-toolbar__extra-tools-trigger {
+  /* Extra-tools trigger ("…" / chevron) — sticky at the right edge, 44dp. */
+  .excalidraw .App-toolbar--mobile .App-toolbar__extra-tools-trigger {
     position: sticky;
     right: 0;
-    width: 40px !important;
-    height: 40px !important;
+    width: 44px !important;
+    height: 44px !important;
     flex: 0 0 auto;
     margin-left: auto;
     background: var(--island-bg-color, #fff);
     z-index: 1;
+    border-radius: 50% !important;
   }
-  /* Hide the 1px separator that Excalidraw renders before the trigger — the
-     sticky trigger reads clearly enough on its own. */
   .excalidraw .App-toolbar--mobile .Stack_horizontal > .Separator {
     display: none;
   }
 
-  /* Bottom-bar hamburger + extra-tools triggers become circular Material chips,
-     matching the visual language of our own FABs. */
+  /* ---- Bottom bar: hamburger, lock, library, misc tools ---- */
+  /* All interactive buttons in the bottom bar — 44dp circular. */
+  .excalidraw .App-bottom-bar button,
+  .excalidraw .App-bottom-bar .ToolIcon_type_button,
+  .excalidraw .App-bottom-bar .ToolIcon_type_checkbox,
   .excalidraw .dropdown-menu-button--mobile {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    width: 44px !important;
+    height: 44px !important;
     border-radius: 50% !important;
-    width: 36px !important;
-    height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .excalidraw .App-bottom-bar .ToolIcon__icon {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* The lock / "misc tools" container — flex row with comfortable spacing. */
+  .excalidraw .mobile-misc-tools-container {
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+  }
+
+  /* Ensure the lock button SVG is large enough to see/tap. */
+  .excalidraw .App-bottom-bar .unlocked-icon,
+  .excalidraw .App-bottom-bar .ToolIcon_type_checkbox svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  /* Bottom-bar Island gets a little more internal padding. */
+  .excalidraw .App-bottom-bar > .Island {
+    padding: 6px 10px !important;
+    gap: 6px !important;
+  }
+
+  /* ---- Undo / Redo buttons ---- */
+  .excalidraw .undo-redo-buttons {
+    gap: 4px !important;
+  }
+  .excalidraw .undo-redo-buttons button {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ---- Zoom controls ---- */
+  .excalidraw .zoom-actions {
+    border-radius: 22px !important;
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.14),
+      0 1px 2px rgba(0, 0, 0, 0.1) !important;
+    overflow: hidden;
+  }
+  .excalidraw .zoom-actions button {
+    min-width: 44px !important;
+    min-height: 40px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .excalidraw .zoom-actions .reset-zoom-button {
+    font-size: 14px !important;
+    min-width: 56px !important;
+  }
+  .excalidraw.theme--dark .zoom-actions {
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.4),
+      0 1px 2px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  /* ---- Active/pressed feedback for all Excalidraw touch targets ---- */
+  .excalidraw .App-toolbar--mobile .ToolIcon:active,
+  .excalidraw .App-bottom-bar button:active,
+  .excalidraw .undo-redo-buttons button:active,
+  .excalidraw .zoom-actions button:active,
+  .excalidraw .dropdown-menu-button--mobile:active {
+    transform: scale(0.93);
+    transition: transform 60ms ease;
+  }
+
+  /* ---- Dropdown menus opened from the bottom bar ---- */
+  .excalidraw .dropdown-menu--mobile {
+    border-radius: 16px 16px 0 0 !important;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.18) !important;
+    padding-bottom: max(12px, env(safe-area-inset-bottom)) !important;
+  }
+  .excalidraw .dropdown-menu--mobile button,
+  .excalidraw .dropdown-menu--mobile a {
+    min-height: 48px !important;
+    font-size: 15px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* ---- Color picker — bigger swatches for touch ---- */
+  .excalidraw .color-picker__button {
+    min-width: 36px !important;
+    min-height: 36px !important;
+    border-radius: 50% !important;
+  }
+  .excalidraw .color-picker__button--large {
+    min-width: 40px !important;
+    min-height: 40px !important;
+  }
+
+  /* ---- Global font-size bump on the Excalidraw shell ---- */
+  .excalidraw.excalidraw--mobile {
+    font-size: 15px !important;
+  }
+  .excalidraw .ToolIcon__label {
+    font-size: 13px !important;
+  }
+
+  /* ---- Extra-tools dropdown (shapes overflow) ---- */
+  .excalidraw .App-toolbar__extra-tools-dropdown {
+    border-radius: 16px !important;
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.18),
+      0 1px 4px rgba(0, 0, 0, 0.1) !important;
+  }
+  .excalidraw .App-toolbar__extra-tools-dropdown .ToolIcon {
+    width: 48px !important;
+    height: 48px !important;
   }
 }
 

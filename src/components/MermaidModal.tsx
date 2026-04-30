@@ -52,9 +52,7 @@ export function MermaidModal({ api, onClose }: Props) {
         </>
       }
     >
-      <label htmlFor="mermaid-input" style={{ fontSize: 13 }}>
-        Mermaid source (flowcharts work best)
-      </label>
+      <label htmlFor="mermaid-input">Mermaid source (flowcharts work best)</label>
       <textarea
         id="mermaid-input"
         value={src}

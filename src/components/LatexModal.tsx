@@ -79,9 +79,7 @@ export function LatexModal({ api, onClose }: Props) {
         </>
       }
     >
-      <label htmlFor="latex-input" style={{ fontSize: 13 }}>
-        LaTeX (math mode)
-      </label>
+      <label htmlFor="latex-input">LaTeX (math mode)</label>
       <textarea
         id="latex-input"
         value={tex}
@@ -90,7 +88,7 @@ export function LatexModal({ api, onClose }: Props) {
         autoFocus
       />
       <div>
-        <div style={{ fontSize: 13, marginBottom: 6 }}>Preview</div>
+        <div style={{ marginBottom: 6 }}>Preview</div>
         <div className="app-preview">
           {previewHtml.error ? (
             <p className="app-error">{previewHtml.error}</p>
