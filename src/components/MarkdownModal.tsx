@@ -86,7 +86,9 @@ export function MarkdownModal({ api, onClose }: Props) {
         </>
       }
     >
-      <label htmlFor="md-input">Markdown</label>
+      <label htmlFor="md-input" style={{ fontSize: 13 }}>
+        Markdown
+      </label>
       <textarea
         id="md-input"
         value={src}
@@ -95,7 +97,7 @@ export function MarkdownModal({ api, onClose }: Props) {
         autoFocus
       />
       <div>
-        <div style={{ marginBottom: 6 }}>Preview</div>
+        <div style={{ fontSize: 13, marginBottom: 6 }}>Preview</div>
         <div
           className="app-preview"
           dangerouslySetInnerHTML={{ __html: previewHtml }}

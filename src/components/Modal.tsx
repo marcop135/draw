@@ -1,5 +1,4 @@
 import { useEffect, type ReactNode } from "react";
-import { ArrowLeft, X } from "lucide-react";
 
 type Props = {
   title: string;
@@ -26,23 +25,9 @@ export function Modal({ title, onClose, children, footer }: Props) {
     >
       <div className="app-modal" role="dialog" aria-modal="true" aria-label={title}>
         <div className="app-modal-header">
-          <button
-            type="button"
-            className="app-modal-back"
-            onClick={onClose}
-            aria-label="Close"
-          >
-            <ArrowLeft size={20} aria-hidden="true" />
-          </button>
-          <span className="app-modal-title">{title}</span>
-          <button
-            className="app-btn app-modal-close"
-            type="button"
-            onClick={onClose}
-            aria-label="Close"
-          >
-            <X size={16} aria-hidden="true" />
-            <span className="btn-label">Close</span>
+          <span>{title}</span>
+          <button className="app-btn" type="button" onClick={onClose}>
+            Close
           </button>
         </div>
         <div className="app-modal-body">{children}</div>

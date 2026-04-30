@@ -7,10 +7,10 @@ body,
   width: 100%;
   overflow: hidden;
   font-family:
-    Roboto,
     system-ui,
     -apple-system,
-    "Segoe UI",
+    Segoe UI,
+    Roboto,
     Helvetica,
     Arial,
     sans-serif;
@@ -19,10 +19,6 @@ body,
 #root {
   position: relative;
 }
-
-/* -------------------------------------------------------------------------- */
-/* Toolbar (desktop default)                                                  */
-/* -------------------------------------------------------------------------- */
 
 .app-toolbar {
   position: absolute;
@@ -38,13 +34,19 @@ body,
   backdrop-filter: blur(6px);
 }
 
+/* On phones, Excalidraw's own toolbar takes the full top row. Move ours to
+   the bottom-right, above the zoom controls but clear of the colour picker. */
+@media (max-width: 640px) {
+  .app-toolbar {
+    top: auto;
+    right: 8px;
+    bottom: 96px;
+  }
+}
+
 .app-toolbar.dark {
   background: rgba(36, 36, 40, 0.92);
 }
-
-/* -------------------------------------------------------------------------- */
-/* Buttons (desktop default)                                                  */
-/* -------------------------------------------------------------------------- */
 
 .app-btn {
   font: inherit;
@@ -54,14 +56,17 @@ body,
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 6px;
   background: #fff;
-  color: inherit;
   cursor: pointer;
   white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+}
+@media (max-width: 640px) {
+  .app-btn {
+    min-height: 40px;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
 }
 .app-btn:hover {
   background: #f3f3f3;
@@ -78,69 +83,6 @@ body,
 .app-toolbar.dark .app-btn:hover {
   background: #36363a;
 }
-
-/* -------------------------------------------------------------------------- */
-/* Menu anchor + popover (desktop default)                                    */
-/* -------------------------------------------------------------------------- */
-
-.menu-anchor {
-  position: relative;
-  display: inline-flex;
-}
-
-.menu-pop {
-  position: absolute;
-  top: calc(100% + 6px);
-  right: 0;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
-  padding: 6px;
-  z-index: 11;
-  display: flex;
-  flex-direction: column;
-  min-width: 220px;
-}
-.menu-pop.dark {
-  background: #2a2a2e;
-  color: #f1f1f1;
-}
-
-.menu-pop button {
-  text-align: left;
-  background: none;
-  border: 0;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font: inherit;
-  color: inherit;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-.menu-pop button:hover {
-  background: rgba(0, 0, 0, 0.06);
-}
-.menu-pop.dark button:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-/* The drag-handle on the bottom sheet — hidden on desktop. */
-.sheet-handle {
-  display: none;
-}
-
-/* The dimmer behind the bottom sheet — only used on mobile. */
-.menu-scrim {
-  display: none;
-}
-
-/* -------------------------------------------------------------------------- */
-/* Modal (desktop default)                                                    */
-/* -------------------------------------------------------------------------- */
 
 .app-modal-backdrop {
   position: fixed;
@@ -163,40 +105,27 @@ body,
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
   overflow: hidden;
 }
+@media (max-width: 640px) {
+  .app-modal {
+    /* On phones go nearly full-screen; viewport keyboards eat space when typing. */
+    width: 100%;
+    max-height: 100dvh;
+    border-radius: 8px;
+  }
+  .app-modal textarea {
+    min-height: 120px;
+    /* iOS prevents auto-zoom when the input font-size is >=16px. */
+    font-size: 16px;
+  }
+}
 
 .app-modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
   padding: 14px 18px;
   border-bottom: 1px solid #eee;
-  font-weight: 500;
-}
-
-.app-modal-title {
-  flex: 1;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-/* Mobile-only back arrow on the left of the header. */
-.app-modal-back {
-  display: none;
-  background: none;
-  border: 0;
-  cursor: pointer;
-  padding: 8px;
-  margin: -8px 0 -8px -8px;
-  border-radius: 50%;
-  color: inherit;
-  align-items: center;
-  justify-content: center;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-.app-modal-back:hover {
-  background: rgba(0, 0, 0, 0.06);
+  font-weight: 600;
 }
 
 .app-modal-body {
@@ -213,11 +142,6 @@ body,
   display: flex;
   justify-content: flex-end;
   gap: 8px;
-}
-
-.app-modal label {
-  font-size: 13px;
-  font-weight: 500;
 }
 
 .app-modal textarea {
@@ -252,524 +176,50 @@ body,
   margin: 0;
 }
 
-/* -------------------------------------------------------------------------- */
-/* Mobile (≤ 640px) — Material 3 inspired touch UI                            */
-/* -------------------------------------------------------------------------- */
+.menu-anchor {
+  position: relative;
+  display: inline-flex;
+}
 
+.menu-pop {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  padding: 6px;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+}
+
+/* On mobile the toolbar sits at the bottom — flip the popup upward. */
 @media (max-width: 640px) {
-  /* Toolbar becomes a vertical column of FABs at the bottom-right edge,
-     above Excalidraw's native zoom controls. No background — each FAB carries
-     its own elevation. */
-  .app-toolbar {
-    top: auto;
-    right: 12px;
-    bottom: 96px;
-    flex-direction: column-reverse;
-    gap: 12px;
-    background: transparent;
-    box-shadow: none;
-    backdrop-filter: none;
-    padding: 0;
-  }
-  .app-toolbar.dark {
-    background: transparent;
-  }
-
-  /* Hide labels on FAB triggers; the icon implies the action. */
-  .app-toolbar .app-fab .btn-label {
-    display: none;
-  }
-
-  /* Circular FABs — slightly under Material's 56dp so they sit lighter on
-     screen alongside Excalidraw's own controls. */
-  .app-toolbar .app-fab {
-    width: 48px;
-    height: 48px;
-    min-height: 48px;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background: #fff;
-    color: #1a1a1a;
-    box-shadow:
-      0 3px 8px rgba(0, 0, 0, 0.2),
-      0 1px 3px rgba(0, 0, 0, 0.12);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 80ms ease, box-shadow 120ms ease;
-  }
-  .app-toolbar .app-fab svg {
-    width: 22px;
-    height: 22px;
-  }
-  .app-toolbar .app-fab:active {
-    transform: scale(0.95);
-    box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.18),
-      0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Primary FAB (Insert) — solid accent fill. */
-  .app-toolbar .app-fab-primary {
-    background: #1e1e1e;
-    color: #fff;
-  }
-  .app-toolbar.dark .app-fab {
-    background: #2a2a2e;
-    color: #f1f1f1;
-  }
-  .app-toolbar.dark .app-fab-primary {
-    background: #f1f1f1;
-    color: #1a1a1a;
-  }
-
-  /* ---------- Bottom sheet ---------- */
-
-  .menu-scrim {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.32);
-    z-index: 50;
-    animation: scrim-fade 160ms ease-out;
-  }
-
   .menu-pop {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
     top: auto;
-    width: 100%;
-    min-width: 0;
-    border-radius: 16px 16px 0 0;
-    padding: 8px 0 max(16px, env(safe-area-inset-bottom));
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.18);
-    z-index: 51;
-    animation: sheet-up 220ms cubic-bezier(0.2, 0, 0, 1);
-  }
-
-  .sheet-handle {
-    display: block;
-    width: 32px;
-    height: 4px;
-    border-radius: 2px;
-    background: rgba(0, 0, 0, 0.18);
-    margin: 4px auto 8px;
-  }
-  .menu-pop.dark .sheet-handle {
-    background: rgba(255, 255, 255, 0.24);
-  }
-
-  .menu-pop button {
-    min-height: 48px;
-    padding: 12px 20px;
-    font-size: 16px;
-    border-radius: 0;
-    gap: 16px;
-    transition: background-color 80ms ease;
-  }
-  .menu-pop button svg {
-    flex-shrink: 0;
-  }
-  .menu-pop button:active {
-    background: rgba(0, 0, 0, 0.08);
-  }
-  .menu-pop.dark button:active {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  /* ---------- Modal — Material full-screen dialog ---------- */
-
-  .app-modal-backdrop {
-    padding: 0;
-  }
-  .app-modal {
-    width: 100%;
-    height: 100dvh;
-    max-height: 100dvh;
-    border-radius: 0;
-  }
-
-  .app-modal-header {
-    min-height: 56px;
-    padding: 8px 16px;
-    gap: 8px;
-  }
-  .app-modal-back {
-    display: inline-flex;
-  }
-  .app-modal-title {
-    font-size: 20px;
-    font-weight: 500;
-  }
-  .app-modal-close {
-    display: none;
-  }
-
-  .app-modal-body {
-    padding: 16px;
-  }
-  .app-modal-body label {
-    font-size: 15px;
-  }
-  .app-modal textarea {
-    min-height: 120px;
-    font-size: 16px;
-  }
-
-  /* Footer action buttons — Material text-button spec. */
-  .app-modal-footer {
-    padding: 12px 16px max(12px, env(safe-area-inset-bottom));
-    gap: 12px;
-  }
-  .app-modal-footer .app-btn {
-    min-height: 48px;
-    padding: 0 24px;
-    font-size: 15px;
-    font-weight: 500;
-    border-radius: 24px;
-  }
-
-  /* Preview and error text — readable on mobile */
-  .app-preview {
-    font-size: 15px;
-  }
-  .app-error {
-    font-size: 14px;
-  }
-
-  /* ====================================================================== */
-  /* Excalidraw native chrome — Material 3 surface treatment                */
-  /* ====================================================================== */
-  /* Excalidraw renders its own mobile UI: a top tool palette and a bottom  */
-  /* bar with the hamburger / lock / library / undo-redo buttons. We        */
-  /* restyle surfaces, touch targets, and font sizes to match Material 3    */
-  /* without touching position or hit-testing of interactive children.      */
-
-  /* ---- Shared surface: pill shape + elevation ---- */
-  .excalidraw .App-toolbar--mobile,
-  .excalidraw .App-bottom-bar > .Island {
-    border-radius: 28px !important;
-    box-shadow:
-      0 3px 8px rgba(0, 0, 0, 0.18),
-      0 1px 3px rgba(0, 0, 0, 0.12) !important;
-  }
-  .excalidraw.theme--dark .App-toolbar--mobile,
-  .excalidraw.theme--dark .App-bottom-bar > .Island {
-    box-shadow:
-      0 3px 8px rgba(0, 0, 0, 0.45),
-      0 1px 3px rgba(0, 0, 0, 0.3) !important;
-  }
-
-  /* ---- Top tool palette ---- */
-  .excalidraw .App-toolbar--mobile {
-    padding: 6px !important;
-    overflow: hidden;
-  }
-
-  /* Flatten Excalidraw's fixed-column CSS grid into a flex row that scrolls
-     horizontally with momentum scrolling and hidden scrollbar. */
-  .excalidraw .App-toolbar--mobile .Stack_horizontal {
-    display: flex !important;
-    grid-template-columns: none !important;
-    gap: 4px !important;
-    overflow-x: auto;
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -webkit-mask-image: linear-gradient(
-      90deg,
-      transparent 0,
-      #000 12px,
-      #000 calc(100% - 48px),
-      #000 100%
-    );
-    mask-image: linear-gradient(
-      90deg,
-      transparent 0,
-      #000 12px,
-      #000 calc(100% - 48px),
-      #000 100%
-    );
-  }
-  .excalidraw .App-toolbar--mobile .Stack_horizontal::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Each shape tool — 44dp, Material-recommended minimum. */
-  .excalidraw .App-toolbar--mobile .ToolIcon {
-    flex: 0 0 auto;
-    width: 44px !important;
-    height: 44px !important;
-  }
-  .excalidraw .App-toolbar--mobile .ToolIcon__icon,
-  .excalidraw .App-toolbar--mobile .ToolIcon > * {
-    width: 100%;
-    height: 100%;
-  }
-
-  /* Extra-tools trigger ("…" / chevron) — sticky at the right edge, 44dp. */
-  .excalidraw .App-toolbar--mobile .App-toolbar__extra-tools-trigger {
-    position: sticky;
-    right: 0;
-    width: 44px !important;
-    height: 44px !important;
-    flex: 0 0 auto;
-    margin-left: auto;
-    background: var(--island-bg-color, #fff);
-    z-index: 1;
-    border-radius: 50% !important;
-  }
-  .excalidraw .App-toolbar--mobile .Stack_horizontal > .Separator {
-    display: none;
-  }
-
-  /* ---- Bottom bar: hamburger, lock, library, misc tools ---- */
-  /* Navigation-level buttons only (not the property-panel buttonList items).
-     .dropdown-menu-button--mobile = hamburger / library triggers,
-     .mobile-misc-tools-container = lock + extra controls. */
-  .excalidraw .dropdown-menu-button--mobile,
-  .excalidraw .mobile-misc-tools-container .ToolIcon_type_button,
-  .excalidraw .mobile-misc-tools-container .ToolIcon_type_checkbox {
-    min-width: 44px !important;
-    min-height: 44px !important;
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 50% !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-  .excalidraw .mobile-misc-tools-container .ToolIcon__icon {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* The lock / "misc tools" container — flex row with comfortable spacing. */
-  .excalidraw .mobile-misc-tools-container {
-    display: flex !important;
-    gap: 8px !important;
-    align-items: center !important;
-  }
-
-  /* Ensure the lock button SVG is large enough to see/tap. */
-  .excalidraw .App-bottom-bar .unlocked-icon,
-  .excalidraw .mobile-misc-tools-container .ToolIcon_type_checkbox svg {
-    width: 22px !important;
-    height: 22px !important;
-  }
-
-  /* Bottom-bar Island gets a little more internal padding. */
-  .excalidraw .App-bottom-bar > .Island {
-    padding: 6px 10px !important;
-    gap: 6px !important;
-  }
-
-  /* ---- Properties panel (App-mobile-menu) ---- */
-  /* The element-actions panel that slides in when you select a shape.
-     Contains stroke/fill/style options, dimension drag-inputs, etc. */
-  .excalidraw .App-mobile-menu {
-    border-radius: 16px 16px 0 0 !important;
-    padding: 12px 12px 0 !important;
-  }
-
-  /* Section headings — readable size. */
-  .excalidraw .App-mobile-menu .panelColumn h3,
-  .excalidraw .App-mobile-menu .panelColumn legend,
-  .excalidraw .App-mobile-menu .panelColumn .control-label {
-    font-size: 13px !important;
-    font-weight: 500 !important;
-  }
-
-  /* Property toggle buttons (stroke style, fill, sloppiness, edges, etc.)
-     — generous touch targets without forcing them circular. */
-  .excalidraw .App-mobile-menu .buttonList label,
-  .excalidraw .App-mobile-menu .buttonList button,
-  .excalidraw .App-mobile-menu .buttonList .zIndexButton {
-    min-width: 40px !important;
-    min-height: 40px !important;
-    border-radius: 12px !important;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-  .excalidraw .App-mobile-menu .buttonList label svg,
-  .excalidraw .App-mobile-menu .buttonList button svg,
-  .excalidraw .App-mobile-menu .buttonList .zIndexButton svg {
-    width: 20px !important;
-    height: 20px !important;
-  }
-  .excalidraw .App-mobile-menu .buttonList {
-    gap: 8px !important;
-  }
-
-  /* Drag-inputs (width, height, angle, etc.) — taller for fingertips. */
-  .excalidraw .App-mobile-menu .drag-input,
-  .excalidraw .App-mobile-menu .drag-input-label {
-    height: 40px !important;
-    min-height: 40px !important;
-    font-size: 14px !important;
-  }
-  .excalidraw .App-mobile-menu .drag-input-container {
-    border-radius: 12px !important;
-    overflow: hidden;
-  }
-
-  /* Color swatches inside the properties panel — touch-friendly. */
-  .excalidraw .App-mobile-menu .color-picker__button {
-    min-width: 36px !important;
-    min-height: 36px !important;
-    border-radius: 50% !important;
-  }
-
-  /* Font picker and select-like controls. */
-  .excalidraw .App-mobile-menu select,
-  .excalidraw .App-mobile-menu .FontPicker__container {
-    min-height: 40px !important;
-    font-size: 14px !important;
-    border-radius: 12px !important;
-  }
-
-  /* Give the panel's Island wrapper a softer shape when the properties
-     panel is open (the Island expands to hold the menu). */
-  .excalidraw .App-bottom-bar > .Island:has(.App-mobile-menu) {
-    border-radius: 16px 16px 28px 28px !important;
-  }
-
-  /* ---- Undo / Redo buttons ---- */
-  .excalidraw .undo-redo-buttons {
-    gap: 4px !important;
-  }
-  .excalidraw .undo-redo-buttons button {
-    min-width: 44px !important;
-    min-height: 44px !important;
-    border-radius: 50% !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-
-  /* ---- Zoom controls ---- */
-  .excalidraw .zoom-actions {
-    border-radius: 22px !important;
-    box-shadow:
-      0 2px 6px rgba(0, 0, 0, 0.14),
-      0 1px 2px rgba(0, 0, 0, 0.1) !important;
-    overflow: hidden;
-  }
-  .excalidraw .zoom-actions button {
-    min-width: 44px !important;
-    min-height: 40px !important;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-  .excalidraw .zoom-actions .reset-zoom-button {
-    font-size: 14px !important;
-    min-width: 56px !important;
-  }
-  .excalidraw.theme--dark .zoom-actions {
-    box-shadow:
-      0 2px 6px rgba(0, 0, 0, 0.4),
-      0 1px 2px rgba(0, 0, 0, 0.25) !important;
-  }
-
-  /* ---- Active/pressed feedback for Excalidraw navigation touch targets ---- */
-  .excalidraw .App-toolbar--mobile .ToolIcon:active,
-  .excalidraw .dropdown-menu-button--mobile:active,
-  .excalidraw .mobile-misc-tools-container .ToolIcon:active,
-  .excalidraw .undo-redo-buttons button:active,
-  .excalidraw .zoom-actions button:active {
-    transform: scale(0.93);
-    transition: transform 60ms ease;
-  }
-  /* Softer press feedback for property-panel toggles. */
-  .excalidraw .App-mobile-menu .buttonList label:active,
-  .excalidraw .App-mobile-menu .buttonList button:active {
-    transform: scale(0.96);
-    transition: transform 60ms ease;
-  }
-
-  /* ---- Dropdown menus opened from the bottom bar ---- */
-  .excalidraw .dropdown-menu--mobile {
-    border-radius: 16px 16px 0 0 !important;
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.18) !important;
-    padding-bottom: max(12px, env(safe-area-inset-bottom)) !important;
-  }
-  .excalidraw .dropdown-menu--mobile button,
-  .excalidraw .dropdown-menu--mobile a {
-    min-height: 48px !important;
-    font-size: 15px !important;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-
-  /* ---- Color picker — bigger swatches for touch ---- */
-  .excalidraw .color-picker__button {
-    min-width: 36px !important;
-    min-height: 36px !important;
-    border-radius: 50% !important;
-  }
-  .excalidraw .color-picker__button--large {
-    min-width: 40px !important;
-    min-height: 40px !important;
-  }
-
-  /* ---- Global font-size bump on the Excalidraw shell ---- */
-  .excalidraw.excalidraw--mobile {
-    font-size: 15px !important;
-  }
-  .excalidraw .ToolIcon__label {
-    font-size: 13px !important;
-  }
-
-  /* ---- Extra-tools dropdown (shapes overflow) ---- */
-  .excalidraw .App-toolbar__extra-tools-dropdown {
-    border-radius: 16px !important;
-    box-shadow:
-      0 4px 16px rgba(0, 0, 0, 0.18),
-      0 1px 4px rgba(0, 0, 0, 0.1) !important;
-  }
-  .excalidraw .App-toolbar__extra-tools-dropdown .ToolIcon {
-    width: 48px !important;
-    height: 48px !important;
+    bottom: calc(100% + 6px);
   }
 }
 
-/* -------------------------------------------------------------------------- */
-/* Animations                                                                 */
-/* -------------------------------------------------------------------------- */
-
-@keyframes sheet-up {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
+.menu-pop.dark {
+  background: #2a2a2e;
 }
 
-@keyframes scrim-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.menu-pop button {
+  text-align: left;
+  background: none;
+  border: 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .menu-pop,
-  .menu-scrim,
-  .app-toolbar .app-fab {
-    animation: none !important;
-    transition: none !important;
-  }
+.menu-pop button:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+.menu-pop.dark button:hover {
+  background: rgba(255, 255, 255, 0.08);
 }

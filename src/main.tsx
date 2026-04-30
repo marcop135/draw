@@ -2,8 +2,6 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { registerSW } from "virtual:pwa-register";
 import App from "./App";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
 import "./styles.css";
 
 // Register the service worker for offline support and asset caching.
