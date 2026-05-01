@@ -4,10 +4,10 @@ import "@excalidraw/excalidraw/index.css";
 import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 import type { SceneSnapshot } from "./lib/export";
 import { ExportMenu } from "./components/ExportMenu";
-import { GitHubToolbarLink } from "./components/GitHubToolbarLink";
+import { GitHubCornerLink } from "./components/GitHubCornerLink";
 import { InsertMenu } from "./components/InsertMenu";
 
-// Heavy modals — split out so the Mermaid parser, KaTeX, and marked/DOMPurify
+// Heavy modals: split out so the Mermaid parser, KaTeX, and marked/DOMPurify
 // only ship to clients who actually click "Insert".
 const LatexModal = lazy(() =>
   import("./components/LatexModal").then((m) => ({ default: m.LatexModal })),
@@ -78,8 +78,9 @@ export default function App() {
           onPick={(k) => setModal(k)}
         />
         <ExportMenu getScene={getScene} dark={theme === "dark"} />
-        <GitHubToolbarLink dark={theme === "dark"} />
       </div>
+
+      <GitHubCornerLink dark={theme === "dark"} />
 
       <Suspense fallback={null}>
         {modal === "latex" && apiRef.current ? (

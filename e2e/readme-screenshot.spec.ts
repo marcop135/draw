@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
 
-/** Run via `npm run capture:readme` — not part of CI. */
+/** Run via `npm run capture:readme` (not part of CI). */
 test("write docs/app-screenshot.png for README", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto("/");

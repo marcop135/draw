@@ -1,129 +1,132 @@
-# draw.marcopontili.com
+# draw
 
 [![CI](https://github.com/marcop135/draw/actions/workflows/ci.yml/badge.svg)](https://github.com/marcop135/draw/actions/workflows/ci.yml)
 
-![draw — branded banner (no live UI)](docs/readme-banner.png)
+<p align="center">
+  <img src="docs/readme-banner.png" alt="draw whiteboard: illustration banner" width="840" />
+</p>
 
-![draw — desktop screenshot from the production bundle](docs/app-screenshot.png)
+**Live:** [Open the app][deployed]
 
-![draw — short screen capture (GIF)](docs/readme-demo.gif)
+Free whiteboard powered by **native Excalidraw** tools, with **LaTeX** ([KaTeX](https://katex.org/)), **Mermaid** turned into editable shapes, and **Markdown** inserts that are **sanitized** before rendering. Export to **PNG**, **JPEG**, **SVG**, **PDF**, or **`.excalidraw`**. Works **offline as a PWA** after the first load; there is **no separate backend** and **no login**. **Privacy:** your scenes stay in **`localStorage`** in your browser tab; they are not uploaded to a server owned by this repo.
 
-A free, open-source whiteboard at **https://draw.marcopontili.com**.
-
-**What this is:** a static, privacy-first SPA on top of [Excalidraw](https://github.com/excalidraw/excalidraw)—extra insert paths (LaTeX, Mermaid, Markdown) behind explicit sanitization, strict CSP, self-hosted fonts, FTP-based production deploy. No accounts, no server-side state; good fit if you care how untrusted rich text becomes pixels.
-
-- **LaTeX** — type math, get a vector image on the canvas (powered by [KaTeX](https://katex.org/)).
-- **Mermaid** — paste a flowchart, get native, editable Excalidraw shapes (via [`@excalidraw/mermaid-to-excalidraw`](https://github.com/excalidraw/mermaid-to-excalidraw)).
-- **Markdown** — type Markdown, get a sanitized vector note on the canvas.
-- **Export** — PNG, JPEG, SVG, and PDF download.
-- **No login. No backend. No tracking.** Drawings live only in your browser's `localStorage` (Excalidraw's default).
-
-## Architecture (one paragraph)
-
-Pure static SPA: React + TypeScript built with Vite 6. The browser tab `<title>`
-and PWA manifest `name` follow [`SITE_DOCUMENT_TITLE`](./src/siteMeta.ts) (aligned
-with the README heading); [`documentTitleGuard`](./src/lib/documentTitleGuard.ts)
-resets `document.title` if Excalidraw overwrites it, while the launcher **short_name**
-remains **`draw`** ([`SITE_SHORT_NAME`](./src/siteMeta.ts)). The whole app is bundled
-into `dist/` and FTP-synced to a shared host. Excalidraw fonts are copied into
-`dist/fonts/` at build time and `window.EXCALIDRAW_ASSET_PATH` points at the
-site root, so no runtime CDN calls are made — keeps the CSP `default-src 'self'`
-honest. All "Insert" inputs (LaTeX, Mermaid, Markdown) are sandboxed: KaTeX
-runs with `trust: false` and `strict: "error"`; Markdown is run through
-`DOMPurify` before it ever lands in the DOM or in the inserted SVG;
-Mermaid input is parsed into shape primitives by the official
-`mermaid-to-excalidraw` parser, never injected as HTML.
-
-## Develop
-
-```bash
-nvm use            # node 20
-npm ci
-npm run dev        # http://localhost:5173
-```
-
-## Test
-
-```bash
-npm ci             # installs deps; postinstall fetches Chromium (skipped when CI=true or GITHUB_ACTIONS=true)
-npm run test       # Vitest (DOMPurify policy, KaTeX options, Mermaid parse stub)
-npm run test:watch
-
-# Skip browser download when needed:
-# PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm ci
-
-npm run build
-npm run test:e2e   # Chromium smoke: app shell + title
-```
-
-CI (`main` pushes and PRs) runs lint, production build, Vitest, then Playwright (`chromium` with `--with-deps` — postinstall intentionally skips browsers there).
-
-## Build & preview production bundle
-
-```bash
-npm run build
-npm run preview
-```
-
-Output lands in `dist/`, including `dist/.htaccess` (security headers + caching
-for Apache hosts) and `dist/fonts/` (Excalidraw fonts copied from the package).
-
-## Deploy
-
-`.github/workflows/deploy.yml` runs **manually** (Actions → **Run workflow**). It runs
-lint → build → FTP-sync `dist/` to the host document root (`protocol: ftps`; see workflow
-comments if you need loose vs strict TLS for your provider).
-
-Required GitHub Actions secrets:
-
-| Secret | Used as |
-|---|---|
-| `FTP_HOST` | `server` |
-| `FTP_USERNAME_PRODUCTION` | `username` |
-| `FTP_PASSWORD_PRODUCTION` | `password` |
-
-## Security model
-
-- No backend, no auth, no PII, no DB → no server-side attack surface.
-- CSP locked to `'self'` for scripts/styles/fonts/connections; `frame-ancestors 'none'`; `object-src 'none'`. Set via `dist/.htaccess`.
-- All third-party-shaped inputs (LaTeX, Mermaid, Markdown) are sanitized before rendering. See `src/lib/latex.ts`, `src/lib/markdown.ts`, `src/lib/mermaid.ts`.
-- Drawings persist in browser `localStorage` only — clearing site data wipes them. There is no cloud save and no shared collaboration server.
-
-If you think you found an exploitable flaw, see [SECURITY.md](./SECURITY.md).
-
-## Tech
-
-- Excalidraw (drawing engine)
-- React 18 + TypeScript
-- Vite 6 (bundler)
-- KaTeX (math rendering)
-- marked + DOMPurify (Markdown rendering, sanitized)
-- jsPDF (PDF wrapping)
+<p align="center">
+  <img src="docs/readme-demo.gif" alt="draw whiteboard: canvas demo with shapes and ink" width="840" />
+</p>
 
 ## Acknowledgements
 
-This project is **not** a fork of [realdennis/md2pdf](https://github.com/realdennis/md2pdf). **md2pdf** is an offline **Markdown → PDF** web tool (pick a `.md`, edit, print/save PDF). Thanks to [@realdennis](https://github.com/realdennis) for publishing that tooling; it provided a proven **FTP + GitHub Actions** deploy pattern used as a starting point here.
+This project is **not** a fork of **[realdennis/md2pdf](https://github.com/realdennis/md2pdf)** (MIT). Thanks to Dennis for the original app; this repo borrowed a practical **FTP plus GitHub Actions** deploy pattern from that ecosystem.
 
-Compared to **md2pdf** in plain terms:
+This codebase stands on its own: **[Excalidraw](https://github.com/excalidraw/excalidraw)** for the canvas, plus local insert and export wiring, static hosting headers, tests, and ongoing maintenance.
 
-- **Purpose:** Markdown-centric conversion vs **Excalidraw** sketching canvas with Markdown as **one insert path** alongside LaTeX and Mermaid.
-- **Core engine:** Built on **`@excalidraw/excalidraw`** (drawing, undo, persistence, PNG/SVG/export, `.excalidraw` scene), not a single markdown preview + print pipeline.
-- **Extras here:** KaTeX math inserts, **`mermaid-to-excalidraw`**, sanitized Markdown-to-SVG snippets, tighter **CSP/headers** story for the deployed host and PWA/offline tooling.
+---
 
-Upstream drawing work lives with [Excalidraw](https://github.com/excalidraw/excalidraw)—see repo text above.
+## Features
+
+- Full **Excalidraw** sketching (drawing, selection, themes, load/save scene, undo)
+- **LaTeX**: type math, insert a vector image on the canvas (KaTeX)
+- **Mermaid**: paste a diagram, insert **native editable** shapes (`@excalidraw/mermaid-to-excalidraw`)
+- **Markdown**: convert to a sanitized vector note (`marked` plus DOMPurify)
+- **Export**: `.excalidraw`, PNG, JPEG, SVG, PDF
+- **PWA**: installable; Workbox precaches shell and assets for repeat visits
+- **Client-only**: no accounts, no API, no telemetry in this app layer
+- Search engine opt-out (`noindex`, `robots.txt`)
+
+## Tech stack
+
+- **React 18** and **TypeScript** with **Vite 6**
+- **@excalidraw/excalidraw**
+- **KaTeX**, **@excalidraw/mermaid-to-excalidraw**, **marked**, **DOMPurify**, **jsPDF**
+- **vite-plugin-pwa** (Workbox) for the service worker
+- **Vitest** and **Playwright** for automated tests
+
+## Security
+
+- **Local-first**: drawings live in browser `localStorage` only; clearing site data wipes them
+- **Sandboxed inserts**: KaTeX with strict defaults, Markdown through DOMPurify, Mermaid parsed to shapes (not raw HTML)
+- **HTTP hardening**: CSP and related headers shipped in `dist/.htaccess` for Apache-style hosts
+
+See [SECURITY.md](./SECURITY.md) if you think you found a vulnerability.
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/marcop135/draw.git
+   cd draw
+   ```
+
+2. Install dependencies (Node 20):
+
+   ```bash
+   nvm use
+   npm ci
+   ```
+
+3. Run locally:
+
+   ```bash
+   npm run dev
+   ```
+
+   Then open [http://localhost:5173](http://localhost:5173).
+
+4. Production build:
+
+   ```bash
+   npm run build
+   ```
+
+   Output is in `dist/`. The build copies **`public/.htaccess`** into **`dist/`** for recommended security headers and caching on Apache.
+
+## Usage
+
+- Use Excalidraw’s built-in tools for drawing, text, and shapes.
+- Open **Insert** in the floating toolbar (top-right on desktop; moves on small screens) to add **LaTeX**, **Mermaid**, or **Markdown**.
+- Use **Export** to download **PNG**, **JPEG**, **SVG**, **PDF**, or **`.excalidraw`**.
+- Use the **Excalidraw** menu (hamburger) for theme, background, **Load** scene, and defaults.
+- Tap the **rounded GitHub icon** in the **bottom-left** corner to open the source repository.
+
+## Deploy
+
+Production deploy is manual: run [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) from **Actions** (see workflow comments for TLS and path notes). Required secrets:
+
+| Secret | Role |
+| --- | --- |
+| `FTP_HOST` | server |
+| `FTP_USERNAME_PRODUCTION` | username |
+| `FTP_PASSWORD_PRODUCTION` | password |
+
+## Contributing
+
+Issues and pull requests are welcome. CI runs lint, production build, Vitest, and Playwright smoke tests on `main` and PRs.
+
+## Project structure
+
+| Path | Description |
+| --- | --- |
+| `src/` | React app: `App.tsx`, components, `lib/` helpers |
+| `src/lib/` | Export, LaTeX, Markdown, Mermaid adapters |
+| `src/components/` | Insert and export menus, modals, GitHub corner link |
+| `public/` | Static assets, `robots.txt`, Apache `public/.htaccess` template |
+| `e2e/` | Playwright tests (smoke plus optional readme artefact specs) |
+| `dist/` | Production output after `npm run build` |
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Vite dev server |
+| `npm run build` | Typecheck and production build |
+| `npm run preview` | Preview `dist/` locally |
+| `npm run test` | Vitest unit tests |
+| `npm run test:e2e` | Playwright smoke suite |
+| `npm run lint` | ESLint |
 
 ## License
 
-MIT — see [LICENSE](./LICENSE).
+Licensed under the [MIT](./LICENSE) License.
 
-## Images
-
-Banner (illustration): [`docs/readme-banner.png`](./docs/readme-banner.png) — synced to **`public/social-preview.png`** on every `npm run build` for Open Graph.
-
-Screenshot (live UI): **`npm run capture:readme`** → **`docs/app-screenshot.png`**.
-
-GIF (**requires [ffmpeg](https://ffmpeg.org/) on `PATH`):** **`npm run capture:readme-gif`** → Playwright records WebM, then ffmpeg writes **`docs/readme-demo.gif`**.
-
-**GitHub “Social preview”:** there is no supported REST/GraphQL **upload** for that image (confirmed: `repository.openGraphImageUrl` stays your avatar until you add one manually). Upload **`docs/readme-banner.png`** once via [**repository Settings → Social preview**](https://github.com/marcop135/draw/settings).
-
-Open Graph tags for the **live site** use an absolute **`og:image`** (see **`SITE_ORIGIN`** + Vite inject in `vite.config.ts`).
+[deployed]: https://draw.marcopontili.com

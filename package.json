@@ -1,9 +1,9 @@
 {
   "name": "draw-marcopontili-com",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
-  "description": "Static privacy-first whiteboard on Excalidraw: LaTeX, Mermaid, Markdown inserts; sanitized; no backend",
+  "description": "Free whiteboard: Excalidraw with LaTeX (KaTeX), Mermaid-to-shapes, sanitized Markdown; PNG/JPEG/SVG/PDF export. React + TypeScript + Vite PWA; static, no backend or login.",
   "license": "MIT",
   "scripts": {
     "dev": "vite",

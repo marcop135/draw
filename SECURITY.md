@@ -20,7 +20,7 @@ Include steps to reproduce, affected URLs or build steps, and impact (e.g. sessi
 - Sanitization and safe defaults for **user-supplied** LaTeX, Markdown, and Mermaid before anything reaches the DOM or SVG.
 - **Content-Security-Policy** and related headers on the live site (see `public/.htaccess` and the README **Security model** section).
 
-Out of scope: issues in upstream [Excalidraw](https://github.com/excalidraw/excalidraw) itself — report those to the Excalidraw project unless the bug is specific to this repo’s integration code.
+Out of scope: issues in upstream [Excalidraw](https://github.com/excalidraw/excalidraw) itself. Report those to the Excalidraw project unless the bug is specific to this repo’s integration code.
 
 ## Repository hygiene
 

@@ -1,4 +1,4 @@
-# Personal whiteboard — opt-out of indexing and AI training.
+# Personal whiteboard: opt-out of indexing and AI training.
 # Disallow:/ for User-agent: * already covers everything that respects RFC 9309,
 # but the explicit blocks below are for crawlers that pattern-match their own
 # UA before falling back to *, and for documenting intent.

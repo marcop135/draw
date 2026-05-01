@@ -2,11 +2,12 @@ import { PROJECT_SOURCE_URL } from "../siteMeta";
 
 type Props = { dark: boolean };
 
-export function GitHubToolbarLink({ dark }: Props) {
+/** Fixed corner link to the public source repo (repo icon only). */
+export function GitHubCornerLink({ dark }: Props) {
   return (
     <a
       href={PROJECT_SOURCE_URL}
-      className={`app-github-link${dark ? " dark" : ""}`}
+      className={`app-github-corner${dark ? " dark" : ""}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Source code on GitHub"
@@ -15,8 +16,8 @@ export function GitHubToolbarLink({ dark }: Props) {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 16 16"
-        width={20}
-        height={20}
+        width={22}
+        height={22}
         fill="currentColor"
         aria-hidden
       >

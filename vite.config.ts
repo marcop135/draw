@@ -70,7 +70,7 @@ export default defineConfig({
     excalidrawAssetsPlugin(),
     VitePWA({
       registerType: "autoUpdate",
-      // Don't try to precache the giant Mermaid + Excalidraw bundle — they're
+      // Don't try to precache the giant Mermaid + Excalidraw bundle; they're
       // big enough to push the SW manifest over the default 2 MB limit, and
       // we want them runtime-cached anyway so updates don't require a SW skip.
       workbox: {

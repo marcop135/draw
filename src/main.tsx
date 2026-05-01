@@ -8,7 +8,7 @@ import "./styles.css";
 
 // Register the service worker for offline support and asset caching.
 // `autoUpdate` mode means the SW silently swaps to a fresh version on the
-// next page load — fine for a personal tool; if we ever ship a stable user
+// next page load. Fine for a personal tool; if we ever ship a stable user
 // base, we'd switch to a prompt-the-user-to-reload pattern.
 registerSW({ immediate: true });
 

@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 
-/** README screenshot capture only — avoids running this alongside CI smoke tests. */
+/** README screenshot capture only; avoids running this alongside CI smoke tests. */
 export default defineConfig({
   testDir: "e2e",
   testMatch: /readme-screenshot\.spec\.ts$/,

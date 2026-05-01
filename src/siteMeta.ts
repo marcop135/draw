@@ -1,7 +1,7 @@
-/** Browser `<title>` and PWA manifest `name`; keep README H1 in sync with this string (host only). */
+/** Browser `<title>` and PWA manifest `name` (full hostname). README uses `# draw` as the short product heading. */
 export const SITE_DOCUMENT_TITLE = "draw.marcopontili.com";
 
-/** Canonical HTTPS origin for Open Graph (`og:image`) — derived from hostname above (no trailing slash). */
+/** Canonical HTTPS origin for Open Graph (`og:image`), derived from hostname above (no trailing slash). */
 export const SITE_ORIGIN = `https://${SITE_DOCUMENT_TITLE}`;
 
 /** PWA `short_name` (launcher / installs). */

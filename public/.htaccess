@@ -1,4 +1,4 @@
-# Security headers — applied to every response Apache serves from this dir.
+# Security headers: applied to every response Apache serves from this dir.
 <IfModule mod_headers.c>
   Header set Content-Security-Policy "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; worker-src 'self'; manifest-src 'self'; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
   Header set X-Content-Type-Options "nosniff"
@@ -6,7 +6,7 @@
   Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
   Header set X-Frame-Options "DENY"
   # `always` covers error responses too. Skip `preload` until HTTPS has been
-  # stable for a few weeks — preload is a one-way door (max-age >= 2yr).
+  # stable for a few weeks; preload is a one-way door (max-age >= 2yr).
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
   # Belt-and-braces with the <meta name="robots"> tags + robots.txt: this
   # header reaches crawlers that ignore HTML and fetch raw assets too.

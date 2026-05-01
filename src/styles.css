@@ -84,46 +84,53 @@ body,
   background: #36363a;
 }
 
-.app-github-link {
+.app-github-corner {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 20;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  width: 36px;
-  min-height: 36px;
-  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 6px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.95);
   color: #24292f;
   text-decoration: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(6px);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
-.app-github-link:hover {
-  background: #f3f3f3;
+.app-github-corner:hover {
+  background: #fff;
 }
 
-.app-github-link:focus-visible {
+.app-github-corner:focus-visible {
   outline: 2px solid #4a90e2;
-  outline-offset: 1px;
+  outline-offset: 2px;
 }
 
-.app-github-link.dark {
-  background: #2a2a2e;
+.app-github-corner.dark {
+  background: rgba(36, 36, 40, 0.95);
   color: #f6f8fa;
   border-color: rgba(255, 255, 255, 0.16);
 }
 
-.app-github-link.dark:hover {
-  background: #36363a;
+.app-github-corner.dark:hover {
+  background: rgba(52, 52, 56, 0.98);
 }
 
 @media (max-width: 640px) {
-  .app-github-link {
-    width: 40px;
-    min-height: 40px;
+  .app-github-corner {
+    left: max(8px, env(safe-area-inset-left, 0px));
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    width: 44px;
+    height: 44px;
   }
 }
 
@@ -238,7 +245,7 @@ body,
   min-width: 180px;
 }
 
-/* On mobile the toolbar sits at the bottom — flip the popup upward. */
+/* On mobile the toolbar sits at the bottom; flip the popup upward. */
 @media (max-width: 640px) {
   .menu-pop {
     top: auto;

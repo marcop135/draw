@@ -1,4 +1,4 @@
-/* Mermaid layout calls SVGTextElement.getBBox — jsdom does not implement it. */
+/* Mermaid layout calls SVGTextElement.getBBox; jsdom does not implement it. */
 if (typeof SVGElement !== "undefined" && !SVGElement.prototype.getBBox) {
   SVGElement.prototype.getBBox = function getBBoxStub(this: SVGElement) {
     const text = this.textContent ?? "";

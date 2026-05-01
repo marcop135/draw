@@ -5,7 +5,31 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.1] — 2026-04-30
+## [1.0.2] - 2026-05-01
+
+### Changed
+
+- **README** restructured: product heading `draw`, centered banner and demo
+  GIF, clearer feature list and install / usage / deploy sections.
+- **Source repo link** moved from the floating toolbar to a **fixed bottom-left**
+  corner control (`GitHubCornerLink`) with refreshed styles and safe-area padding
+  on small screens.
+- **Open Graph / Twitter** descriptions in `index.html` use colons instead of em
+  dashes for consistency with other site copy.
+- **`npm` package `description`** expanded to match the public positioning of the
+  app.
+- **README GIF capture** (`e2e/readme-gif.spec.ts`): draws rectangle, ellipse,
+  freedraw, and arrow on the primary canvas so `docs/readme-demo.gif` shows
+  real sketching motion.
+
+### Housekeeping
+
+- Punctuation and comment style normalized (em dash to colon or period) in the
+  deploy workflow, `public/.htaccess`, `public/robots.txt`, Playwright and Vite
+  configs, `src/main.tsx`, `vitest.setup.ts`, `SECURITY.md`, and prior
+  `CHANGELOG` section headings.
+
+## [1.0.1] - 2026-04-30
 
 ### Reverted
 
@@ -19,7 +43,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - `lucide-react` dependency.
 - `@fontsource/roboto` dependency.
 
-## [0.2.0] — 2026-04-27
+## [0.2.0] - 2026-04-27
 
 ### Added
 
@@ -41,7 +65,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Touch targets bumped to 40px+ on mobile and `font-size: 16px` on
     textareas to suppress iOS auto-zoom.
   - Modals use `100dvh` and full width on phones.
-- `.github/dependabot.yml` — weekly grouped npm + monthly grouped
+- `.github/dependabot.yml`: weekly grouped npm + monthly grouped
   GitHub Actions updates, targeting `develop`. Transitive deps already
   pinned via `overrides` are ignored to keep the noise out.
 
@@ -64,7 +88,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   the high-severity Workbox-build advisory pulled in transitively by
   `vite-plugin-pwa`). `npm audit` still reports 0 vulnerabilities.
 
-## [0.1.2] — 2026-04-27
+## [0.1.2] - 2026-04-27
 
 ### Fixed
 
@@ -78,9 +102,9 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Production responds with HTTP 200, our `index.html`,
   our `/robots.txt`, and the `Content-Security-Policy` header from
-  `dist/.htaccess` — all three layers of the privacy/security posture intact.
+  `dist/.htaccess`: all three layers of the privacy/security posture intact.
 
-## [0.1.1] — 2026-04-25
+## [0.1.1] - 2026-04-25
 
 ### Added
 
@@ -110,7 +134,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - `npm audit` reports **0 vulnerabilities** after the upgrades and overrides.
 
-## [0.1.0] — 2026-04-25
+## [0.1.0] - 2026-04-25
 
 ### Added
 

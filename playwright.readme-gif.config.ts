@@ -1,6 +1,6 @@
 import { defineConfig } from "@playwright/test";
 
-/** Records WebM for README GIF — not part of CI. */
+/** Records WebM for README GIF (not part of CI). */
 export default defineConfig({
   testDir: "e2e",
   testMatch: /readme-gif\.spec\.ts$/,
