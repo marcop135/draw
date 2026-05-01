@@ -2,6 +2,8 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { registerSW } from "virtual:pwa-register";
 import App from "./App";
+import { installDocumentTitleGuard } from "./lib/documentTitleGuard";
+import { SITE_DOCUMENT_TITLE } from "./siteMeta";
 import "./styles.css";
 
 // Register the service worker for offline support and asset caching.
@@ -18,6 +20,8 @@ declare global {
   }
 }
 window.EXCALIDRAW_ASSET_PATH = "/";
+
+installDocumentTitleGuard(SITE_DOCUMENT_TITLE);
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Root element not found");

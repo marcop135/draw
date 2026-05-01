@@ -20,6 +20,9 @@ yarn-error.log*
 pnpm-debug.log*
 
 coverage
+playwright-report/
+test-results/
+
 .eslintcache
 
 # TypeScript incremental build info

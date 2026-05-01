@@ -6,11 +6,40 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: ["dist", "node_modules", "*.config.js", "*.config.ts"],
+    ignores: ["dist", "node_modules", "*.config.js", "*.config.ts", "scripts/**/*.mjs"],
+  },
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ["src/**/*.test.ts"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      globals: globals.browser,
+    },
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+    },
+  },
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ["e2e/**/*.ts"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      globals: globals.node,
+    },
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+    },
   },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["src/**/*.{ts,tsx}"],
+    ignores: ["src/**/*.test.ts"],
     languageOptions: {
       ecmaVersion: 2022,
       globals: globals.browser,

@@ -84,6 +84,49 @@ body,
   background: #36363a;
 }
 
+.app-github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 36px;
+  min-height: 36px;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  background: #fff;
+  color: #24292f;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-github-link:hover {
+  background: #f3f3f3;
+}
+
+.app-github-link:focus-visible {
+  outline: 2px solid #4a90e2;
+  outline-offset: 1px;
+}
+
+.app-github-link.dark {
+  background: #2a2a2e;
+  color: #f6f8fa;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.app-github-link.dark:hover {
+  background: #36363a;
+}
+
+@media (max-width: 640px) {
+  .app-github-link {
+    width: 40px;
+    min-height: 40px;
+  }
+}
+
 .app-modal-backdrop {
   position: fixed;
   inset: 0;

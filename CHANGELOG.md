@@ -68,7 +68,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Fixed
 
-- **Deploy works.** Switched the FTP step to mirror the working `md2pdf` setup:
+- **Deploy works.** Switched the FTP step to mirror a known-good setup from another project:
   `server-dir: ./` (the production FTP user is chroot'd directly into the
   domain's document root, so absolute paths were nesting an extra level deep
   and Apache was serving the host-default 404), `protocol: ftps` with
@@ -76,7 +76,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Verified
 
-- `https://draw.marcopontili.com` responds with HTTP 200, our `index.html`,
+- Production responds with HTTP 200, our `index.html`,
   our `/robots.txt`, and the `Content-Security-Policy` header from
   `dist/.htaccess` — all three layers of the privacy/security posture intact.
 
@@ -114,8 +114,7 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 
-- Initial release: Excalidraw-based drawing web app at
-  `https://draw.marcopontili.com`.
+- Initial release: Excalidraw-based drawing web app (production deployment).
 - Insert flows (each input is sandboxed before render):
   - **LaTeX** via KaTeX (`trust: false`, `strict: "error"`).
   - **Mermaid** via `@excalidraw/mermaid-to-excalidraw` (parsed to shapes,
@@ -134,5 +133,5 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Tooling
 
 - React 18 + TypeScript + Vite, ESLint with `--max-warnings=0` gate, Prettier.
-- GitHub Actions workflow that lints, builds, then FTP-syncs `dist/` on every
-  push to `main`.
+- GitHub Actions workflows for lint/build/tests and FTP deploy (see README for
+  current trigger semantics).

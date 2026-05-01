@@ -36,6 +36,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - run: npm run test
+      - name: Install Playwright browser
+        run: npx playwright install chromium --with-deps
+      - run: npm run test:e2e
+
       - name: Sync files via FTP
         uses: SamKirkland/FTP-Deploy-Action@110f9186c050f71550953127052e77650219c287 # v4.4.0
         with:
@@ -46,9 +51,8 @@ jobs:
           local-dir: ./dist/
           protocol: ftps
           port: 21
-          # "strict" fails: Netsons' shared FTPS cert is issued to
-          # hostingssd94.netsons.net and does not include custom domains
-          # in its SAN (ERR_TLS_CERT_ALTNAME_INVALID). To use strict,
-          # set FTP_HOST to the server's actual hostname instead.
+          # TLS "strict" often fails on shared hosts: the FTPS cert CN/SAN matches
+          # the provider hostname, not your custom domain (ERR_TLS_CERT_ALTNAME_INVALID).
+          # Fix: point FTP_HOST at the hostname on the certificate, or keep security: loose.
           security: loose
           dangerous-clean-slate: false

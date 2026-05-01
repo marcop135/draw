@@ -1,7 +1,13 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import type { Plugin } from "vite";
 import { copyFileSync, mkdirSync, readdirSync, statSync } from "node:fs";
+import {
+  SITE_DOCUMENT_TITLE,
+  SITE_ORIGIN,
+  SITE_SHORT_NAME,
+} from "./src/siteMeta";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -39,9 +45,28 @@ function excalidrawAssetsPlugin() {
   };
 }
 
+function injectAbsoluteSocialPreview(): Plugin {
+  const url = `${SITE_ORIGIN.replace(/\/$/, "")}/social-preview.png`;
+  return {
+    name: "inject-absolute-social-preview",
+    transformIndexHtml(html) {
+      return html
+        .replaceAll(
+          '<meta property="og:image" content="/social-preview.png" />',
+          `<meta property="og:image" content="${url}" />`,
+        )
+        .replaceAll(
+          '<meta name="twitter:image" content="/social-preview.png" />',
+          `<meta name="twitter:image" content="${url}" />`,
+        );
+    },
+  };
+}
+
 export default defineConfig({
   plugins: [
     react(),
+    injectAbsoluteSocialPreview(),
     excalidrawAssetsPlugin(),
     VitePWA({
       registerType: "autoUpdate",
@@ -66,8 +91,8 @@ export default defineConfig({
       },
       includeAssets: ["favicon.svg", "robots.txt"],
       manifest: {
-        name: "draw.marcopontili.com",
-        short_name: "draw",
+        name: SITE_DOCUMENT_TITLE,
+        short_name: SITE_SHORT_NAME,
         description:
           "A free, offline-capable whiteboard. Sketch, math (LaTeX), Mermaid diagrams, Markdown notes. No login, no tracking.",
         theme_color: "#1e1e1e",
@@ -93,5 +118,10 @@ export default defineConfig({
     target: "es2022",
     sourcemap: false,
     chunkSizeWarningLimit: 2000,
+  },
+  test: {
+    environment: "jsdom",
+    setupFiles: ["vitest.setup.ts"],
+    include: ["src/**/*.test.ts"],
   },
 });
