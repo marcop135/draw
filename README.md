@@ -6,6 +6,8 @@
 
 ![draw — desktop screenshot from the production bundle](docs/app-screenshot.png)
 
+![draw — short screen capture (GIF)](docs/readme-demo.gif)
+
 A free, open-source whiteboard at **https://draw.marcopontili.com**.
 
 **What this is:** a static, privacy-first SPA on top of [Excalidraw](https://github.com/excalidraw/excalidraw)—extra insert paths (LaTeX, Mermaid, Markdown) behind explicit sanitization, strict CSP, self-hosted fonts, FTP-based production deploy. No accounts, no server-side state; good fit if you care how untrusted rich text becomes pixels.
@@ -118,6 +120,10 @@ MIT — see [LICENSE](./LICENSE).
 
 Banner (illustration): [`docs/readme-banner.png`](./docs/readme-banner.png) — synced to **`public/social-preview.png`** on every `npm run build` for Open Graph.
 
-Screenshot (live UI): regenerate with **`npm run capture:readme`** after installing Playwright Chromium — writes **`docs/app-screenshot.png`**.
+Screenshot (live UI): **`npm run capture:readme`** → **`docs/app-screenshot.png`**.
 
-Upload **`docs/readme-banner.png`** in **Settings → General → Social preview** so GitHub repo links use the same art as the banner above.
+GIF (**requires [ffmpeg](https://ffmpeg.org/) on `PATH`):** **`npm run capture:readme-gif`** → Playwright records WebM, then ffmpeg writes **`docs/readme-demo.gif`**.
+
+**GitHub “Social preview”:** there is no supported REST/GraphQL **upload** for that image (confirmed: `repository.openGraphImageUrl` stays your avatar until you add one manually). Upload **`docs/readme-banner.png`** once via [**repository Settings → Social preview**](https://github.com/marcop135/draw/settings).
+
+Open Graph tags for the **live site** use an absolute **`og:image`** (see **`SITE_ORIGIN`** + Vite inject in `vite.config.ts`).

@@ -17,7 +17,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "capture:readme": "npm run build && playwright test --config=playwright.readme.config.ts"
+    "capture:readme": "npm run build && playwright test --config=playwright.readme.config.ts",
+    "capture:readme-gif": "npm run build && playwright test --config=playwright.readme-gif.config.ts && node scripts/webm-to-readme-gif.mjs"
   },
   "dependencies": {
     "@excalidraw/excalidraw": "^0.18.1",

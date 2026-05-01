@@ -2,8 +2,8 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "e2e",
-  /* Heavy / manual artefact builds — exclude from CI and default `npm run test:e2e`. */
-  testIgnore: "**/readme-screenshot.spec.ts",
+  /* Manual artefact builds (screenshot / gif) — exclude from CI and `npm run test:e2e`. */
+  testIgnore: "**/readme-*.spec.ts",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
