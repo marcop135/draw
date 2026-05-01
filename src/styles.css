@@ -85,52 +85,46 @@ body,
 }
 
 .app-github-corner {
-  position: fixed;
-  left: 12px;
-  bottom: 12px;
-  z-index: 20;
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  background: rgba(255, 255, 255, 0.95);
+  background: #fff;
   color: #24292f;
   text-decoration: none;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(6px);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .app-github-corner:hover {
-  background: #fff;
+  background: #f3f3f3;
 }
 
 .app-github-corner:focus-visible {
   outline: 2px solid #4a90e2;
-  outline-offset: 2px;
+  outline-offset: 1px;
 }
 
 .app-github-corner.dark {
-  background: rgba(36, 36, 40, 0.95);
+  background: #2a2a2e;
   color: #f6f8fa;
   border-color: rgba(255, 255, 255, 0.16);
 }
 
 .app-github-corner.dark:hover {
-  background: rgba(52, 52, 56, 0.98);
+  background: #36363a;
 }
 
 @media (max-width: 640px) {
   .app-github-corner {
-    left: max(8px, env(safe-area-inset-left, 0px));
-    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
   }
 }
 

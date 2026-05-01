@@ -2,7 +2,7 @@ import { PROJECT_SOURCE_URL } from "../siteMeta";
 
 type Props = { dark: boolean };
 
-/** Fixed corner link to the public source repo (repo icon only). */
+/** GitHub Octocat link to the public source repo (icon only). Sits in the app toolbar. */
 export function GitHubCornerLink({ dark }: Props) {
   return (
     <a

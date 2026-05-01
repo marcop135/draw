@@ -6,21 +6,13 @@
   <img src="docs/readme-banner.png" alt="draw whiteboard: illustration banner" width="840" />
 </p>
 
-**Live:** [Open the app][deployed]
-
-Free whiteboard powered by **native Excalidraw** tools, with **LaTeX** ([KaTeX](https://katex.org/)), **Mermaid** turned into editable shapes, and **Markdown** inserts that are **sanitized** before rendering. Export to **PNG**, **JPEG**, **SVG**, **PDF**, or **`.excalidraw`**. Works **offline as a PWA** after the first load; there is **no separate backend** and **no login**. **Privacy:** your scenes stay in **`localStorage`** in your browser tab; they are not uploaded to a server owned by this repo.
-
 <p align="center">
   <img src="docs/readme-demo.gif" alt="draw whiteboard: canvas demo with shapes and ink" width="840" />
 </p>
 
-## Acknowledgements
+Live app: https://draw.marcopontili.com
 
-This project is **not** a fork of **[realdennis/md2pdf](https://github.com/realdennis/md2pdf)** (MIT). Thanks to Dennis for the original app; this repo borrowed a practical **FTP plus GitHub Actions** deploy pattern from that ecosystem.
-
-This codebase stands on its own: **[Excalidraw](https://github.com/excalidraw/excalidraw)** for the canvas, plus local insert and export wiring, static hosting headers, tests, and ongoing maintenance.
-
----
+Free whiteboard powered by native Excalidraw tools, with LaTeX (KaTeX), Mermaid turned into editable shapes, and Markdown inserts that are sanitized before rendering. Export to PNG, JPEG, SVG, PDF, or .excalidraw. Works offline as a PWA after the first load; there is no separate backend and no login. Privacy: your scenes stay in localStorage in your browser tab; they are not uploaded to a server owned by this repo.
 
 ## Features
 
@@ -87,7 +79,7 @@ See [SECURITY.md](./SECURITY.md) if you think you found a vulnerability.
 - Open **Insert** in the floating toolbar (top-right on desktop; moves on small screens) to add **LaTeX**, **Mermaid**, or **Markdown**.
 - Use **Export** to download **PNG**, **JPEG**, **SVG**, **PDF**, or **`.excalidraw`**.
 - Use the **Excalidraw** menu (hamburger) for theme, background, **Load** scene, and defaults.
-- Tap the **rounded GitHub icon** in the **bottom-left** corner to open the source repository.
+- Tap the **GitHub** icon next to **Export** in the floating toolbar to open the source repository.
 
 ## Deploy
 
@@ -109,7 +101,7 @@ Issues and pull requests are welcome. CI runs lint, production build, Vitest, an
 | --- | --- |
 | `src/` | React app: `App.tsx`, components, `lib/` helpers |
 | `src/lib/` | Export, LaTeX, Markdown, Mermaid adapters |
-| `src/components/` | Insert and export menus, modals, GitHub corner link |
+| `src/components/` | Insert and export menus, modals, GitHub repo link |
 | `public/` | Static assets, `robots.txt`, Apache `public/.htaccess` template |
 | `e2e/` | Playwright tests (smoke plus optional readme artefact specs) |
 | `dist/` | Production output after `npm run build` |
@@ -128,5 +120,3 @@ Issues and pull requests are welcome. CI runs lint, production build, Vitest, an
 ## License
 
 Licensed under the [MIT](./LICENSE) License.
-
-[deployed]: https://draw.marcopontili.com

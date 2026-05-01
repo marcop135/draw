@@ -78,9 +78,8 @@ export default function App() {
           onPick={(k) => setModal(k)}
         />
         <ExportMenu getScene={getScene} dark={theme === "dark"} />
+        <GitHubCornerLink dark={theme === "dark"} />
       </div>
-
-      <GitHubCornerLink dark={theme === "dark"} />
 
       <Suspense fallback={null}>
         {modal === "latex" && apiRef.current ? (
