@@ -5,6 +5,17 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2026-05-02
+
+### Changed
+
+- **README** tightened: dropped the `Deploy` section (internal FTP secrets,
+  not useful to readers), shortened the lede and `Features`, collapsed
+  `Installation` into a single fenced block, trimmed `Security` and `Usage`.
+- **README** sections: added `🤝 Contributing` (with bug / feature / PR
+  links), `👤 Author`, and `📝 License` headers; reordered so Contributing
+  sits just before Author at the end.
+
 ## [1.0.3] - 2026-05-01
 
 ### Changed

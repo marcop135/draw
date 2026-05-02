@@ -12,18 +12,14 @@
 
 Live app: https://draw.marcopontili.com
 
-Free whiteboard powered by native Excalidraw tools, with LaTeX (KaTeX), Mermaid turned into editable shapes, and Markdown inserts that are sanitized before rendering. Export to PNG, JPEG, SVG, PDF, or .excalidraw. Works offline as a PWA after the first load; there is no separate backend and no login. Privacy: your scenes stay in localStorage in your browser tab; they are not uploaded to a server owned by this repo.
+Excalidraw whiteboard with LaTeX, Mermaid, and Markdown inserts. Local-first PWA, no backend, no login.
 
 ## Features
 
 - Full **Excalidraw** sketching (drawing, selection, themes, load/save scene, undo)
-- **LaTeX**: type math, insert a vector image on the canvas (KaTeX)
-- **Mermaid**: paste a diagram, insert **native editable** shapes (`@excalidraw/mermaid-to-excalidraw`)
-- **Markdown**: convert to a sanitized vector note (`marked` plus DOMPurify)
-- **Export**: `.excalidraw`, PNG, JPEG, SVG, PDF
-- **PWA**: installable; Workbox precaches shell and assets for repeat visits
-- **Client-only**: no accounts, no API, no telemetry in this app layer
-- Search engine opt-out (`noindex`, `robots.txt`)
+- **LaTeX** math, **Mermaid** diagrams as native editable shapes, sanitized **Markdown** notes
+- **Export** to `.excalidraw`, PNG, JPEG, SVG, PDF
+- **PWA**: installable; Workbox precaches shell and assets for offline use
 
 ## Tech stack
 
@@ -35,65 +31,30 @@ Free whiteboard powered by native Excalidraw tools, with LaTeX (KaTeX), Mermaid 
 
 ## Security
 
-- **Local-first**: drawings live in browser `localStorage` only; clearing site data wipes them
-- **Sandboxed inserts**: KaTeX with strict defaults, Markdown through DOMPurify, Mermaid parsed to shapes (not raw HTML)
-- **HTTP hardening**: CSP and related headers shipped in `dist/.htaccess` for Apache-style hosts
+- **Local-first**: drawings live in browser `localStorage`; clearing site data wipes them
+- **Sandboxed inserts**: KaTeX strict mode, Markdown through DOMPurify, Mermaid parsed to shapes (not raw HTML)
+- **HTTP hardening**: CSP and related headers shipped in `dist/.htaccess`
 
-See [SECURITY.md](./SECURITY.md) if you think you found a vulnerability.
+See [SECURITY.md](./SECURITY.md) for vulnerability reports.
 
 ## Installation
 
-1. Clone the repository:
+Requires Node 20.
 
-   ```bash
-   git clone https://github.com/marcop135/draw.git
-   cd draw
-   ```
-
-2. Install dependencies (Node 20):
-
-   ```bash
-   nvm use
-   npm ci
-   ```
-
-3. Run locally:
-
-   ```bash
-   npm run dev
-   ```
-
-   Then open [http://localhost:5173](http://localhost:5173).
-
-4. Production build:
-
-   ```bash
-   npm run build
-   ```
-
-   Output is in `dist/`. The build copies **`public/.htaccess`** into **`dist/`** for recommended security headers and caching on Apache.
+```bash
+git clone https://github.com/marcop135/draw.git
+cd draw
+nvm use
+npm ci
+npm run dev      # http://localhost:5173
+npm run build    # production output in dist/
+```
 
 ## Usage
 
-- Use Excalidraw’s built-in tools for drawing, text, and shapes.
-- Open **Insert** in the floating toolbar (top-right on desktop; moves on small screens) to add **LaTeX**, **Mermaid**, or **Markdown**.
-- Use **Export** to download **PNG**, **JPEG**, **SVG**, **PDF**, or **`.excalidraw`**.
-- Use the **Excalidraw** menu (hamburger) for theme, background, **Load** scene, and defaults.
-- Tap the **GitHub** icon next to **Export** in the floating toolbar to open the source repository.
-
-## Deploy
-
-Production deploy is manual: run [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) from **Actions** (see workflow comments for TLS and path notes). Required secrets:
-
-| Secret | Role |
-| --- | --- |
-| `FTP_HOST` | server |
-| `FTP_USERNAME_PRODUCTION` | username |
-| `FTP_PASSWORD_PRODUCTION` | password |
-
-## Contributing
-
-Issues and pull requests are welcome. CI runs lint, production build, Vitest, and Playwright smoke tests on `main` and PRs.
+- **Insert** menu (floating toolbar): add **LaTeX**, **Mermaid**, or **Markdown**.
+- **Export** menu: download **PNG**, **JPEG**, **SVG**, **PDF**, or **`.excalidraw`**.
+- **Excalidraw** menu (hamburger): theme, background, **Load** scene, defaults.
 
 ## Project structure
 
@@ -117,6 +78,18 @@ Issues and pull requests are welcome. CI runs lint, production build, Vitest, an
 | `npm run test:e2e` | Playwright smoke suite |
 | `npm run lint` | ESLint |
 
-## License
+## 🤝 Contributing
+
+Contributions welcome! CI runs lint, production build, Vitest, and Playwright smoke tests on `main` and PRs.
+
+- 🐛 Found a bug? [Open an issue](https://github.com/marcop135/draw/issues)
+- 💡 Have a feature request? [Open an issue](https://github.com/marcop135/draw/issues)
+- 📝 Want to contribute? Fork the repo and open a PR
+
+## 👤 Author
+
+[Marco Pontili](https://marcopontili.com)
+
+## 📝 License
 
 Licensed under the [MIT](./LICENSE) License.
