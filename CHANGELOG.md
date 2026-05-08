@@ -7,7 +7,7 @@
 - **Feat:** Generate a dedicated 1280x640 social preview card (`public/social-preview.png`, ~40 KB) sized for GitHub's repo social image (max 1 MB) and matching the Open Graph spec.
 - **Feat:** Ship cross-browser favicons: `favicon-16x16.png`, `favicon-32x32.png`, `favicon-48x48.png`, `apple-touch-icon.png` (180), and `android-chrome-192x192.png` / `512x512.png`, plus a PNG-in-ICO `favicon.ico` for legacy `/favicon.ico` requests.
 - **Enhance:** Add `og:image:width`/`height`/`type`/`alt` and `twitter:image:alt` meta tags; reference the new favicon set from `index.html` and add the PWA Android icons to the manifest.
-- **Build:** Replace the README banner copy step with `scripts/render-brand-assets.mjs`, which uses headless Chromium to render the social card and favicon variants from `assets/social-preview.svg` and `public/favicon.svg` at every prebuild.
+- **Build:** Drop the README banner copy prebuild step; the new `npm run assets:brand` (`scripts/render-brand-assets.mjs`) regenerates the social card and favicon variants on demand from `assets/social-preview.svg` and `public/favicon.svg` via headless Chromium, with the rendered PNGs and ICO committed to `public/` so CI builds don't need a browser.
 
 ## [1.0.5] - 2026-05-08
 
