@@ -9,7 +9,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "prebuild": "node scripts/render-brand-assets.mjs",
+    "assets:brand": "node scripts/render-brand-assets.mjs",
     "lint": "eslint . --max-warnings=0",
     "lint:ci": "eslint . --max-warnings=0",
     "format": "prettier --write .",
