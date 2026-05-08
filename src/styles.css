@@ -7,13 +7,20 @@ body,
   width: 100%;
   overflow: hidden;
   font-family:
+    "Roboto",
     system-ui,
     -apple-system,
-    Segoe UI,
-    Roboto,
+    "Segoe UI",
     Helvetica,
     Arial,
     sans-serif;
+}
+
+/* Force Roboto across Excalidraw's own UI chrome (toolbar, menus, dialogs).
+   Drawing-canvas fonts (Excalifont/Cascadia/etc.) are unaffected because they
+   are baked into <canvas> rendering, not the DOM. */
+.excalidraw {
+  --ui-font: "Roboto", system-ui, sans-serif;
 }
 
 #root {
@@ -48,13 +55,38 @@ body,
   background: rgba(36, 36, 40, 0.92);
 }
 
+.version-chip {
+  align-self: center;
+  margin: 0 4px 0 2px;
+  color: #656d76;
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.app-toolbar.dark .version-chip {
+  color: #9da5b4;
+}
+@media (max-width: 420px) {
+  .version-chip {
+    display: none;
+  }
+}
+
+.app-chevron {
+  flex-shrink: 0;
+}
+
 .app-btn {
   font: inherit;
-  font-size: 13px;
-  padding: 8px 14px;
+  font-size: 12px;
+  padding: 7px 12px;
   min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 6px;
+  border-radius: 8px;
   background: #fff;
   cursor: pointer;
   white-space: nowrap;
@@ -64,8 +96,8 @@ body,
 @media (max-width: 640px) {
   .app-btn {
     min-height: 40px;
-    padding: 10px 14px;
-    font-size: 14px;
+    padding: 9px 12px;
+    font-size: 13px;
   }
 }
 .app-btn:hover {
@@ -191,8 +223,7 @@ body,
 .app-modal textarea {
   width: 100%;
   min-height: 140px;
-  font-family:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: "Roboto", system-ui, sans-serif;
   font-size: 13px;
   padding: 10px;
   border: 1px solid #d0d0d0;
@@ -255,11 +286,27 @@ body,
   text-align: left;
   background: none;
   border: 0;
-  padding: 8px 12px;
+  padding: 10px 12px;
+  min-height: 40px;
   border-radius: 6px;
   cursor: pointer;
   font: inherit;
+  font-size: 13px;
   color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.menu-pop button > svg {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+@media (max-width: 640px) {
+  .menu-pop button {
+    padding: 12px 12px;
+    min-height: 44px;
+    font-size: 14px;
+  }
 }
 .menu-pop button:hover {
   background: rgba(0, 0, 0, 0.06);

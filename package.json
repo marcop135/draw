@@ -1,7 +1,7 @@
 {
   "name": "draw-marcopontili-com",
   "private": true,
-  "version": "1.0.4",
+  "version": "1.0.5",
   "type": "module",
   "description": "Free whiteboard: Excalidraw with LaTeX (KaTeX), Mermaid-to-shapes, sanitized Markdown; PNG/JPEG/SVG/PDF export. React + TypeScript + Vite PWA; static, no backend or login.",
   "license": "MIT",
@@ -23,6 +23,8 @@
   "dependencies": {
     "@excalidraw/excalidraw": "^0.18.1",
     "@excalidraw/mermaid-to-excalidraw": "^2.2.2",
+    "@fontsource/roboto": "^5.2.10",
+    "@phosphor-icons/react": "^2.1.10",
     "dompurify": "^3.4.1",
     "jspdf": "^4.2.1",
     "katex": "^0.16.11",
@@ -39,17 +41,17 @@
     "@typescript-eslint/eslint-plugin": "^8.8.1",
     "@typescript-eslint/parser": "^8.8.1",
     "@vitejs/plugin-react": "^4.3.4",
-    "vite-plugin-pwa": "^1.2.0",
     "eslint": "^9.12.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.12",
     "globals": "^15.11.0",
+    "jsdom": "^26.1.0",
     "prettier": "^3.3.3",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.8.1",
     "vite": "^6.4.2",
-    "vitest": "^3.2.4",
-    "jsdom": "^26.1.0"
+    "vite-plugin-pwa": "^1.2.0",
+    "vitest": "^3.2.4"
   },
   "overrides": {
     "dompurify": "^3.4.1",

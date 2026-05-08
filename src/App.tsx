@@ -6,6 +6,7 @@ import type { SceneSnapshot } from "./lib/export";
 import { ExportMenu } from "./components/ExportMenu";
 import { GitHubCornerLink } from "./components/GitHubCornerLink";
 import { InsertMenu } from "./components/InsertMenu";
+import { version as APP_VERSION } from "../package.json";
 
 // Heavy modals: split out so the Mermaid parser, KaTeX, and marked/DOMPurify
 // only ship to clients who actually click "Insert".
@@ -73,6 +74,9 @@ export default function App() {
         </MainMenu>
       </Excalidraw>
       <div className={`app-toolbar${theme === "dark" ? " dark" : ""}`}>
+        <small className="version-chip" title={`draw v${APP_VERSION}`}>
+          v{APP_VERSION}
+        </small>
         <InsertMenu
           dark={theme === "dark"}
           onPick={(k) => setModal(k)}

@@ -7,6 +7,13 @@ import {
   exportPdf,
   type SceneSnapshot,
 } from "../lib/export";
+import {
+  CaretDown,
+  FileImage,
+  FilePdf,
+  FileSvg,
+  PencilSimpleLine,
+} from "./icons";
 
 type Props = {
   getScene: () => SceneSnapshot;
@@ -40,23 +47,29 @@ export function ExportMenu({ getScene, dark }: Props) {
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        Export ▾
+        Export
+        <CaretDown size={18} weight="bold" className="app-chevron" aria-hidden />
       </button>
       {open ? (
         <div className={`menu-pop${dark ? " dark" : ""}`} role="menu">
           <button onClick={() => run(exportExcalidraw)} disabled={busy}>
+            <PencilSimpleLine size={22} weight="fill" aria-hidden />
             Excalidraw (.excalidraw)
           </button>
           <button onClick={() => run(exportPng)} disabled={busy}>
+            <FileImage size={22} weight="fill" aria-hidden />
             PNG
           </button>
           <button onClick={() => run(exportJpeg)} disabled={busy}>
+            <FileImage size={22} weight="fill" aria-hidden />
             JPEG
           </button>
           <button onClick={() => run(exportSvg)} disabled={busy}>
+            <FileSvg size={22} weight="fill" aria-hidden />
             SVG
           </button>
           <button onClick={() => run(exportPdf)} disabled={busy}>
+            <FilePdf size={22} weight="fill" aria-hidden />
             PDF
           </button>
           {error ? (

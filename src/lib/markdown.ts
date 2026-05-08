@@ -38,7 +38,7 @@ export async function renderMarkdown(
     width: ${width}px;
     font-size: ${fontSize}px;
     line-height: 1.4;
-    font-family: system-ui, sans-serif;
+    font-family: "Roboto", system-ui, sans-serif;
     color: #1a1a1a;
     background: transparent;
     box-sizing: border-box;
@@ -53,7 +53,7 @@ export async function renderMarkdown(
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
   <foreignObject width="${width}" height="${height}">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:system-ui,sans-serif;font-size:${fontSize}px;line-height:1.4;color:#1a1a1a;padding:8px;box-sizing:border-box;">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Roboto,system-ui,sans-serif;font-size:${fontSize}px;line-height:1.4;color:#1a1a1a;padding:8px;box-sizing:border-box;">
       ${cleanHtml}
     </div>
   </foreignObject>

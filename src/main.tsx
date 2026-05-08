@@ -4,6 +4,10 @@ import { registerSW } from "virtual:pwa-register";
 import App from "./App";
 import { installDocumentTitleGuard } from "./lib/documentTitleGuard";
 import { SITE_DOCUMENT_TITLE } from "./siteMeta";
+// Self-hosted Roboto (woff2 served from our own bundle, no Google CDN at runtime).
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 import "./styles.css";
 
 // Register the service worker for offline support and asset caching.

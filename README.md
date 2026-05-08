@@ -1,7 +1,5 @@
 # draw
 
-[![CI](https://github.com/marcop135/draw/actions/workflows/ci.yml/badge.svg)](https://github.com/marcop135/draw/actions/workflows/ci.yml)
-
 <p align="center">
   <img src="docs/readme-banner.png" alt="draw whiteboard: illustration banner" width="840" />
 </p>
