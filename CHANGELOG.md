@@ -2,6 +2,13 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; add **(WIP)** for incomplete work.
 
+## [1.0.6] - 2026-05-08
+
+- **Feat:** Generate a dedicated 1280x640 social preview card (`public/social-preview.png`, ~40 KB) sized for GitHub's repo social image (max 1 MB) and matching the Open Graph spec.
+- **Feat:** Ship cross-browser favicons: `favicon-16x16.png`, `favicon-32x32.png`, `favicon-48x48.png`, `apple-touch-icon.png` (180), and `android-chrome-192x192.png` / `512x512.png`, plus a PNG-in-ICO `favicon.ico` for legacy `/favicon.ico` requests.
+- **Enhance:** Add `og:image:width`/`height`/`type`/`alt` and `twitter:image:alt` meta tags; reference the new favicon set from `index.html` and add the PWA Android icons to the manifest.
+- **Build:** Replace the README banner copy step with `scripts/render-brand-assets.mjs`, which uses headless Chromium to render the social card and favicon variants from `assets/social-preview.svg` and `public/favicon.svg` at every prebuild.
+
 ## [1.0.5] - 2026-05-08
 
 - **Feat:** Add a version chip in the app toolbar that reads from `package.json`; hide it under 420px to save thumb space.

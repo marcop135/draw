@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <pattern id="dotsD" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="1.4" cy="1.4" r="1.4" fill="#2a2a30"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="640" fill="#1e1e1e"/>
+  <rect width="1280" height="640" fill="url(#dotsD)"/>
+
+  <!-- Hand-drawn cluster, left (kept inside x<400 to clear the wordmark) -->
+  <g stroke="#f1f1f1" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- axes + curve -->
+    <path d="M 110 210 L 110 100 M 110 210 L 250 210"/>
+    <path d="M 120 202 C 148 120, 210 120, 242 198"/>
+    <text x="120" y="92" font-size="20" fill="#5fd4cb" stroke="none" font-style="italic">y</text>
+    <!-- flowchart small -->
+    <rect x="260" y="110" width="100" height="40" rx="6"/>
+    <rect x="285" y="190" width="50" height="32" rx="4"/>
+    <rect x="240" y="250" width="60" height="32" rx="4"/>
+    <rect x="320" y="250" width="60" height="32" rx="4"/>
+    <path d="M 310 150 L 310 188"/>
+    <path d="M 310 222 L 270 248"/>
+    <path d="M 310 222 L 350 248"/>
+    <!-- E=mc^2 -->
+    <text x="100" y="335" font-size="28" fill="#f1f1f1" stroke="none" font-style="italic">E = mc<tspan baseline-shift="super" font-size="16">2</tspan></text>
+    <!-- triangle -->
+    <path d="M 110 525 L 250 525 L 250 425 Z"/>
+    <text x="168" y="550" font-size="16" fill="#5fd4cb" stroke="none" font-style="italic">b</text>
+    <text x="260" y="480" font-size="16" fill="#5fd4cb" stroke="none" font-style="italic">a</text>
+    <text x="158" y="470" font-size="16" fill="#5fd4cb" stroke="none" font-style="italic">c</text>
+  </g>
+
+  <!-- Right: wordmark + chips -->
+  <g>
+    <text x="1220" y="300" text-anchor="end" font-size="220" font-weight="800" letter-spacing="-6" fill="#ffffff">draw</text>
+    <line x1="700" y1="325" x2="1220" y2="325" stroke="#5fd4cb" stroke-width="6" stroke-linecap="round"/>
+    <text x="1220" y="368" text-anchor="end" font-size="20" font-weight="500" letter-spacing="2" fill="#a8acb8">
+      privacy-first whiteboard, no login, no backend
+    </text>
+  </g>
+
+  <!-- Feature chips -->
+  <g font-size="16" font-weight="600" fill="#f1f1f1">
+    <g>
+      <rect x="490" y="440" width="92" height="40" rx="20" fill="none" stroke="#3a3a44"/>
+      <text x="536" y="466" text-anchor="middle">LaTeX</text>
+    </g>
+    <g>
+      <rect x="594" y="440" width="112" height="40" rx="20" fill="none" stroke="#3a3a44"/>
+      <text x="650" y="466" text-anchor="middle">Mermaid</text>
+    </g>
+    <g>
+      <rect x="718" y="440" width="124" height="40" rx="20" fill="none" stroke="#3a3a44"/>
+      <text x="780" y="466" text-anchor="middle">Markdown</text>
+    </g>
+    <g>
+      <rect x="854" y="440" width="76" height="40" rx="20" fill="none" stroke="#3a3a44"/>
+      <text x="892" y="466" text-anchor="middle">PDF</text>
+    </g>
+    <g>
+      <rect x="942" y="440" width="78" height="40" rx="20" fill="none" stroke="#3a3a44"/>
+      <text x="981" y="466" text-anchor="middle">PWA</text>
+    </g>
+  </g>
+
+  <!-- URL pill -->
+  <g>
+    <rect x="490" y="510" width="240" height="42" rx="21" fill="#2a2a30" stroke="#3a3a44"/>
+    <circle cx="514" cy="531" r="5" fill="#5fd4cb"/>
+    <text x="530" y="538" font-size="15" font-weight="600" fill="#f1f1f1">draw.marcopontili.com</text>
+  </g>
+</svg>
