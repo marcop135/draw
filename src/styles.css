@@ -25,10 +25,17 @@ body,
 
 #root {
   position: relative;
+}
 
-  /* Shared design tokens for every floating UI piece this app owns. The
-     active-state pair is picked to match Excalidraw's own selected-tool
-     lavender so the three toolbars read as one system. */
+/* Shared design tokens for every floating UI piece this app owns. Live on the
+   app-shell wrapper so theme can flip via a className without timing races
+   between useEffect and the React commit. The active-state pair is picked to
+   match Excalidraw's own selected-tool lavender so the three toolbars read as
+   one system. */
+.app-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
   --ui-radius: 10px;
   --ui-radius-sm: 8px;
   --ui-bg: rgba(255, 255, 255, 0.92);
@@ -46,7 +53,7 @@ body,
   --ui-icon: 18px;
 }
 
-#root.dark {
+.app-shell.dark {
   --ui-bg: rgba(36, 36, 40, 0.92);
   --ui-bg-solid: #2a2a2e;
   --ui-bg-hover: #36363a;
@@ -58,6 +65,22 @@ body,
   --ui-accent-bg: #403e7a;
   --ui-accent-fg: #d6d3ff;
   --ui-focus: #b3aeff;
+}
+
+/* Hide Excalidraw's center branding (EXCALIDRAW logo + "Diagrams. Made.
+   Simple." + Open/Help menu). The three arrow hints (menu / toolbar / help)
+   stay visible so first-time users still get the orientation cues. The
+   right-edge book/lock/hand strip is suppressed by passing an empty
+   <WelcomeScreen /> child to <Excalidraw>. */
+.excalidraw .welcome-screen-center {
+  display: none !important;
+}
+
+/* Hide the built-in Library sidebar trigger; the app doesn't expose libraries
+   and the button collided visually with the floating app-toolbar. */
+.excalidraw .default-sidebar-trigger,
+.excalidraw .sidebar-triggers {
+  display: none !important;
 }
 
 .app-toolbar {
@@ -75,8 +98,28 @@ body,
   backdrop-filter: blur(6px);
 }
 
-/* On phones, Excalidraw's own toolbar takes the full top row. Move ours to
-   the bottom-right, above the zoom controls but clear of the colour picker. */
+/* Excalidraw's centered top toolbar is ~550px wide. Full labels (~330px) only
+   fit on row 1 above ~1300px; icon-only (~140px) fits above ~870px. Below
+   870 the bar drops to row 2 (still icon-only) so it never visually collides
+   with the centered toolbar. On phones (<=640) the bar moves bottom-right,
+   keeping icon-only for a clean compact strip matching the desktop icons. */
+@media (max-width: 1299px) {
+  .app-toolbar .version-chip,
+  .app-toolbar .app-btn-label,
+  .app-toolbar .app-chevron {
+    display: none;
+  }
+  .app-toolbar .app-btn {
+    padding: 0;
+    width: var(--ui-btn-size);
+    justify-content: center;
+  }
+}
+@media (min-width: 641px) and (max-width: 869px) {
+  .app-toolbar {
+    top: 72px;
+  }
+}
 @media (max-width: 640px) {
   .app-toolbar {
     top: auto;

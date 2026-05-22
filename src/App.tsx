@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useRef, useState } from "react";
 import { Excalidraw, MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
 import "@excalidraw/excalidraw/index.css";
 import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
@@ -29,12 +29,6 @@ export default function App() {
   const [modal, setModal] = useState<ModalKind>(null);
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
-  // Mirror the canvas theme onto #root so the design-token CSS vars flip with
-  // the rest of the Excalidraw UI in one place.
-  useEffect(() => {
-    document.getElementById("root")?.classList.toggle("dark", theme === "dark");
-  }, [theme]);
-
   const getScene = useCallback((): SceneSnapshot => {
     const api = apiRef.current;
     if (!api) {
@@ -48,12 +42,22 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <div className={`app-shell${theme === "dark" ? " dark" : ""}`}>
       <Excalidraw
         excalidrawAPI={(api) => {
           apiRef.current = api;
         }}
         theme={theme}
+        initialData={{
+          appState: {
+            activeTool: {
+              type: "freedraw",
+              customType: null,
+              locked: false,
+              lastActiveTool: null,
+            },
+          },
+        }}
         UIOptions={{
           canvasActions: {
             saveToActiveFile: false,
@@ -68,9 +72,9 @@ export default function App() {
           }
         }}
       >
-        {/* Empty WelcomeScreen suppresses the default welcome center + the
-            right-edge library/lock/hand hint strip that was overlapping with
-            the floating app-toolbar. */}
+        {/* Empty WelcomeScreen suppresses the default right-edge book/lock/hand
+            hint strip; the remaining center logo + tagline + arrow hints are
+            hidden via .excalidraw .welcome-screen-decor in styles.css. */}
         <WelcomeScreen />
         <MainMenu>
           <MainMenu.DefaultItems.LoadScene />
@@ -106,6 +110,6 @@ export default function App() {
           <MarkdownModal api={apiRef.current} onClose={() => setModal(null)} />
         ) : null}
       </Suspense>
-    </>
+    </div>
   );
 }

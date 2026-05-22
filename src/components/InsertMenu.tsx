@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { BracesAsterisk, ChevronDown, Diagram3, Markdown } from "./icons";
+import {
+  BracesAsterisk,
+  ChevronDown,
+  Diagram3,
+  Markdown,
+  PlusSquare,
+} from "./icons";
 
 type InsertKind = "latex" | "mermaid" | "markdown";
 
@@ -19,7 +25,8 @@ export function InsertMenu({ onPick, dark }: Props) {
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        Insert
+        <PlusSquare size={18} className="app-btn-icon" />
+        <span className="app-btn-label">Insert</span>
         <ChevronDown size={16} className="app-chevron" />
       </button>
       {open ? (

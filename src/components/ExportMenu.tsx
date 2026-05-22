@@ -9,6 +9,7 @@ import {
 } from "../lib/export";
 import {
   ChevronDown,
+  Download,
   FiletypeJpg,
   FiletypePdf,
   FiletypePng,
@@ -48,7 +49,8 @@ export function ExportMenu({ getScene, dark }: Props) {
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        Export
+        <Download size={18} className="app-btn-icon" />
+        <span className="app-btn-label">Export</span>
         <ChevronDown size={16} className="app-chevron" />
       </button>
       {open ? (
