@@ -2,6 +2,15 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; add **(WIP)** for incomplete work.
 
+## [1.1.0] - 2026-05-22
+
+- **Style:** Replace `@phosphor-icons/react` with self-hosted `bootstrap-icons`; centralize inline SVG-component wrappers in `src/components/icons.tsx` so only the paths the app uses are shipped (chevron-down, github, pencil-square, filetype-png/jpg/svg/pdf, braces-asterisk, diagram-3, markdown).
+- **Style:** Introduce shared design tokens on `#root` (`--ui-radius`, `--ui-bg`, `--ui-border`, `--ui-fg`, `--ui-accent-bg`, `--ui-accent-fg`, `--ui-shadow`, `--ui-btn-size`); `#root.dark` flips the palette in one place. Toolbar, buttons, GitHub link, modals, and dropdowns all consume the same variables so the three bars read as one system.
+- **Enhance:** Match Excalidraw's selected-tool lavender chip (`#e0dfff` / `#6965db`) on the active/open state of every floating `app-btn` so the custom toolbar visually pairs with the stock toolbar's selected pencil.
+- **Enhance:** Bump icon size to 18px in the toolbar and 20px in dropdown rows; tighten gaps, paddings, and transitions for a consistent hover/focus/active feel.
+- **Fix:** Suppress the default Excalidraw welcome-screen hint strip (book/lock/hand) on the right edge by rendering an empty `<WelcomeScreen />`, so it no longer collides with the floating top-right toolbar.
+- **Build:** Bump `react`/`react-dom` to 19.2.6, `marked` to 18.0.3, `katex` to 0.16.47, `mermaid` to 11.15.0, `@babel/plugin-transform-modules-systemjs` to 7.29.4, and `fast-uri` to 3.1.2 via Dependabot (#37, #38, #39, #40).
+
 ## [1.0.6] - 2026-05-08
 
 - **Feat:** Generate a dedicated 1280x640 social preview card (`public/social-preview.png`, ~40 KB) sized for GitHub's repo social image (max 1 MB) and matching the Open Graph spec.
