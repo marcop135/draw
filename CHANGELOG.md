@@ -2,6 +2,14 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; add **(WIP)** for incomplete work.
 
+## [1.2.0] - 2026-05-22
+
+- **Style:** Hide the built-in Library sidebar trigger and the welcome-screen logo, tagline, and Open/Help menu so the canvas starts clean; keep the three arrow hints (menu, toolbar, help) for first-time orientation.
+- **Enhance:** Make the floating toolbar responsive: row 2 (`top: 72px`) below 870px, icon-only on row 1 from 870-1299px, full labels at 1300px+; the mobile bottom-right layout keeps the icon-only strip so it matches the desktop chrome.
+- **Style:** Add `PlusSquare` and `Download` Bootstrap-icons as top-level glyphs on the Insert and Export buttons, wrapping each label in `.app-btn-label` so it can be hidden in icon-only mode without losing meaning.
+- **Fix:** Move the dark-mode class from `#root` plus a `useEffect` to an `.app-shell` wrapper so the design-token CSS variables flip in the same React commit instead of one frame later.
+- **Enhance:** Pre-select the freedraw (pencil) tool on first load via `initialData.appState.activeTool`.
+
 ## [1.1.0] - 2026-05-22
 
 - **Style:** Replace `@phosphor-icons/react` with self-hosted `bootstrap-icons`; centralize inline SVG-component wrappers in `src/components/icons.tsx` so only the paths the app uses are shipped (chevron-down, github, pencil-square, filetype-png/jpg/svg/pdf, braces-asterisk, diagram-3, markdown).
