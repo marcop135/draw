@@ -1,5 +1,5 @@
-import { lazy, Suspense, useCallback, useRef, useState } from "react";
-import { Excalidraw, MainMenu } from "@excalidraw/excalidraw";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { Excalidraw, MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
 import "@excalidraw/excalidraw/index.css";
 import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 import type { SceneSnapshot } from "./lib/export";
@@ -28,6 +28,12 @@ export default function App() {
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null);
   const [modal, setModal] = useState<ModalKind>(null);
   const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  // Mirror the canvas theme onto #root so the design-token CSS vars flip with
+  // the rest of the Excalidraw UI in one place.
+  useEffect(() => {
+    document.getElementById("root")?.classList.toggle("dark", theme === "dark");
+  }, [theme]);
 
   const getScene = useCallback((): SceneSnapshot => {
     const api = apiRef.current;
@@ -62,6 +68,10 @@ export default function App() {
           }
         }}
       >
+        {/* Empty WelcomeScreen suppresses the default welcome center + the
+            right-edge library/lock/hand hint strip that was overlapping with
+            the floating app-toolbar. */}
+        <WelcomeScreen />
         <MainMenu>
           <MainMenu.DefaultItems.LoadScene />
           <MainMenu.DefaultItems.CommandPalette />
@@ -73,7 +83,7 @@ export default function App() {
           <MainMenu.DefaultItems.ChangeCanvasBackground />
         </MainMenu>
       </Excalidraw>
-      <div className={`app-toolbar${theme === "dark" ? " dark" : ""}`}>
+      <div className="app-toolbar">
         <small className="version-chip" title={`draw v${APP_VERSION}`}>
           v{APP_VERSION}
         </small>

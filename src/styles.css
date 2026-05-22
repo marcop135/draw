@@ -25,6 +25,39 @@ body,
 
 #root {
   position: relative;
+
+  /* Shared design tokens for every floating UI piece this app owns. The
+     active-state pair is picked to match Excalidraw's own selected-tool
+     lavender so the three toolbars read as one system. */
+  --ui-radius: 10px;
+  --ui-radius-sm: 8px;
+  --ui-bg: rgba(255, 255, 255, 0.92);
+  --ui-bg-solid: #fff;
+  --ui-bg-hover: #f3f3f5;
+  --ui-fg: #1b1b1f;
+  --ui-muted: #656d76;
+  --ui-border: rgba(0, 0, 0, 0.08);
+  --ui-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  --ui-shadow-pop: 0 6px 24px rgba(0, 0, 0, 0.18);
+  --ui-accent-bg: #e0dfff;
+  --ui-accent-fg: #6965db;
+  --ui-focus: #6965db;
+  --ui-btn-size: 36px;
+  --ui-icon: 18px;
+}
+
+#root.dark {
+  --ui-bg: rgba(36, 36, 40, 0.92);
+  --ui-bg-solid: #2a2a2e;
+  --ui-bg-hover: #36363a;
+  --ui-fg: #f1f1f1;
+  --ui-muted: #9da5b4;
+  --ui-border: rgba(255, 255, 255, 0.14);
+  --ui-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  --ui-shadow-pop: 0 6px 24px rgba(0, 0, 0, 0.5);
+  --ui-accent-bg: #403e7a;
+  --ui-accent-fg: #d6d3ff;
+  --ui-focus: #b3aeff;
 }
 
 .app-toolbar {
@@ -33,11 +66,12 @@ body,
   right: 12px;
   z-index: 10;
   display: flex;
+  align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--ui-bg);
   padding: 8px;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  border-radius: var(--ui-radius);
+  box-shadow: var(--ui-shadow);
   backdrop-filter: blur(6px);
 }
 
@@ -51,21 +85,14 @@ body,
   }
 }
 
-.app-toolbar.dark {
-  background: rgba(36, 36, 40, 0.92);
-}
-
 .version-chip {
   align-self: center;
   margin: 0 4px 0 2px;
-  color: #656d76;
+  color: var(--ui-muted);
   font-weight: 400;
   font-size: 11px;
   letter-spacing: 0.01em;
   font-variant-numeric: tabular-nums;
-}
-.app-toolbar.dark .version-chip {
-  color: #9da5b4;
 }
 @media (max-width: 420px) {
   .version-chip {
@@ -75,45 +102,51 @@ body,
 
 .app-chevron {
   flex-shrink: 0;
+  opacity: 0.7;
 }
 
 .app-btn {
   font: inherit;
   font-size: 12px;
-  padding: 7px 12px;
-  min-height: 36px;
+  padding: 0 12px;
+  height: var(--ui-btn-size);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 8px;
-  background: #fff;
+  gap: 8px;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-sm);
+  background: var(--ui-bg-solid);
+  color: var(--ui-fg);
   cursor: pointer;
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease,
+    border-color 120ms ease;
 }
 @media (max-width: 640px) {
   .app-btn {
-    min-height: 40px;
-    padding: 9px 12px;
+    height: 40px;
+    padding: 0 12px;
     font-size: 13px;
   }
 }
 .app-btn:hover {
-  background: #f3f3f3;
+  background: var(--ui-bg-hover);
 }
 .app-btn:focus-visible {
-  outline: 2px solid #4a90e2;
+  outline: 2px solid var(--ui-focus);
   outline-offset: 1px;
 }
-.app-toolbar.dark .app-btn {
-  background: #2a2a2e;
-  color: #f1f1f1;
-  border-color: rgba(255, 255, 255, 0.16);
-}
-.app-toolbar.dark .app-btn:hover {
-  background: #36363a;
+/* Active / open state matches Excalidraw's selected-tool lavender chip so the
+   custom toolbar and the stock one read as one design. */
+.app-btn.is-active,
+.app-btn[aria-expanded="true"] {
+  background: var(--ui-accent-bg);
+  color: var(--ui-accent-fg);
+  border-color: transparent;
 }
 
 .app-github-corner {
@@ -122,35 +155,26 @@ body,
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  width: 36px;
-  height: 36px;
-  border-radius: 6px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  background: #fff;
-  color: #24292f;
+  width: var(--ui-btn-size);
+  height: var(--ui-btn-size);
+  border-radius: var(--ui-radius-sm);
+  border: 1px solid var(--ui-border);
+  background: var(--ui-bg-solid);
+  color: var(--ui-fg);
   text-decoration: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  transition: background-color 120ms ease;
 }
 
 .app-github-corner:hover {
-  background: #f3f3f3;
+  background: var(--ui-bg-hover);
 }
 
 .app-github-corner:focus-visible {
-  outline: 2px solid #4a90e2;
+  outline: 2px solid var(--ui-focus);
   outline-offset: 1px;
-}
-
-.app-github-corner.dark {
-  background: #2a2a2e;
-  color: #f6f8fa;
-  border-color: rgba(255, 255, 255, 0.16);
-}
-
-.app-github-corner.dark:hover {
-  background: #36363a;
 }
 
 @media (max-width: 640px) {
@@ -171,8 +195,8 @@ body,
 }
 
 .app-modal {
-  background: #fff;
-  color: #1a1a1a;
+  background: var(--ui-bg-solid);
+  color: var(--ui-fg);
   width: min(720px, 100%);
   max-height: 90vh;
   display: flex;
@@ -200,7 +224,7 @@ body,
   align-items: center;
   justify-content: space-between;
   padding: 14px 18px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--ui-border);
   font-weight: 600;
 }
 
@@ -214,7 +238,7 @@ body,
 
 .app-modal-footer {
   padding: 12px 18px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--ui-border);
   display: flex;
   justify-content: flex-end;
   gap: 8px;
@@ -226,22 +250,24 @@ body,
   font-family: "Roboto", system-ui, sans-serif;
   font-size: 13px;
   padding: 10px;
-  border: 1px solid #d0d0d0;
+  border: 1px solid var(--ui-border);
   border-radius: 6px;
   resize: vertical;
   box-sizing: border-box;
+  background: var(--ui-bg-solid);
+  color: var(--ui-fg);
 }
 .app-modal textarea:focus-visible {
-  outline: 2px solid #4a90e2;
+  outline: 2px solid var(--ui-focus);
   outline-offset: 0;
 }
 
 .app-preview {
-  border: 1px dashed #ccc;
+  border: 1px dashed var(--ui-border);
   padding: 12px;
   border-radius: 6px;
   min-height: 80px;
-  background: #fafafa;
+  background: var(--ui-bg-hover);
   overflow: auto;
 }
 
@@ -260,14 +286,16 @@ body,
   position: absolute;
   top: calc(100% + 6px);
   right: 0;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  background: var(--ui-bg-solid);
+  color: var(--ui-fg);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  box-shadow: var(--ui-shadow-pop);
   padding: 6px;
   z-index: 11;
   display: flex;
   flex-direction: column;
-  min-width: 180px;
+  min-width: 200px;
 }
 
 /* On mobile the toolbar sits at the bottom; flip the popup upward. */
@@ -278,17 +306,13 @@ body,
   }
 }
 
-.menu-pop.dark {
-  background: #2a2a2e;
-}
-
 .menu-pop button {
   text-align: left;
   background: none;
   border: 0;
   padding: 10px 12px;
   min-height: 40px;
-  border-radius: 6px;
+  border-radius: var(--ui-radius-sm);
   cursor: pointer;
   font: inherit;
   font-size: 13px;
@@ -296,10 +320,11 @@ body,
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: background-color 120ms ease;
 }
 .menu-pop button > svg {
   flex-shrink: 0;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 @media (max-width: 640px) {
   .menu-pop button {
@@ -309,8 +334,17 @@ body,
   }
 }
 .menu-pop button:hover {
-  background: rgba(0, 0, 0, 0.06);
+  background: var(--ui-accent-bg);
+  color: var(--ui-accent-fg);
 }
-.menu-pop.dark button:hover {
-  background: rgba(255, 255, 255, 0.08);
+.menu-pop button:hover > svg {
+  opacity: 1;
+}
+.menu-pop button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.menu-pop button:disabled:hover {
+  background: transparent;
+  color: inherit;
 }

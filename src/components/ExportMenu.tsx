@@ -8,11 +8,12 @@ import {
   type SceneSnapshot,
 } from "../lib/export";
 import {
-  CaretDown,
-  FileImage,
-  FilePdf,
-  FileSvg,
-  PencilSimpleLine,
+  ChevronDown,
+  FiletypeJpg,
+  FiletypePdf,
+  FiletypePng,
+  FiletypeSvg,
+  PencilSquare,
 } from "./icons";
 
 type Props = {
@@ -42,34 +43,34 @@ export function ExportMenu({ getScene, dark }: Props) {
     <div className="menu-anchor">
       <button
         type="button"
-        className="app-btn"
+        className={`app-btn${open ? " is-active" : ""}`}
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
       >
         Export
-        <CaretDown size={18} weight="bold" className="app-chevron" aria-hidden />
+        <ChevronDown size={16} className="app-chevron" />
       </button>
       {open ? (
         <div className={`menu-pop${dark ? " dark" : ""}`} role="menu">
           <button onClick={() => run(exportExcalidraw)} disabled={busy}>
-            <PencilSimpleLine size={22} weight="fill" aria-hidden />
+            <PencilSquare size={20} />
             Excalidraw (.excalidraw)
           </button>
           <button onClick={() => run(exportPng)} disabled={busy}>
-            <FileImage size={22} weight="fill" aria-hidden />
+            <FiletypePng size={20} />
             PNG
           </button>
           <button onClick={() => run(exportJpeg)} disabled={busy}>
-            <FileImage size={22} weight="fill" aria-hidden />
+            <FiletypeJpg size={20} />
             JPEG
           </button>
           <button onClick={() => run(exportSvg)} disabled={busy}>
-            <FileSvg size={22} weight="fill" aria-hidden />
+            <FiletypeSvg size={20} />
             SVG
           </button>
           <button onClick={() => run(exportPdf)} disabled={busy}>
-            <FilePdf size={22} weight="fill" aria-hidden />
+            <FiletypePdf size={20} />
             PDF
           </button>
           {error ? (

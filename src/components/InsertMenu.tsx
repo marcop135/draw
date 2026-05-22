@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  CaretDown,
-  FunctionIcon,
-  GraphIcon,
-  MarkdownLogo,
-} from "./icons";
+import { BracesAsterisk, ChevronDown, Diagram3, Markdown } from "./icons";
 
 type InsertKind = "latex" | "mermaid" | "markdown";
 
@@ -19,26 +14,26 @@ export function InsertMenu({ onPick, dark }: Props) {
     <div className="menu-anchor">
       <button
         type="button"
-        className="app-btn"
+        className={`app-btn${open ? " is-active" : ""}`}
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
       >
         Insert
-        <CaretDown size={18} weight="bold" className="app-chevron" aria-hidden />
+        <ChevronDown size={16} className="app-chevron" />
       </button>
       {open ? (
         <div className={`menu-pop${dark ? " dark" : ""}`} role="menu">
           <button onClick={() => { onPick("latex"); setOpen(false); }}>
-            <FunctionIcon size={22} weight="bold" aria-hidden />
+            <BracesAsterisk size={20} />
             LaTeX
           </button>
           <button onClick={() => { onPick("mermaid"); setOpen(false); }}>
-            <GraphIcon size={22} weight="bold" aria-hidden />
+            <Diagram3 size={20} />
             Mermaid
           </button>
           <button onClick={() => { onPick("markdown"); setOpen(false); }}>
-            <MarkdownLogo size={22} weight="bold" aria-hidden />
+            <Markdown size={20} />
             Markdown
           </button>
         </div>

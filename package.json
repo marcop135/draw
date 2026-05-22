@@ -24,7 +24,7 @@
     "@excalidraw/excalidraw": "^0.18.1",
     "@excalidraw/mermaid-to-excalidraw": "^2.2.2",
     "@fontsource/roboto": "^5.2.10",
-    "@phosphor-icons/react": "^2.1.10",
+    "bootstrap-icons": "^1.13.1",
     "dompurify": "^3.4.1",
     "jspdf": "^4.2.1",
     "katex": "^0.16.47",

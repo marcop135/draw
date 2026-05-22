@@ -1,5 +1,5 @@
 import { PROJECT_SOURCE_URL } from "../siteMeta";
-import { GithubLogo } from "./icons";
+import { Github } from "./icons";
 
 type Props = { dark: boolean };
 
@@ -14,7 +14,7 @@ export function GitHubCornerLink({ dark }: Props) {
       aria-label="Source code on GitHub"
       title="Source on GitHub"
     >
-      <GithubLogo size={22} weight="regular" aria-hidden />
+      <Github size={20} />
     </a>
   );
 }
