@@ -1,14 +1,17 @@
 import { useState } from "react";
 import {
+  copyPngToClipboard,
   exportExcalidraw,
   exportPng,
   exportJpeg,
   exportSvg,
   exportPdf,
+  type PdfOrientation,
   type SceneSnapshot,
 } from "../lib/export";
 import {
   ChevronDown,
+  Clipboard,
   Download,
   FiletypeJpg,
   FiletypePdf,
@@ -22,10 +25,17 @@ type Props = {
   dark: boolean;
 };
 
+const clipboardSupported =
+  typeof navigator !== "undefined" &&
+  !!navigator.clipboard &&
+  typeof navigator.clipboard.write === "function" &&
+  typeof ClipboardItem !== "undefined";
+
 export function ExportMenu({ getScene, dark }: Props) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [orientation, setOrientation] = useState<PdfOrientation>("auto");
 
   async function run(fn: (s: SceneSnapshot) => Promise<void>) {
     setBusy(true);
@@ -63,6 +73,18 @@ export function ExportMenu({ getScene, dark }: Props) {
             <FiletypePng size={20} />
             PNG
           </button>
+          <button
+            onClick={() => run(copyPngToClipboard)}
+            disabled={busy || !clipboardSupported}
+            title={
+              clipboardSupported
+                ? "Copy a PNG of the canvas to the clipboard"
+                : "Clipboard image copy not supported in this browser"
+            }
+          >
+            <Clipboard size={20} />
+            Copy PNG to clipboard
+          </button>
           <button onClick={() => run(exportJpeg)} disabled={busy}>
             <FiletypeJpg size={20} />
             JPEG
@@ -71,10 +93,27 @@ export function ExportMenu({ getScene, dark }: Props) {
             <FiletypeSvg size={20} />
             SVG
           </button>
-          <button onClick={() => run(exportPdf)} disabled={busy}>
+          <button
+            onClick={() => run((s) => exportPdf(s, orientation))}
+            disabled={busy}
+          >
             <FiletypePdf size={20} />
             PDF
           </button>
+          <div className="menu-pop-row" role="group" aria-label="PDF orientation">
+            <span className="menu-pop-label">PDF</span>
+            {(["auto", "portrait", "landscape"] as PdfOrientation[]).map((o) => (
+              <button
+                key={o}
+                type="button"
+                className={`menu-pop-pill${orientation === o ? " is-active" : ""}`}
+                onClick={() => setOrientation(o)}
+                aria-pressed={orientation === o}
+              >
+                {o}
+              </button>
+            ))}
+          </div>
           {error ? (
             <p className="app-error" style={{ padding: "6px 12px" }}>
               {error}
