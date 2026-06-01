@@ -2,6 +2,17 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; add **(WIP)** for incomplete work.
 
+## [1.3.0] - 2026-06-01
+
+- **Feat:** Local autosave. Scenes are debounced-persisted to `localStorage` under `draw:scene:v1`; on reload a restore chip in the top-left offers Restore or Discard. Empty / deleted-only scenes are not persisted, and quota or private-mode failures are silently dropped so the in-memory canvas is never affected.
+- **Feat:** Theme toggle chip in the floating toolbar cycling `light` -> `dark` -> `system`, persisted under `draw:theme:v1`. A `matchMedia` listener keeps `system` tracking the OS theme live, replacing the prior implicit Excalidraw-only theme handling.
+- **Feat:** About modal triggered by the version chip (now a button); reuses the existing `Modal` component and links to repo, CHANGELOG, and MIT license.
+- **Feat:** Export popup gains a "Copy PNG to clipboard" action (disabled with explanatory tooltip where `ClipboardItem` is unavailable, e.g. older Safari).
+- **Enhance:** Export popup gains an `auto` / `portrait` / `landscape` segmented control for PDF; auto preserves the existing canvas-ratio derivation, forced orientations swap the page format and center the raster.
+- **CI:** Tighten `.github/dependabot.yml` with an `ignore` block for `version-update:semver-major` on the npm ecosystem so individual major bumps stop being opened. Minor and patch groups unchanged.
+- **Build:** Bump `dompurify` to 3.4.7 (deps + overrides), `marked` to 18.0.4, `vite` to 6.4.3, `@playwright/test` to 1.60.0, `@types/react` to 19.2.15, `@typescript-eslint/*` to 8.59.4, `eslint-plugin-react-refresh` to 0.5.2, and `vite-plugin-pwa` to 1.3.0 (Dependabot dev group #45).
+- **Sec:** Add scoped `@typescript-eslint/typescript-estree` -> `brace-expansion` `^5.0.6` override and `ws` `^8.20.1` override to clear two moderate transitive advisories (GHSA-jxxr-4gwj-5jf2, GHSA-58qx-3vcg-4xpx).
+
 ## [1.2.0] - 2026-05-22
 
 - **Style:** Hide the built-in Library sidebar trigger and the welcome-screen logo, tagline, and Open/Help menu so the canvas starts clean; keep the three arrow hints (menu, toolbar, help) for first-time orientation.
