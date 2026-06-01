@@ -161,12 +161,12 @@ export default function App() {
           },
         }}
         onChange={(elements, appState, files) => {
-          if (appState.theme === "dark" && preference !== "dark") {
-            setPreference("dark");
-            savePreference("dark");
-          } else if (appState.theme === "light" && preference !== "light") {
-            setPreference("light");
-            savePreference("light");
+          // Only treat appState.theme as a user-initiated change if it diverges
+          // from our current resolved theme; otherwise we'd clobber a "system"
+          // preference back to its resolved value on every Excalidraw render.
+          if (appState.theme && appState.theme !== theme) {
+            setPreference(appState.theme);
+            savePreference(appState.theme);
           }
           if (saveTimer.current !== null) {
             window.clearTimeout(saveTimer.current);
@@ -176,7 +176,11 @@ export default function App() {
           }, AUTOSAVE_DEBOUNCE_MS);
         }}
       >
-        <WelcomeScreen />
+        <WelcomeScreen>
+          <WelcomeScreen.Hints.MenuHint />
+          <WelcomeScreen.Hints.ToolbarHint />
+          <WelcomeScreen.Hints.HelpHint />
+        </WelcomeScreen>
         <MainMenu>
           <MainMenu.DefaultItems.LoadScene />
           <MainMenu.DefaultItems.CommandPalette />

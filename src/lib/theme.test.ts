@@ -60,9 +60,9 @@ describe("theme", () => {
     expect(resolveTheme("system")).toBe("dark");
   });
 
-  it("nextPreference cycles light -> dark -> system -> light", () => {
+  it("nextPreference cycles system -> light -> dark -> system", () => {
+    expect(nextPreference("system")).toBe("light");
     expect(nextPreference("light")).toBe("dark");
     expect(nextPreference("dark")).toBe("system");
-    expect(nextPreference("system")).toBe("light");
   });
 });

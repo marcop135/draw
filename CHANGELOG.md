@@ -5,7 +5,8 @@
 ## [1.3.0] - 2026-06-01
 
 - **Feat:** Local autosave. Scenes are debounced-persisted to `localStorage` under `draw:scene:v1`; on reload a restore chip in the top-left offers Restore or Discard. Empty / deleted-only scenes are not persisted, and quota or private-mode failures are silently dropped so the in-memory canvas is never affected.
-- **Feat:** Theme toggle chip in the floating toolbar cycling `light` -> `dark` -> `system`, persisted under `draw:theme:v1`. A `matchMedia` listener keeps `system` tracking the OS theme live, replacing the prior implicit Excalidraw-only theme handling.
+- **Feat:** Theme toggle chip in the floating toolbar cycling `system` -> `light` -> `dark`, persisted under `draw:theme:v1`. A `matchMedia` listener keeps `system` tracking the OS theme live, replacing the prior implicit Excalidraw-only theme handling. The toolbar's preference is the source of truth; Excalidraw's own theme toggle is treated as a user action only when it diverges from our resolved theme, which prevents the `system` choice from being clobbered back to its resolved value.
+- **Style:** Restore the three hand-drawn Excalidraw hint arrows (menu, toolbar, help) on first load by passing explicit `WelcomeScreen.Hints` children; the centered logo and tagline remain hidden via CSS. Earlier the empty `<WelcomeScreen />` had also dropped the hint arrows.
 - **Feat:** About modal triggered by the version chip (now a button); reuses the existing `Modal` component and links to repo, CHANGELOG, and MIT license.
 - **Feat:** Export popup gains a "Copy PNG to clipboard" action (disabled with explanatory tooltip where `ClipboardItem` is unavailable, e.g. older Safari).
 - **Enhance:** Export popup gains an `auto` / `portrait` / `landscape` segmented control for PDF; auto preserves the existing canvas-ratio derivation, forced orientations swap the page format and center the raster.

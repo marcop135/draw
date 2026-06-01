@@ -43,7 +43,7 @@ export function resolveTheme(pref: ThemePreference): ResolvedTheme {
 }
 
 export function nextPreference(pref: ThemePreference): ThemePreference {
+  if (pref === "system") return "light";
   if (pref === "light") return "dark";
-  if (pref === "dark") return "system";
-  return "light";
+  return "system";
 }
