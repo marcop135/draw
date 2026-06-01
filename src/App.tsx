@@ -161,13 +161,6 @@ export default function App() {
           },
         }}
         onChange={(elements, appState, files) => {
-          // Only treat appState.theme as a user-initiated change if it diverges
-          // from our current resolved theme; otherwise we'd clobber a "system"
-          // preference back to its resolved value on every Excalidraw render.
-          if (appState.theme && appState.theme !== theme) {
-            setPreference(appState.theme);
-            savePreference(appState.theme);
-          }
           if (saveTimer.current !== null) {
             window.clearTimeout(saveTimer.current);
           }
@@ -176,11 +169,7 @@ export default function App() {
           }, AUTOSAVE_DEBOUNCE_MS);
         }}
       >
-        <WelcomeScreen>
-          <WelcomeScreen.Hints.MenuHint />
-          <WelcomeScreen.Hints.ToolbarHint />
-          <WelcomeScreen.Hints.HelpHint />
-        </WelcomeScreen>
+        <WelcomeScreen />
         <MainMenu>
           <MainMenu.DefaultItems.LoadScene />
           <MainMenu.DefaultItems.CommandPalette />
@@ -201,12 +190,12 @@ export default function App() {
         >
           v{APP_VERSION}
         </button>
-        <ThemeToggle preference={preference} onCycle={onCycleTheme} />
         <InsertMenu
           dark={theme === "dark"}
           onPick={(k) => setModal(k)}
         />
         <ExportMenu getScene={getScene} dark={theme === "dark"} />
+        <ThemeToggle preference={preference} onCycle={onCycleTheme} />
         <GitHubCornerLink dark={theme === "dark"} />
       </div>
 

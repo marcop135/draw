@@ -104,7 +104,6 @@ body,
    with the centered toolbar. On phones (<=640) the bar moves bottom-right,
    keeping icon-only for a clean compact strip matching the desktop icons. */
 @media (max-width: 1299px) {
-  .app-toolbar .version-chip,
   .app-toolbar .app-btn-label,
   .app-toolbar .app-chevron {
     display: none;
@@ -220,18 +219,28 @@ body,
   color: var(--ui-accent-fg);
 }
 
-.menu-pop-row {
+.menu-pop-pdf {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 8px 6px;
-  border-top: 1px solid var(--ui-border);
-  margin-top: 4px;
+  gap: 6px;
+  padding: 10px 12px;
+  min-height: 40px;
+  border-radius: var(--ui-radius-sm);
 }
-.menu-pop-label {
-  font-size: 11px;
-  color: var(--ui-muted);
+.menu-pop-pdf > svg {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+.menu-pop-pdf-label {
+  flex: 0 0 auto;
+  font-size: 13px;
   margin-right: 4px;
+}
+@media (max-width: 640px) {
+  .menu-pop-pdf {
+    padding: 12px 12px;
+    min-height: 44px;
+  }
 }
 .menu-pop-pill {
   font: inherit;
@@ -252,14 +261,16 @@ body,
 .menu-pop-pill:hover {
   background: var(--ui-bg-hover);
 }
-.menu-pop-pill.is-active {
-  background: var(--ui-accent-bg);
-  color: var(--ui-accent-fg);
-  border-color: transparent;
-}
 .menu-pop-pill:focus-visible {
   outline: 2px solid var(--ui-focus);
   outline-offset: 1px;
+}
+.menu-pop-pill:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.menu-pop-pill:disabled:hover {
+  background: var(--ui-bg-solid);
 }
 
 .app-chevron {

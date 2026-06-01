@@ -6,7 +6,6 @@ import {
   exportJpeg,
   exportSvg,
   exportPdf,
-  type PdfOrientation,
   type SceneSnapshot,
 } from "../lib/export";
 import {
@@ -35,7 +34,6 @@ export function ExportMenu({ getScene, dark }: Props) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [orientation, setOrientation] = useState<PdfOrientation>("auto");
 
   async function run(fn: (s: SceneSnapshot) => Promise<void>) {
     setBusy(true);
@@ -93,26 +91,36 @@ export function ExportMenu({ getScene, dark }: Props) {
             <FiletypeSvg size={20} />
             SVG
           </button>
-          <button
-            onClick={() => run((s) => exportPdf(s, orientation))}
-            disabled={busy}
-          >
+          <div className="menu-pop-pdf" role="group" aria-label="Export PDF">
             <FiletypePdf size={20} />
-            PDF
-          </button>
-          <div className="menu-pop-row" role="group" aria-label="PDF orientation">
-            <span className="menu-pop-label">PDF</span>
-            {(["auto", "portrait", "landscape"] as PdfOrientation[]).map((o) => (
-              <button
-                key={o}
-                type="button"
-                className={`menu-pop-pill${orientation === o ? " is-active" : ""}`}
-                onClick={() => setOrientation(o)}
-                aria-pressed={orientation === o}
-              >
-                {o}
-              </button>
-            ))}
+            <span className="menu-pop-pdf-label">PDF</span>
+            <button
+              type="button"
+              className="menu-pop-pill"
+              onClick={() => run((s) => exportPdf(s, "auto"))}
+              disabled={busy}
+              title="Export PDF, orientation derived from canvas ratio"
+            >
+              auto
+            </button>
+            <button
+              type="button"
+              className="menu-pop-pill"
+              onClick={() => run((s) => exportPdf(s, "portrait"))}
+              disabled={busy}
+              title="Export PDF in portrait orientation"
+            >
+              portrait
+            </button>
+            <button
+              type="button"
+              className="menu-pop-pill"
+              onClick={() => run((s) => exportPdf(s, "landscape"))}
+              disabled={busy}
+              title="Export PDF in landscape orientation"
+            >
+              landscape
+            </button>
           </div>
           {error ? (
             <p className="app-error" style={{ padding: "6px 12px" }}>

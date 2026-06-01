@@ -1,18 +1,28 @@
 # Changelog
 
-**Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; add **(WIP)** for incomplete work.
+**Format:** Based on [Keep a Changelog](https://keepachangelog.com).
+
+**Voice:** Use the imperative, like a commit message. Write add, fix, increase, force, not added, fixed, increased, forced.
+
+**Length:** Keep each bullet on one line, max 120 characters (link URLs do not count toward the cap, only the visible text does).
+
+**Links:** Add inline markdown links for related PRs, docs, and external references when they help the reader.
+
+**Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
 ## [1.3.0] - 2026-06-01
 
-- **Feat:** Local autosave. Scenes are debounced-persisted to `localStorage` under `draw:scene:v1`; on reload a restore chip in the top-left offers Restore or Discard. Empty / deleted-only scenes are not persisted, and quota or private-mode failures are silently dropped so the in-memory canvas is never affected.
-- **Feat:** Theme toggle chip in the floating toolbar cycling `system` -> `light` -> `dark`, persisted under `draw:theme:v1`. A `matchMedia` listener keeps `system` tracking the OS theme live, replacing the prior implicit Excalidraw-only theme handling. The toolbar's preference is the source of truth; Excalidraw's own theme toggle is treated as a user action only when it diverges from our resolved theme, which prevents the `system` choice from being clobbered back to its resolved value.
-- **Style:** Restore the three hand-drawn Excalidraw hint arrows (menu, toolbar, help) on first load by passing explicit `WelcomeScreen.Hints` children; the centered logo and tagline remain hidden via CSS. Earlier the empty `<WelcomeScreen />` had also dropped the hint arrows.
-- **Feat:** About modal triggered by the version chip (now a button); reuses the existing `Modal` component and links to repo, CHANGELOG, and MIT license.
-- **Feat:** Export popup gains a "Copy PNG to clipboard" action (disabled with explanatory tooltip where `ClipboardItem` is unavailable, e.g. older Safari).
-- **Enhance:** Export popup gains an `auto` / `portrait` / `landscape` segmented control for PDF; auto preserves the existing canvas-ratio derivation, forced orientations swap the page format and center the raster.
-- **CI:** Tighten `.github/dependabot.yml` with an `ignore` block for `version-update:semver-major` on the npm ecosystem so individual major bumps stop being opened. Minor and patch groups unchanged.
-- **Build:** Bump `dompurify` to 3.4.7 (deps + overrides), `marked` to 18.0.4, `vite` to 6.4.3, `@playwright/test` to 1.60.0, `@types/react` to 19.2.15, `@typescript-eslint/*` to 8.59.4, `eslint-plugin-react-refresh` to 0.5.2, and `vite-plugin-pwa` to 1.3.0 (Dependabot dev group #45).
-- **Sec:** Add scoped `@typescript-eslint/typescript-estree` -> `brace-expansion` `^5.0.6` override and `ws` `^8.20.1` override to clear two moderate transitive advisories (GHSA-jxxr-4gwj-5jf2, GHSA-58qx-3vcg-4xpx).
+- **Feat:** Add debounced scene autosave to `localStorage`; on reload show a top-left chip offering Restore or Discard.
+- **Feat:** Add a toolbar theme chip cycling `system` -> `light` -> `dark`, persisted and tracking OS theme via `matchMedia`.
+- **Feat:** Open an About modal from the version chip with version, repo, changelog, and MIT license links.
+- **Feat:** Add Copy PNG to clipboard in the Export popup; disable when `ClipboardItem` is unavailable.
+- **Feat:** Add PDF orientation auto, portrait, and landscape as three one-click pills in a single PDF export row.
+- **Enhance:** Show the version chip at all viewport widths above 420px; previously the 1300px icon-only rule hid it.
+- **Style:** Move the theme chip between Export and the GitHub corner link in the floating toolbar.
+- **CI:** Add `version-update:semver-major` to the [Dependabot ignore list](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot-yml-file#ignore) so single-major PRs stop opening.
+- **Build:** Bump `dompurify` to 3.4.7, `marked` to 18.0.4, and `vite` to 6.4.3.
+- **Build:** Bump 7 dev dependencies via Dependabot group PR ([#45](https://github.com/marcop135/draw/pull/45)).
+- **Sec:** Override `brace-expansion` `^5.0.6` (scoped) and `ws` `^8.20.1` to clear [GHSA-jxxr-4gwj-5jf2](https://github.com/advisories/GHSA-jxxr-4gwj-5jf2) and [GHSA-58qx-3vcg-4xpx](https://github.com/advisories/GHSA-58qx-3vcg-4xpx).
 
 ## [1.2.0] - 2026-05-22
 
