@@ -72,7 +72,12 @@ export async function exportSvg(scene: SceneSnapshot): Promise<void> {
   downloadBlob(blob, timestampedFilename("svg"));
 }
 
-export async function exportPdf(scene: SceneSnapshot): Promise<void> {
+export type PdfOrientation = "auto" | "portrait" | "landscape";
+
+export async function exportPdf(
+  scene: SceneSnapshot,
+  orientation: PdfOrientation = "auto",
+): Promise<void> {
   if (!isExportable(scene.elements)) throw new Error("Canvas is empty.");
   const svg = await getSvg(scene);
   const widthAttr = parseFloat(svg.getAttribute("width") ?? "0");
@@ -92,11 +97,18 @@ export async function exportPdf(scene: SceneSnapshot): Promise<void> {
     height = 600;
   }
 
-  const orientation = width >= height ? "landscape" : "portrait";
+  const auto: "landscape" | "portrait" = width >= height ? "landscape" : "portrait";
+  const resolved: "landscape" | "portrait" =
+    orientation === "auto" ? auto : orientation;
+  // When forcing the opposite orientation, swap the page format so the PNG
+  // still fills the page without letterboxing.
+  const [pageW, pageH] =
+    resolved === auto ? [width, height] : [height, width];
+
   const doc = new jsPDF({
-    orientation,
+    orientation: resolved,
     unit: "px",
-    format: [width, height],
+    format: [pageW, pageH],
     hotfixes: ["px_scaling"],
   });
 
@@ -109,9 +121,36 @@ export async function exportPdf(scene: SceneSnapshot): Promise<void> {
     exportPadding: 16,
   });
   const dataUrl = await blobToDataUrl(png);
-  // Match scaling so the PNG fills the page at the SVG's intrinsic size.
-  doc.addImage(dataUrl, "PNG", 0, 0, width, height, undefined, "FAST");
+  // Center the canvas raster on the page; preserves aspect when orientation
+  // is forced opposite the natural one.
+  const scale = Math.min(pageW / width, pageH / height);
+  const drawW = width * scale;
+  const drawH = height * scale;
+  const offsetX = (pageW - drawW) / 2;
+  const offsetY = (pageH - drawH) / 2;
+  doc.addImage(dataUrl, "PNG", offsetX, offsetY, drawW, drawH, undefined, "FAST");
   doc.save(timestampedFilename("pdf"));
+}
+
+export async function copyPngToClipboard(scene: SceneSnapshot): Promise<void> {
+  if (!isExportable(scene.elements)) throw new Error("Canvas is empty.");
+  if (
+    typeof navigator === "undefined" ||
+    !navigator.clipboard ||
+    typeof navigator.clipboard.write !== "function" ||
+    typeof ClipboardItem === "undefined"
+  ) {
+    throw new Error("Clipboard image copy is not supported in this browser.");
+  }
+  const blob = await exportToBlob({
+    elements: scene.elements,
+    appState: baseAppState(scene.appState),
+    files: scene.files,
+    mimeType: "image/png",
+  });
+  await navigator.clipboard.write([
+    new ClipboardItem({ "image/png": blob }),
+  ]);
 }
 
 /**

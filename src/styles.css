@@ -104,7 +104,6 @@ body,
    with the centered toolbar. On phones (<=640) the bar moves bottom-right,
    keeping icon-only for a clean compact strip matching the desktop icons. */
 @media (max-width: 1299px) {
-  .app-toolbar .version-chip,
   .app-toolbar .app-btn-label,
   .app-toolbar .app-chevron {
     display: none;
@@ -131,16 +130,147 @@ body,
 .version-chip {
   align-self: center;
   margin: 0 4px 0 2px;
+  padding: 2px 4px;
   color: var(--ui-muted);
+  font: inherit;
   font-weight: 400;
   font-size: 11px;
   letter-spacing: 0.01em;
   font-variant-numeric: tabular-nums;
+  background: none;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.version-chip:hover {
+  color: var(--ui-fg);
+  background: var(--ui-bg-hover);
+}
+.version-chip:focus-visible {
+  outline: 2px solid var(--ui-focus);
+  outline-offset: 1px;
 }
 @media (max-width: 420px) {
   .version-chip {
     display: none;
   }
+}
+
+.theme-toggle {
+  padding: 0;
+  width: var(--ui-btn-size);
+  justify-content: center;
+}
+
+.restore-chip {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 9;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px 6px 12px;
+  background: var(--ui-bg);
+  color: var(--ui-fg);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  box-shadow: var(--ui-shadow);
+  backdrop-filter: blur(6px);
+  font-size: 13px;
+}
+.restore-chip .app-btn {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+.restore-chip-primary {
+  background: var(--ui-accent-bg);
+  color: var(--ui-accent-fg);
+  border-color: transparent;
+}
+@media (max-width: 640px) {
+  .restore-chip {
+    top: 12px;
+    left: 8px;
+    right: 8px;
+    justify-content: center;
+  }
+}
+
+.about-list {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px 14px;
+  margin: 6px 0 0;
+  font-size: 13px;
+}
+.about-list dt {
+  color: var(--ui-muted);
+  font-weight: 500;
+}
+.about-list dd {
+  margin: 0;
+  word-break: break-all;
+}
+.about-list a {
+  color: var(--ui-accent-fg);
+}
+
+.menu-pop-pdf {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  min-height: 40px;
+  border-radius: var(--ui-radius-sm);
+}
+.menu-pop-pdf > svg {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+.menu-pop-pdf-label {
+  flex: 0 0 auto;
+  font-size: 13px;
+  margin-right: 4px;
+}
+@media (max-width: 640px) {
+  .menu-pop-pdf {
+    padding: 12px 12px;
+    min-height: 44px;
+  }
+}
+.menu-pop-pill {
+  font: inherit;
+  font-size: 11px;
+  padding: 3px 8px;
+  height: 24px;
+  border: 1px solid var(--ui-border);
+  border-radius: 999px;
+  background: var(--ui-bg-solid);
+  color: var(--ui-fg);
+  cursor: pointer;
+  text-transform: capitalize;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease,
+    border-color 120ms ease;
+}
+.menu-pop-pill:hover {
+  background: var(--ui-bg-hover);
+}
+.menu-pop-pill:focus-visible {
+  outline: 2px solid var(--ui-focus);
+  outline-offset: 1px;
+}
+.menu-pop-pill:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.menu-pop-pill:disabled:hover {
+  background: var(--ui-bg-solid);
 }
 
 .app-chevron {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  copyPngToClipboard,
   exportExcalidraw,
   exportPng,
   exportJpeg,
@@ -9,6 +10,7 @@ import {
 } from "../lib/export";
 import {
   ChevronDown,
+  Clipboard,
   Download,
   FiletypeJpg,
   FiletypePdf,
@@ -21,6 +23,12 @@ type Props = {
   getScene: () => SceneSnapshot;
   dark: boolean;
 };
+
+const clipboardSupported =
+  typeof navigator !== "undefined" &&
+  !!navigator.clipboard &&
+  typeof navigator.clipboard.write === "function" &&
+  typeof ClipboardItem !== "undefined";
 
 export function ExportMenu({ getScene, dark }: Props) {
   const [open, setOpen] = useState(false);
@@ -63,6 +71,18 @@ export function ExportMenu({ getScene, dark }: Props) {
             <FiletypePng size={20} />
             PNG
           </button>
+          <button
+            onClick={() => run(copyPngToClipboard)}
+            disabled={busy || !clipboardSupported}
+            title={
+              clipboardSupported
+                ? "Copy a PNG of the canvas to the clipboard"
+                : "Clipboard image copy not supported in this browser"
+            }
+          >
+            <Clipboard size={20} />
+            Copy PNG to clipboard
+          </button>
           <button onClick={() => run(exportJpeg)} disabled={busy}>
             <FiletypeJpg size={20} />
             JPEG
@@ -71,10 +91,37 @@ export function ExportMenu({ getScene, dark }: Props) {
             <FiletypeSvg size={20} />
             SVG
           </button>
-          <button onClick={() => run(exportPdf)} disabled={busy}>
+          <div className="menu-pop-pdf" role="group" aria-label="Export PDF">
             <FiletypePdf size={20} />
-            PDF
-          </button>
+            <span className="menu-pop-pdf-label">PDF</span>
+            <button
+              type="button"
+              className="menu-pop-pill"
+              onClick={() => run((s) => exportPdf(s, "auto"))}
+              disabled={busy}
+              title="Export PDF, orientation derived from canvas ratio"
+            >
+              auto
+            </button>
+            <button
+              type="button"
+              className="menu-pop-pill"
+              onClick={() => run((s) => exportPdf(s, "portrait"))}
+              disabled={busy}
+              title="Export PDF in portrait orientation"
+            >
+              portrait
+            </button>
+            <button
+              type="button"
+              className="menu-pop-pill"
+              onClick={() => run((s) => exportPdf(s, "landscape"))}
+              disabled={busy}
+              title="Export PDF in landscape orientation"
+            >
+              landscape
+            </button>
+          </div>
           {error ? (
             <p className="app-error" style={{ padding: "6px 12px" }}>
               {error}

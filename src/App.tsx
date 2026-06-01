@@ -1,4 +1,12 @@
-import { lazy, Suspense, useCallback, useRef, useState } from "react";
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Excalidraw, MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
 import "@excalidraw/excalidraw/index.css";
 import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
@@ -6,10 +14,25 @@ import type { SceneSnapshot } from "./lib/export";
 import { ExportMenu } from "./components/ExportMenu";
 import { GitHubCornerLink } from "./components/GitHubCornerLink";
 import { InsertMenu } from "./components/InsertMenu";
+import { RestoreChip } from "./components/RestoreChip";
+import { ThemeToggle } from "./components/ThemeToggle";
+import {
+  clearSnapshot,
+  loadSnapshot,
+  saveSnapshot,
+  type PersistedSnapshot,
+} from "./lib/persist";
+import {
+  loadPreference,
+  nextPreference,
+  resolveTheme,
+  savePreference,
+  systemTheme,
+  type ResolvedTheme,
+  type ThemePreference,
+} from "./lib/theme";
 import { version as APP_VERSION } from "../package.json";
 
-// Heavy modals: split out so the Mermaid parser, KaTeX, and marked/DOMPurify
-// only ship to clients who actually click "Insert".
 const LatexModal = lazy(() =>
   import("./components/LatexModal").then((m) => ({ default: m.LatexModal })),
 );
@@ -21,13 +44,45 @@ const MarkdownModal = lazy(() =>
     default: m.MarkdownModal,
   })),
 );
+const AboutModal = lazy(() =>
+  import("./components/AboutModal").then((m) => ({ default: m.AboutModal })),
+);
 
 type ModalKind = null | "latex" | "mermaid" | "markdown";
+
+const AUTOSAVE_DEBOUNCE_MS = 800;
 
 export default function App() {
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null);
   const [modal, setModal] = useState<ModalKind>(null);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [aboutOpen, setAboutOpen] = useState(false);
+
+  const [preference, setPreference] = useState<ThemePreference>(() =>
+    loadPreference(),
+  );
+  const [resolvedSystem, setResolvedSystem] = useState<ResolvedTheme>(() =>
+    systemTheme(),
+  );
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    const handler = (e: MediaQueryListEvent) => {
+      setResolvedSystem(e.matches ? "dark" : "light");
+    };
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+
+  const theme: ResolvedTheme = useMemo(
+    () => (preference === "system" ? resolvedSystem : resolveTheme(preference)),
+    [preference, resolvedSystem],
+  );
+
+  const restored = useRef(false);
+  const [pendingRestore, setPendingRestore] = useState<PersistedSnapshot | null>(
+    () => loadSnapshot(),
+  );
 
   const getScene = useCallback((): SceneSnapshot => {
     const api = apiRef.current;
@@ -39,6 +94,45 @@ export default function App() {
       appState: api.getAppState(),
       files: api.getFiles(),
     };
+  }, []);
+
+  const saveTimer = useRef<number | null>(null);
+  useEffect(() => {
+    return () => {
+      if (saveTimer.current !== null) {
+        window.clearTimeout(saveTimer.current);
+      }
+    };
+  }, []);
+
+  const onCycleTheme = useCallback(() => {
+    setPreference((prev) => {
+      const next = nextPreference(prev);
+      savePreference(next);
+      return next;
+    });
+  }, []);
+
+  const onRestore = useCallback(() => {
+    const api = apiRef.current;
+    const snap = pendingRestore;
+    if (!api || !snap) {
+      setPendingRestore(null);
+      return;
+    }
+    api.updateScene({
+      elements: snap.elements,
+    });
+    if (snap.files && Object.keys(snap.files).length > 0) {
+      api.addFiles(Object.values(snap.files));
+    }
+    restored.current = true;
+    setPendingRestore(null);
+  }, [pendingRestore]);
+
+  const onDiscard = useCallback(() => {
+    clearSnapshot();
+    setPendingRestore(null);
   }, []);
 
   return (
@@ -66,15 +160,15 @@ export default function App() {
             saveAsImage: false,
           },
         }}
-        onChange={(_els, appState) => {
-          if (appState.theme && appState.theme !== theme) {
-            setTheme(appState.theme);
+        onChange={(elements, appState, files) => {
+          if (saveTimer.current !== null) {
+            window.clearTimeout(saveTimer.current);
           }
+          saveTimer.current = window.setTimeout(() => {
+            saveSnapshot({ elements, appState, files });
+          }, AUTOSAVE_DEBOUNCE_MS);
         }}
       >
-        {/* Empty WelcomeScreen suppresses the default right-edge book/lock/hand
-            hint strip; the remaining center logo + tagline + arrow hints are
-            hidden via .excalidraw .welcome-screen-decor in styles.css. */}
         <WelcomeScreen />
         <MainMenu>
           <MainMenu.DefaultItems.LoadScene />
@@ -88,16 +182,26 @@ export default function App() {
         </MainMenu>
       </Excalidraw>
       <div className="app-toolbar">
-        <small className="version-chip" title={`draw v${APP_VERSION}`}>
+        <button
+          type="button"
+          className="version-chip"
+          title={`About draw v${APP_VERSION}`}
+          onClick={() => setAboutOpen(true)}
+        >
           v{APP_VERSION}
-        </small>
+        </button>
         <InsertMenu
           dark={theme === "dark"}
           onPick={(k) => setModal(k)}
         />
         <ExportMenu getScene={getScene} dark={theme === "dark"} />
+        <ThemeToggle preference={preference} onCycle={onCycleTheme} />
         <GitHubCornerLink dark={theme === "dark"} />
       </div>
+
+      {pendingRestore ? (
+        <RestoreChip onRestore={onRestore} onDiscard={onDiscard} />
+      ) : null}
 
       <Suspense fallback={null}>
         {modal === "latex" && apiRef.current ? (
@@ -109,6 +213,7 @@ export default function App() {
         {modal === "markdown" && apiRef.current ? (
           <MarkdownModal api={apiRef.current} onClose={() => setModal(null)} />
         ) : null}
+        {aboutOpen ? <AboutModal onClose={() => setAboutOpen(false)} /> : null}
       </Suspense>
     </div>
   );

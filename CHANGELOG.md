@@ -1,6 +1,28 @@
 # Changelog
 
-**Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; add **(WIP)** for incomplete work.
+**Format:** Based on [Keep a Changelog](https://keepachangelog.com).
+
+**Voice:** Use the imperative, like a commit message. Write add, fix, increase, force, not added, fixed, increased, forced.
+
+**Length:** Keep each bullet on one line, max 120 characters (link URLs do not count toward the cap, only the visible text does).
+
+**Links:** Add inline markdown links for related PRs, docs, and external references when they help the reader.
+
+**Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
+
+## [1.3.0] - 2026-06-01
+
+- **Feat:** Add debounced scene autosave to `localStorage`; on reload show a top-left chip offering Restore or Discard.
+- **Feat:** Add a toolbar theme chip cycling `system` -> `light` -> `dark`, persisted and tracking OS theme via `matchMedia`.
+- **Feat:** Open an About modal from the version chip with version, repo, changelog, and MIT license links.
+- **Feat:** Add Copy PNG to clipboard in the Export popup; disable when `ClipboardItem` is unavailable.
+- **Feat:** Add PDF orientation auto, portrait, and landscape as three one-click pills in a single PDF export row.
+- **Enhance:** Show the version chip at all viewport widths above 420px; previously the 1300px icon-only rule hid it.
+- **Style:** Move the theme chip between Export and the GitHub corner link in the floating toolbar.
+- **CI:** Add `version-update:semver-major` to the [Dependabot ignore list](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot-yml-file#ignore) so single-major PRs stop opening.
+- **Build:** Bump `dompurify` to 3.4.7, `marked` to 18.0.4, and `vite` to 6.4.3.
+- **Build:** Bump 7 dev dependencies via Dependabot group PR ([#45](https://github.com/marcop135/draw/pull/45)).
+- **Sec:** Override `brace-expansion` `^5.0.6` (scoped) and `ws` `^8.20.1` to clear [GHSA-jxxr-4gwj-5jf2](https://github.com/advisories/GHSA-jxxr-4gwj-5jf2) and [GHSA-58qx-3vcg-4xpx](https://github.com/advisories/GHSA-58qx-3vcg-4xpx).
 
 ## [1.2.0] - 2026-05-22
 
