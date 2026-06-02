@@ -10,6 +10,10 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [1.4.3] - 2026-06-02
+
+- **Fix:** Stop autosave from wiping the saved scene while a restore is pending, so a reload no longer silently loses unsaved work.
+
 ## [1.4.2] - 2026-06-02
 
 - **Docs:** Credit Excalidraw as the upstream library and md2pdf as a source of merged work; drop the author section.
