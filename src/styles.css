@@ -238,6 +238,12 @@ body,
   .app-help-btn {
     display: inline-flex;
   }
+  /* While a tool is active or something is selected, Excalidraw fills the bottom
+     bar with edit/duplicate/delete buttons. Hide the overlay then so the two
+     never collide; it returns once the canvas is back to empty selection. */
+  .app-toolbar--editing {
+    display: none;
+  }
 }
 @media (max-width: 640px) {
   /* Snug 32px-wide touch squares on phones (matching the native bar's button
@@ -559,13 +565,21 @@ body,
 /* Wherever the bar sits at the bottom (<=1023px), flip the popup upward and
    centre it over its anchor button so it never clips the viewport edge. */
 @media (max-width: 1023px) {
+  /* Drop the anchor's positioning context so the popup resolves against the
+     centred .app-toolbar instead of its own (left-of-centre) trigger button.
+     That centres the popup over the bar -- i.e. in the viewport -- so it no
+     longer drifts off the left edge and clips. */
+  .menu-anchor {
+    position: static;
+  }
   .menu-pop {
     top: auto;
-    bottom: calc(100% + 6px);
+    bottom: calc(100% + 10px);
     left: 50%;
     right: auto;
     transform: translateX(-50%);
     max-height: calc(100dvh - 140px);
+    max-width: calc(100vw - 16px);
   }
 }
 

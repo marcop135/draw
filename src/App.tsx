@@ -56,6 +56,10 @@ const EXCALIDRAW_URL = "https://excalidraw.com";
 export default function App() {
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null);
   const [modal, setModal] = useState<ModalKind>(null);
+  // On phones the custom bar overlays Excalidraw's bottom bar. That bar is only
+  // empty in selection mode with nothing selected; any other state fills it with
+  // edit/duplicate/delete buttons, so we hide our overlay then to avoid collisions.
+  const [barEditing, setBarEditing] = useState(false);
 
   const openHelp = useCallback(() => {
     apiRef.current?.updateScene({ appState: { openDialog: { name: "help" } } });
@@ -155,6 +159,10 @@ export default function App() {
           },
         }}
         onChange={(elements, appState, files) => {
+          const editing =
+            appState.activeTool.type !== "selection" ||
+            Object.keys(appState.selectedElementIds).length > 0;
+          setBarEditing((prev) => (prev === editing ? prev : editing));
           if (saveTimer.current !== null) {
             window.clearTimeout(saveTimer.current);
           }
@@ -185,7 +193,7 @@ export default function App() {
           </MainMenu.ItemCustom>
         </MainMenu>
       </Excalidraw>
-      <div className="app-toolbar">
+      <div className={`app-toolbar${barEditing ? " app-toolbar--editing" : ""}`}>
         <InsertMenu
           dark={theme === "dark"}
           onPick={(k) => setModal(k)}
