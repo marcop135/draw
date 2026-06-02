@@ -10,6 +10,11 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [1.4.2] - 2026-06-02
+
+- **Docs:** Credit Excalidraw as the upstream library and md2pdf as a source of merged work; drop the author section.
+- **Chore:** Bump dependencies to their latest in-range versions.
+
 ## [1.4.1] - 2026-06-02
 
 - **Fix:** On phones, overlay the action bar on Excalidraw's bottom bar and hide it while editing so the two never collide.
