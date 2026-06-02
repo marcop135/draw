@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.4.0",
   "type": "module",
-  "description": "Free whiteboard: Excalidraw with LaTeX (KaTeX), Mermaid-to-shapes, sanitized Markdown; PNG/JPEG/SVG/PDF export. React + TypeScript + Vite PWA; static, no backend or login.",
+  "description": "Free whiteboard: Excalidraw with LaTeX (KaTeX), Mermaid-to-shapes, sanitized Markdown, automatic light/dark theme; PNG/JPEG/SVG/PDF export. React + TypeScript + Vite PWA; static, no backend or login.",
   "license": "MIT",
   "scripts": {
     "dev": "vite",

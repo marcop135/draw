@@ -10,6 +10,15 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [Unreleased]
+
+- **Feat:** Pre-select the freehand draw tool (shortcut `7`) on load so the canvas is ready to sketch immediately.
+- **Fix:** On phones, blend the floating action bar into Excalidraw's bottom bar (no border or shadow) instead of stacking above it.
+- **Fix:** Add a Help (?) button beside the GitHub link on phones, where Excalidraw drops its footer help icon.
+- **Style:** Trim the Help dialog links to a single Excalidraw Documentation link, dropping the blog, issues, and YouTube links.
+- **Style:** Align the menu's Canvas background label and swatch row with the item-icon column above them.
+- **Docs:** Note the automatic system/light/dark theme in the README, site description, and repo metadata.
+
 ## [1.4.0] - 2026-06-02
 
 - **Fix:** Wrap the lazy LaTeX, Mermaid, Markdown, and About panels in an error boundary so a failed chunk load shows a recoverable notice instead of white-screening the whole app.
