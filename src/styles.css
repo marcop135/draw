@@ -101,15 +101,40 @@ body,
   position: absolute;
   top: 12px;
   right: 12px;
-  z-index: 10;
+  /* Below Excalidraw's UI layer (--zIndex-layerUI: 4) so its menus/dialogs
+     render above this floating bar instead of being covered by it. The bar's
+     own Insert/Export popups open into empty canvas where no Excalidraw island
+     overlaps, so they stay visible. */
+  z-index: 3;
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: var(--ui-bg);
-  padding: 8px;
-  border-radius: var(--ui-radius);
-  box-shadow: var(--ui-shadow);
-  backdrop-filter: blur(6px);
+  gap: 4px;
+  /* Match Excalidraw's Island chrome (solid bg, --border-radius-lg 8px,
+     --shadow-island) so the custom bar reads as the same component as the
+     stock toolbars rather than a differently-styled box. */
+  background: var(--ui-bg-solid);
+  padding: 4px;
+  border-radius: 8px;
+  box-shadow:
+    0 0 0.93px 0 rgba(0, 0, 0, 0.17),
+    0 0 3.13px 0 rgba(0, 0, 0, 0.08),
+    0 7px 14px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Keep every toolbar glyph at one size regardless of the size prop each
+   component passes. */
+.app-toolbar .app-btn svg,
+.app-toolbar .app-github-corner svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Version line inside the Excalidraw hamburger menu, aligned to the left edge
+   of the item icons above it. */
+.app-menu-about {
+  font-size: 12px;
+  color: var(--color-gray-60);
+  padding: 2px 0 2px 10px;
 }
 
 /* Excalidraw's centered top toolbar is ~550px wide. Full labels (~330px) only
@@ -128,49 +153,27 @@ body,
     justify-content: center;
   }
 }
-@media (min-width: 641px) and (max-width: 869px) {
-  .app-toolbar {
-    top: 72px;
-  }
-}
-@media (max-width: 640px) {
+/* Below ~1024px the centered Excalidraw toolbar plus its side panels (tool
+   properties on the left, lock/hand strip on the right) leave no safe top
+   corner, so float the bar at the bottom-centre — the one collision-free zone
+   (zoom/undo live bottom-left, nothing bottom-centre). */
+@media (max-width: 1023px) {
   .app-toolbar {
     top: auto;
-    left: 8px;
-    right: 8px;
-    bottom: 96px;
+    bottom: 64px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
     justify-content: center;
   }
 }
-
-.version-chip {
-  align-self: center;
-  margin: 0 4px 0 2px;
-  padding: 2px 4px;
-  color: var(--ui-muted);
-  font: inherit;
-  font-weight: 400;
-  font-size: 11px;
-  letter-spacing: 0.01em;
-  font-variant-numeric: tabular-nums;
-  background: none;
-  border: 0;
-  border-radius: 4px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: color 120ms ease, background-color 120ms ease;
-}
-.version-chip:hover {
-  color: var(--ui-fg);
-  background: var(--ui-bg-hover);
-}
-.version-chip:focus-visible {
-  outline: 2px solid var(--ui-focus);
-  outline-offset: 1px;
-}
-@media (max-width: 420px) {
-  .version-chip {
-    display: none;
+@media (max-width: 640px) {
+  /* Uniform 40px touch squares on phones. */
+  .app-toolbar .app-btn,
+  .app-toolbar .app-github-corner {
+    width: 40px;
+    height: 40px;
+    padding: 0;
   }
 }
 
@@ -302,9 +305,11 @@ body,
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid var(--ui-border);
+  /* Flat icon buttons (no per-button border/fill) so the bar reads as one
+     island like Excalidraw's own toolbars; the container provides the chrome. */
+  border: 1px solid transparent;
   border-radius: var(--ui-radius-sm);
-  background: var(--ui-bg-solid);
+  background: transparent;
   color: var(--ui-fg);
   cursor: pointer;
   white-space: nowrap;
@@ -314,13 +319,6 @@ body,
     background-color 120ms ease,
     color 120ms ease,
     border-color 120ms ease;
-}
-@media (max-width: 640px) {
-  .app-btn {
-    height: 40px;
-    padding: 0 12px;
-    font-size: 13px;
-  }
 }
 .app-btn:hover {
   background: var(--ui-bg-hover);
@@ -347,8 +345,8 @@ body,
   width: var(--ui-btn-size);
   height: var(--ui-btn-size);
   border-radius: var(--ui-radius-sm);
-  border: 1px solid var(--ui-border);
-  background: var(--ui-bg-solid);
+  border: 1px solid transparent;
+  background: transparent;
   color: var(--ui-fg);
   text-decoration: none;
   cursor: pointer;
@@ -364,13 +362,6 @@ body,
 .app-github-corner:focus-visible {
   outline: 2px solid var(--ui-focus);
   outline-offset: 1px;
-}
-
-@media (max-width: 640px) {
-  .app-github-corner {
-    width: 40px;
-    height: 40px;
-  }
 }
 
 .app-modal-backdrop {
@@ -489,9 +480,9 @@ body,
   overflow-y: auto;
 }
 
-/* On mobile the toolbar sits centered at the bottom; flip the popup upward and
+/* Wherever the bar sits at the bottom (<=1023px), flip the popup upward and
    centre it over its anchor button so it never clips the viewport edge. */
-@media (max-width: 640px) {
+@media (max-width: 1023px) {
   .menu-pop {
     top: auto;
     bottom: calc(100% + 6px);

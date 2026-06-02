@@ -17,6 +17,8 @@ import { GitHubCornerLink } from "./components/GitHubCornerLink";
 import { InsertMenu } from "./components/InsertMenu";
 import { RestoreChip } from "./components/RestoreChip";
 import { ThemeToggle } from "./components/ThemeToggle";
+import { Diagram3, Github } from "./components/icons";
+import { PROJECT_SOURCE_URL } from "./siteMeta";
 import {
   clearSnapshot,
   loadSnapshot,
@@ -45,18 +47,15 @@ const MarkdownModal = lazy(() =>
     default: m.MarkdownModal,
   })),
 );
-const AboutModal = lazy(() =>
-  import("./components/AboutModal").then((m) => ({ default: m.AboutModal })),
-);
-
 type ModalKind = null | "latex" | "mermaid" | "markdown";
 
 const AUTOSAVE_DEBOUNCE_MS = 800;
 
+const EXCALIDRAW_URL = "https://excalidraw.com";
+
 export default function App() {
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null);
   const [modal, setModal] = useState<ModalKind>(null);
-  const [aboutOpen, setAboutOpen] = useState(false);
 
   const [preference, setPreference] = useState<ThemePreference>(() =>
     loadPreference(),
@@ -170,17 +169,19 @@ export default function App() {
           <MainMenu.Separator />
           <MainMenu.DefaultItems.ToggleTheme />
           <MainMenu.DefaultItems.ChangeCanvasBackground />
+          <MainMenu.Separator />
+          <MainMenu.ItemLink href={PROJECT_SOURCE_URL} icon={<Github />}>
+            Source code
+          </MainMenu.ItemLink>
+          <MainMenu.ItemLink href={EXCALIDRAW_URL} icon={<Diagram3 />}>
+            Built on Excalidraw
+          </MainMenu.ItemLink>
+          <MainMenu.ItemCustom>
+            <span className="app-menu-about">v{APP_VERSION}</span>
+          </MainMenu.ItemCustom>
         </MainMenu>
       </Excalidraw>
       <div className="app-toolbar">
-        <button
-          type="button"
-          className="version-chip"
-          title={`About draw v${APP_VERSION}`}
-          onClick={() => setAboutOpen(true)}
-        >
-          v{APP_VERSION}
-        </button>
         <InsertMenu
           dark={theme === "dark"}
           onPick={(k) => setModal(k)}
@@ -194,12 +195,7 @@ export default function App() {
         <RestoreChip onRestore={onRestore} onDiscard={onDiscard} />
       ) : null}
 
-      <ErrorBoundary
-        onReset={() => {
-          setModal(null);
-          setAboutOpen(false);
-        }}
-      >
+      <ErrorBoundary onReset={() => setModal(null)}>
         <Suspense fallback={null}>
           {modal === "latex" && apiRef.current ? (
             <LatexModal api={apiRef.current} onClose={() => setModal(null)} />
@@ -209,9 +205,6 @@ export default function App() {
           ) : null}
           {modal === "markdown" && apiRef.current ? (
             <MarkdownModal api={apiRef.current} onClose={() => setModal(null)} />
-          ) : null}
-          {aboutOpen ? (
-            <AboutModal onClose={() => setAboutOpen(false)} />
           ) : null}
         </Suspense>
       </ErrorBoundary>

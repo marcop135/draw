@@ -10,6 +10,19 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [1.4.0] - 2026-06-02
+
+- **Fix:** Wrap the lazy LaTeX, Mermaid, Markdown, and About panels in an error boundary so a failed chunk load shows a recoverable notice instead of white-screening the whole app.
+- **Fix:** Reload once on `vite:preloadError` so a stale service-worker chunk after a deploy recovers automatically instead of crashing on first open.
+- **Fix:** Serve hashed JS/CSS via `StaleWhileRevalidate` (was `CacheFirst`) so a new deploy's chunks self-heal; keep fonts on `CacheFirst`.
+- **Feat:** Default to the selection tool so the welcome hint overlay shows on an empty canvas, matching Excalidraw.
+- **Feat:** Move About into the hamburger menu (Source code, Built on Excalidraw, version) and retire the standalone version chip and About modal.
+- **Enhance:** Keep the welcome hint arrows on short and landscape viewports, and mute their dark-mode colour to match the light-mode contrast.
+- **Style:** Match the floating bar to Excalidraw's island (solid background, `--shadow-island`, 8px radius) with flat icon buttons of one size.
+- **Fix:** Move the floating bar to bottom-centre below 1024px so it no longer overlaps the centered toolbar or the side panels.
+- **Fix:** Lower the floating bar below Excalidraw's UI layer so its menus and dialogs render above the bar instead of being covered.
+- **Docs:** Rebuild the README demo gif to show shapes, colours, LaTeX, Mermaid, and the theme toggle.
+
 ## [1.3.0] - 2026-06-01
 
 - **Feat:** Add debounced scene autosave to `localStorage`; on reload show a top-left chip offering Restore or Discard.
