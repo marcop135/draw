@@ -97,10 +97,50 @@ body,
   display: none !important;
 }
 
+/* Excalidraw docks the mobile lock/hand strip to the right edge but anchors it
+   near the top (top: ~4rem). Centre it vertically on the right edge so it sits
+   clear of the top toolbar and reads as a deliberate right-anchored control. */
+.excalidraw .mobile-misc-tools-container {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Help dialog header: Excalidraw ships four links (Documentation, blog, GitHub
+   issues, YouTube), all pointing at upstream Excalidraw properties. Only the
+   docs link is relevant here, so hide the other three and relabel the survivor
+   "Excalidraw Documentation". The label is a bare text node beside the icon, so
+   it is swapped by zeroing the button font and injecting the new text via
+   ::after (the icon keeps its own svg dimensions and is unaffected). */
+.excalidraw .HelpDialog__header .HelpDialog__btn:not(:first-child) {
+  display: none;
+}
+.excalidraw .HelpDialog__header .HelpDialog__btn:first-child {
+  font-size: 0;
+}
+.excalidraw .HelpDialog__header .HelpDialog__btn:first-child::after {
+  content: "Excalidraw Documentation";
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+/* Align the "Canvas background" label and its swatch row with the left edge of
+   the menu-item icons above it (bin/reset etc.). Excalidraw inline-styles the
+   swatch wrapper to 0.625rem; a menu item's icon sits at margin 1px + padding
+   0.5rem = 9px from the menu edge, so match both to 9px. */
+.excalidraw [data-testid="canvas-background-label"] {
+  padding-left: 9px;
+}
+.excalidraw [data-testid="canvas-background-label"] + div {
+  padding-left: 9px !important;
+}
+
 .app-toolbar {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  /* Match Excalidraw's top toolbar, which sits at --editor-container-padding
+     (1rem) from the top, so the two bars share a top edge. */
+  top: 1rem;
+  right: 1rem;
   /* Below Excalidraw's UI layer (--zIndex-layerUI: 4) so its menus/dialogs
      render above this floating bar instead of being covered by it. The bar's
      own Insert/Export popups open into empty canvas where no Excalidraw island
@@ -153,6 +193,23 @@ body,
     justify-content: center;
   }
 }
+/* The Help (?) entry only fills in for Excalidraw's footer button, which it
+   ships on desktop, so keep ours hidden until the mobile breakpoint reveals it.
+   Declared before the media queries so the <=730px override wins on source order. */
+.app-help-btn {
+  display: none;
+  padding: 0;
+  width: var(--ui-btn-size);
+  justify-content: center;
+}
+
+/* Stand-in for Excalidraw's welcome hint arrows, which it renders only in the
+   desktop layout. Hidden on desktop (Excalidraw's own hints show there); the
+   <=730px rule reveals it. */
+.app-mobile-hint {
+  display: none;
+}
+
 /* Below ~1024px the centered Excalidraw toolbar plus its side panels (tool
    properties on the left, lock/hand strip on the right) leave no safe top
    corner, so float the bar at the bottom-centre — the one collision-free zone
@@ -160,20 +217,76 @@ body,
 @media (max-width: 1023px) {
   .app-toolbar {
     top: auto;
-    bottom: 64px;
+    /* Sit at the same distance from the bottom as Excalidraw's footer
+       controls (zoom/undo on the left, the help (?) icon on the right), which
+       live at --editor-container-padding (1rem), and stay centred between them. */
+    bottom: 1rem;
     left: 50%;
     right: auto;
     transform: translateX(-50%);
     justify-content: center;
   }
 }
+/* At <=730px Excalidraw switches to its mobile layout: the centered toolbar and
+   side panels collapse into a single full-width bottom Island (hamburger on the
+   left, undo/redo on the right, an empty centre). Drop the floating bar into
+   that empty centre and strip its own chrome so it reads as part of the bottom
+   bar rather than a second island stacked above it. z-index lifts above
+   Excalidraw's UI layer (4) so the icons paint on top of the bar's surface. */
+@media (max-width: 730px) {
+  .app-toolbar {
+    /* Centre the icons on the native bottom-bar row: its buttons sit at
+       14px (bar margin) + 8px (Island padding) + half of a 2rem button =
+       ~38px from the viewport bottom. With our 36px buttons that means a
+       20px offset; the <=640 rule re-tunes it for the 40px touch buttons. */
+    bottom: 20px;
+    z-index: 5;
+    background: transparent;
+    padding: 0;
+    /* Tighten the run of icons so they read as one compact group rather than
+       spaced out across the bar. */
+    gap: 0;
+    box-shadow: none;
+  }
+  /* Excalidraw drops its footer Help (?) button in mobile layout, so surface
+     our own next to the GitHub link to keep shortcuts/help reachable. */
+  .app-help-btn {
+    display: inline-flex;
+  }
+  /* While a tool is active or something is selected, Excalidraw fills the bottom
+     bar with edit/duplicate/delete buttons. Hide the overlay then so the two
+     never collide; it returns once the canvas is back to empty selection. */
+  .app-toolbar--editing {
+    display: none;
+  }
+  /* Orientation hint under the top toolbar, replacing the desktop-only arrows. */
+  .app-mobile-hint {
+    display: block;
+    position: absolute;
+    top: 6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    pointer-events: none;
+    width: max-content;
+    max-width: calc(100vw - 32px);
+    text-align: center;
+    color: var(--ui-muted);
+    font-size: 14px;
+    opacity: 0.9;
+  }
+}
 @media (max-width: 640px) {
-  /* Uniform 40px touch squares on phones. */
+  /* Snug 32px-wide touch squares on phones (matching the native bar's button
+     width) so the icons sit close together; keep 40px tall for easy tapping. */
   .app-toolbar .app-btn,
   .app-toolbar .app-github-corner {
-    width: 40px;
+    width: 32px;
     height: 40px;
     padding: 0;
+  }
+  .app-toolbar {
+    bottom: 18px;
   }
 }
 
@@ -483,13 +596,21 @@ body,
 /* Wherever the bar sits at the bottom (<=1023px), flip the popup upward and
    centre it over its anchor button so it never clips the viewport edge. */
 @media (max-width: 1023px) {
+  /* Drop the anchor's positioning context so the popup resolves against the
+     centred .app-toolbar instead of its own (left-of-centre) trigger button.
+     That centres the popup over the bar -- i.e. in the viewport -- so it no
+     longer drifts off the left edge and clips. */
+  .menu-anchor {
+    position: static;
+  }
   .menu-pop {
     top: auto;
-    bottom: calc(100% + 6px);
+    bottom: calc(100% + 10px);
     left: 50%;
     right: auto;
     transform: translateX(-50%);
     max-height: calc(100dvh - 140px);
+    max-width: calc(100vw - 16px);
   }
 }
 

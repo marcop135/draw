@@ -10,6 +10,18 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [1.4.1] - 2026-06-02
+
+- **Fix:** On phones, overlay the action bar on Excalidraw's bottom bar and hide it while editing so the two never collide.
+- **Fix:** Add a Help (?) button beside the GitHub link on phones, where Excalidraw drops its footer help icon.
+- **Fix:** Centre the action bar's popups over the bar on narrow screens so they no longer clip off the left edge.
+- **Fix:** Show an orientation hint under the toolbar on phones, replacing Excalidraw's desktop-only welcome arrows.
+- **Style:** Align the action bar with Excalidraw's top toolbar above 1024px and its footer controls below.
+- **Style:** Centre the mobile lock/hand strip vertically on the right edge.
+- **Style:** Trim the Help dialog links to a single Excalidraw Documentation link, dropping blog, issues, and YouTube.
+- **Style:** Align the menu's Canvas background label and swatch row with the item-icon column above them.
+- **Docs:** Note the automatic system/light/dark theme in the README, site description, and repo metadata.
+
 ## [1.4.0] - 2026-06-02
 
 - **Fix:** Wrap the lazy LaTeX, Mermaid, Markdown, and About panels in an error boundary so a failed chunk load shows a recoverable notice instead of white-screening the whole app.

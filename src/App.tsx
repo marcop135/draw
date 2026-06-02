@@ -17,7 +17,7 @@ import { GitHubCornerLink } from "./components/GitHubCornerLink";
 import { InsertMenu } from "./components/InsertMenu";
 import { RestoreChip } from "./components/RestoreChip";
 import { ThemeToggle } from "./components/ThemeToggle";
-import { Diagram3, Github } from "./components/icons";
+import { Diagram3, Github, QuestionCircle } from "./components/icons";
 import { PROJECT_SOURCE_URL } from "./siteMeta";
 import {
   clearSnapshot,
@@ -56,6 +56,17 @@ const EXCALIDRAW_URL = "https://excalidraw.com";
 export default function App() {
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null);
   const [modal, setModal] = useState<ModalKind>(null);
+  // On phones the custom bar overlays Excalidraw's bottom bar. That bar is only
+  // empty in selection mode with nothing selected; any other state fills it with
+  // edit/duplicate/delete buttons, so we hide our overlay then to avoid collisions.
+  const [barEditing, setBarEditing] = useState(false);
+  // Excalidraw renders its welcome hint arrows only in the desktop layout, so on
+  // phones (where the scene is still empty) we surface our own orientation hint.
+  const [sceneEmpty, setSceneEmpty] = useState(true);
+
+  const openHelp = useCallback(() => {
+    apiRef.current?.updateScene({ appState: { openDialog: { name: "help" } } });
+  }, []);
 
   const [preference, setPreference] = useState<ThemePreference>(() =>
     loadPreference(),
@@ -151,6 +162,12 @@ export default function App() {
           },
         }}
         onChange={(elements, appState, files) => {
+          const editing =
+            appState.activeTool.type !== "selection" ||
+            Object.keys(appState.selectedElementIds).length > 0;
+          setBarEditing((prev) => (prev === editing ? prev : editing));
+          const empty = elements.every((el) => el.isDeleted);
+          setSceneEmpty((prev) => (prev === empty ? prev : empty));
           if (saveTimer.current !== null) {
             window.clearTimeout(saveTimer.current);
           }
@@ -181,7 +198,7 @@ export default function App() {
           </MainMenu.ItemCustom>
         </MainMenu>
       </Excalidraw>
-      <div className="app-toolbar">
+      <div className={`app-toolbar${barEditing ? " app-toolbar--editing" : ""}`}>
         <InsertMenu
           dark={theme === "dark"}
           onPick={(k) => setModal(k)}
@@ -189,7 +206,22 @@ export default function App() {
         <ExportMenu getScene={getScene} dark={theme === "dark"} />
         <ThemeToggle preference={preference} onCycle={onCycleTheme} />
         <GitHubCornerLink dark={theme === "dark"} />
+        <button
+          type="button"
+          className="app-btn app-help-btn"
+          aria-label="Help"
+          title="Help"
+          onClick={openHelp}
+        >
+          <QuestionCircle size={18} />
+        </button>
       </div>
+
+      {sceneEmpty && !barEditing ? (
+        <div className="app-mobile-hint" aria-hidden="true">
+          Pick a tool above to start drawing
+        </div>
+      ) : null}
 
       {pendingRestore ? (
         <RestoreChip onRestore={onRestore} onDiscard={onDiscard} />

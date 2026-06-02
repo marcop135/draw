@@ -15,6 +15,7 @@ Excalidraw whiteboard with LaTeX, Mermaid, and Markdown inserts. Local-first PWA
 ## Features
 
 - Full **Excalidraw** sketching (drawing, selection, themes, load/save scene, undo)
+- **Automatic theme**: follows your system light/dark setting, with a one-tap toolbar toggle to force light or dark
 - **LaTeX** math, **Mermaid** diagrams as native editable shapes, sanitized **Markdown** notes
 - **Export** to `.excalidraw`, PNG, JPEG, SVG, PDF
 - **PWA**: installable; Workbox precaches shell and assets for offline use
@@ -52,6 +53,7 @@ npm run build    # production output in dist/
 
 - **Insert** menu (floating toolbar): add **LaTeX**, **Mermaid**, or **Markdown**.
 - **Export** menu: download **PNG**, **JPEG**, **SVG**, **PDF**, or **`.excalidraw`**.
+- **Theme** toggle (floating toolbar): cycle automatic (follows the OS) -> light -> dark; the choice is remembered.
 - **Excalidraw** menu (hamburger): theme, background, **Load** scene, defaults.
 
 ## Project structure
