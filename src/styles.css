@@ -129,8 +129,10 @@ body,
 
 .app-toolbar {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  /* Match Excalidraw's top toolbar, which sits at --editor-container-padding
+     (1rem) from the top, so the two bars share a top edge. */
+  top: 1rem;
+  right: 1rem;
   /* Below Excalidraw's UI layer (--zIndex-layerUI: 4) so its menus/dialogs
      render above this floating bar instead of being covered by it. The bar's
      own Insert/Export popups open into empty canvas where no Excalidraw island
@@ -200,7 +202,10 @@ body,
 @media (max-width: 1023px) {
   .app-toolbar {
     top: auto;
-    bottom: 64px;
+    /* Sit at the same distance from the bottom as Excalidraw's footer
+       controls (zoom/undo on the left, the help (?) icon on the right), which
+       live at --editor-container-padding (1rem), and stay centred between them. */
+    bottom: 1rem;
     left: 50%;
     right: auto;
     transform: translateX(-50%);
