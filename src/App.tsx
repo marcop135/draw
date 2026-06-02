@@ -17,7 +17,7 @@ import { GitHubCornerLink } from "./components/GitHubCornerLink";
 import { InsertMenu } from "./components/InsertMenu";
 import { RestoreChip } from "./components/RestoreChip";
 import { ThemeToggle } from "./components/ThemeToggle";
-import { Diagram3, Github } from "./components/icons";
+import { Diagram3, Github, QuestionCircle } from "./components/icons";
 import { PROJECT_SOURCE_URL } from "./siteMeta";
 import {
   clearSnapshot,
@@ -55,7 +55,12 @@ const EXCALIDRAW_URL = "https://excalidraw.com";
 
 export default function App() {
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null);
+  const toolPrimed = useRef(false);
   const [modal, setModal] = useState<ModalKind>(null);
+
+  const openHelp = useCallback(() => {
+    apiRef.current?.updateScene({ appState: { openDialog: { name: "help" } } });
+  }, []);
 
   const [preference, setPreference] = useState<ThemePreference>(() =>
     loadPreference(),
@@ -140,6 +145,10 @@ export default function App() {
       <Excalidraw
         excalidrawAPI={(api) => {
           apiRef.current = api;
+          if (!toolPrimed.current) {
+            toolPrimed.current = true;
+            api.setActiveTool({ type: "freedraw" });
+          }
         }}
         theme={theme}
         UIOptions={{
@@ -189,6 +198,15 @@ export default function App() {
         <ExportMenu getScene={getScene} dark={theme === "dark"} />
         <ThemeToggle preference={preference} onCycle={onCycleTheme} />
         <GitHubCornerLink dark={theme === "dark"} />
+        <button
+          type="button"
+          className="app-btn app-help-btn"
+          aria-label="Help"
+          title="Help"
+          onClick={openHelp}
+        >
+          <QuestionCircle size={18} />
+        </button>
       </div>
 
       {pendingRestore ? (
