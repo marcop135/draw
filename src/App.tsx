@@ -172,6 +172,10 @@ export default function App() {
             window.clearTimeout(saveTimer.current);
           }
           saveTimer.current = window.setTimeout(() => {
+            // While a restore is pending the canvas mounts empty; an empty
+            // save would call removeItem and wipe the snapshot the user can
+            // still restore. Skip only that destructive empty-save case.
+            if (pendingRestore && empty) return;
             saveSnapshot({ elements, appState, files });
           }, AUTOSAVE_DEBOUNCE_MS);
         }}
