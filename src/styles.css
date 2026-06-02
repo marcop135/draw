@@ -97,6 +97,14 @@ body,
   display: none !important;
 }
 
+/* Excalidraw docks the mobile lock/hand strip to the right edge but anchors it
+   near the top (top: ~4rem). Centre it vertically on the right edge so it sits
+   clear of the top toolbar and reads as a deliberate right-anchored control. */
+.excalidraw .mobile-misc-tools-container {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 /* Help dialog header: Excalidraw ships four links (Documentation, blog, GitHub
    issues, YouTube), all pointing at upstream Excalidraw properties. Only the
    docs link is relevant here, so hide the other three and relabel the survivor
@@ -195,6 +203,13 @@ body,
   justify-content: center;
 }
 
+/* Stand-in for Excalidraw's welcome hint arrows, which it renders only in the
+   desktop layout. Hidden on desktop (Excalidraw's own hints show there); the
+   <=730px rule reveals it. */
+.app-mobile-hint {
+  display: none;
+}
+
 /* Below ~1024px the centered Excalidraw toolbar plus its side panels (tool
    properties on the left, lock/hand strip on the right) leave no safe top
    corner, so float the bar at the bottom-centre — the one collision-free zone
@@ -243,6 +258,22 @@ body,
      never collide; it returns once the canvas is back to empty selection. */
   .app-toolbar--editing {
     display: none;
+  }
+  /* Orientation hint under the top toolbar, replacing the desktop-only arrows. */
+  .app-mobile-hint {
+    display: block;
+    position: absolute;
+    top: 6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    pointer-events: none;
+    width: max-content;
+    max-width: calc(100vw - 32px);
+    text-align: center;
+    color: var(--ui-muted);
+    font-size: 14px;
+    opacity: 0.9;
   }
 }
 @media (max-width: 640px) {

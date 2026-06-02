@@ -60,6 +60,9 @@ export default function App() {
   // empty in selection mode with nothing selected; any other state fills it with
   // edit/duplicate/delete buttons, so we hide our overlay then to avoid collisions.
   const [barEditing, setBarEditing] = useState(false);
+  // Excalidraw renders its welcome hint arrows only in the desktop layout, so on
+  // phones (where the scene is still empty) we surface our own orientation hint.
+  const [sceneEmpty, setSceneEmpty] = useState(true);
 
   const openHelp = useCallback(() => {
     apiRef.current?.updateScene({ appState: { openDialog: { name: "help" } } });
@@ -163,6 +166,8 @@ export default function App() {
             appState.activeTool.type !== "selection" ||
             Object.keys(appState.selectedElementIds).length > 0;
           setBarEditing((prev) => (prev === editing ? prev : editing));
+          const empty = elements.every((el) => el.isDeleted);
+          setSceneEmpty((prev) => (prev === empty ? prev : empty));
           if (saveTimer.current !== null) {
             window.clearTimeout(saveTimer.current);
           }
@@ -211,6 +216,12 @@ export default function App() {
           <QuestionCircle size={18} />
         </button>
       </div>
+
+      {sceneEmpty && !barEditing ? (
+        <div className="app-mobile-hint" aria-hidden="true">
+          Pick a tool above to start drawing
+        </div>
+      ) : null}
 
       {pendingRestore ? (
         <RestoreChip onRestore={onRestore} onDiscard={onDiscard} />

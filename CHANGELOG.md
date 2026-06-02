@@ -12,8 +12,11 @@
 
 ## [Unreleased]
 
-- **Fix:** On phones, blend the floating action bar into Excalidraw's bottom bar (no border or shadow) instead of stacking above it.
+- **Fix:** On phones, overlay the action bar on Excalidraw's bottom bar (no border or shadow) and hide it while editing so the two never collide.
 - **Fix:** Add a Help (?) button beside the GitHub link on phones, where Excalidraw drops its footer help icon.
+- **Fix:** Centre the action bar's popups over the bar on narrow screens so they no longer clip off the left edge.
+- **Fix:** Show an orientation hint under the toolbar on phones, replacing Excalidraw's desktop-only welcome arrows.
+- **Style:** Align the action bar with Excalidraw's top toolbar (>1024px) and footer controls (<=1024px), and centre the lock/hand strip on the right edge.
 - **Style:** Trim the Help dialog links to a single Excalidraw Documentation link, dropping the blog, issues, and YouTube links.
 - **Style:** Align the menu's Canvas background label and swatch row with the item-icon column above them.
 - **Docs:** Note the automatic system/light/dark theme in the README, site description, and repo metadata.
