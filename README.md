@@ -12,6 +12,12 @@ Live app: https://draw.marcopontili.com
 
 Excalidraw whiteboard with LaTeX, Mermaid, and Markdown inserts. Local-first PWA, no backend, no login.
 
+## Acknowledgements
+
+This app starts from the **[Excalidraw](https://github.com/excalidraw/excalidraw)** library (MIT), freely adding features and improvements on top, and merging part of the work done for **[md2pdf](https://github.com/marcop135/md2pdf)**.
+
+---
+
 ## Features
 
 - Full **Excalidraw** sketching (drawing, selection, themes, load/save scene, undo)
@@ -85,10 +91,6 @@ Contributions welcome! CI runs lint, production build, Vitest, and Playwright sm
 - 🐛 Found a bug? [Open an issue](https://github.com/marcop135/draw/issues)
 - 💡 Have a feature request? [Open an issue](https://github.com/marcop135/draw/issues)
 - 📝 Want to contribute? Fork the repo and open a PR
-
-## 👤 Author
-
-[Marco Pontili](https://marcopontili.com)
 
 ## 📝 License
 
