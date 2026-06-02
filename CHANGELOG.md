@@ -12,7 +12,6 @@
 
 ## [Unreleased]
 
-- **Feat:** Pre-select the freehand draw tool (shortcut `7`) on load so the canvas is ready to sketch immediately.
 - **Fix:** On phones, blend the floating action bar into Excalidraw's bottom bar (no border or shadow) instead of stacking above it.
 - **Fix:** Add a Help (?) button beside the GitHub link on phones, where Excalidraw drops its footer help icon.
 - **Style:** Trim the Help dialog links to a single Excalidraw Documentation link, dropping the blog, issues, and YouTube links.

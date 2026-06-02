@@ -55,7 +55,6 @@ const EXCALIDRAW_URL = "https://excalidraw.com";
 
 export default function App() {
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null);
-  const toolPrimed = useRef(false);
   const [modal, setModal] = useState<ModalKind>(null);
 
   const openHelp = useCallback(() => {
@@ -145,10 +144,6 @@ export default function App() {
       <Excalidraw
         excalidrawAPI={(api) => {
           apiRef.current = api;
-          if (!toolPrimed.current) {
-            toolPrimed.current = true;
-            api.setActiveTool({ type: "freedraw" });
-          }
         }}
         theme={theme}
         UIOptions={{
