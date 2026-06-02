@@ -183,6 +183,16 @@ body,
     justify-content: center;
   }
 }
+/* The Help (?) entry only fills in for Excalidraw's footer button, which it
+   ships on desktop, so keep ours hidden until the mobile breakpoint reveals it.
+   Declared before the media queries so the <=730px override wins on source order. */
+.app-help-btn {
+  display: none;
+  padding: 0;
+  width: var(--ui-btn-size);
+  justify-content: center;
+}
+
 /* Below ~1024px the centered Excalidraw toolbar plus its side panels (tool
    properties on the left, lock/hand strip on the right) leave no safe top
    corner, so float the bar at the bottom-centre — the one collision-free zone
@@ -225,15 +235,6 @@ body,
     height: 40px;
     padding: 0;
   }
-}
-
-/* The Help (?) entry only fills in for Excalidraw's footer button, which it
-   ships on desktop, so keep ours hidden until the mobile breakpoint reveals it. */
-.app-help-btn {
-  display: none;
-  padding: 0;
-  width: var(--ui-btn-size);
-  justify-content: center;
 }
 
 .theme-toggle {
