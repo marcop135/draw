@@ -14,7 +14,7 @@ export function GitHubCornerLink({ dark }: Props) {
       aria-label="Source code on GitHub"
       title="Source on GitHub"
     >
-      <Github size={20} />
+      <Github size={18} />
     </a>
   );
 }

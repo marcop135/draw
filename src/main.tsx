@@ -16,6 +16,17 @@ import "./styles.css";
 // base, we'd switch to a prompt-the-user-to-reload pattern.
 registerSW({ immediate: true });
 
+// A new deploy renames hashed chunks; an open tab (or stale SW cache) can hold
+// references to chunk URLs the server no longer has, so a lazy import() 404s.
+// Vite fires `vite:preloadError` in that case — reload once to pull the fresh
+// index.html and matching hashes. The sessionStorage guard prevents a loop if
+// the failure is genuinely persistent (e.g. truly offline).
+window.addEventListener("vite:preloadError", () => {
+  if (sessionStorage.getItem("preload-reloaded")) return;
+  sessionStorage.setItem("preload-reloaded", "1");
+  window.location.reload();
+});
+
 // Self-host Excalidraw fonts: copied to /fonts/ at build time by vite.config.ts.
 // Must be set BEFORE Excalidraw is imported/rendered.
 declare global {
