@@ -215,10 +215,17 @@ body,
    Excalidraw's UI layer (4) so the icons paint on top of the bar's surface. */
 @media (max-width: 730px) {
   .app-toolbar {
-    bottom: 14px;
+    /* Centre the icons on the native bottom-bar row: its buttons sit at
+       14px (bar margin) + 8px (Island padding) + half of a 2rem button =
+       ~38px from the viewport bottom. With our 36px buttons that means a
+       20px offset; the <=640 rule re-tunes it for the 40px touch buttons. */
+    bottom: 20px;
     z-index: 5;
     background: transparent;
     padding: 0;
+    /* Tighten the run of icons so they read as one compact group rather than
+       spaced out across the bar. */
+    gap: 0;
     box-shadow: none;
   }
   /* Excalidraw drops its footer Help (?) button in mobile layout, so surface
@@ -228,12 +235,16 @@ body,
   }
 }
 @media (max-width: 640px) {
-  /* Uniform 40px touch squares on phones. */
+  /* Snug 32px-wide touch squares on phones (matching the native bar's button
+     width) so the icons sit close together; keep 40px tall for easy tapping. */
   .app-toolbar .app-btn,
   .app-toolbar .app-github-corner {
-    width: 40px;
+    width: 32px;
     height: 40px;
     padding: 0;
+  }
+  .app-toolbar {
+    bottom: 18px;
   }
 }
 
