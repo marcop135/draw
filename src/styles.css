@@ -97,6 +97,36 @@ body,
   display: none !important;
 }
 
+/* Help dialog header: Excalidraw ships four links (Documentation, blog, GitHub
+   issues, YouTube), all pointing at upstream Excalidraw properties. Only the
+   docs link is relevant here, so hide the other three and relabel the survivor
+   "Excalidraw Documentation". The label is a bare text node beside the icon, so
+   it is swapped by zeroing the button font and injecting the new text via
+   ::after (the icon keeps its own svg dimensions and is unaffected). */
+.excalidraw .HelpDialog__header .HelpDialog__btn:not(:first-child) {
+  display: none;
+}
+.excalidraw .HelpDialog__header .HelpDialog__btn:first-child {
+  font-size: 0;
+}
+.excalidraw .HelpDialog__header .HelpDialog__btn:first-child::after {
+  content: "Excalidraw Documentation";
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+/* Align the "Canvas background" label and its swatch row with the left edge of
+   the menu-item icons above it (bin/reset etc.). Excalidraw inline-styles the
+   swatch wrapper to 0.625rem; a menu item's icon sits at margin 1px + padding
+   0.5rem = 9px from the menu edge, so match both to 9px. */
+.excalidraw [data-testid="canvas-background-label"] {
+  padding-left: 9px;
+}
+.excalidraw [data-testid="canvas-background-label"] + div {
+  padding-left: 9px !important;
+}
+
 .app-toolbar {
   position: absolute;
   top: 12px;
@@ -167,6 +197,26 @@ body,
     justify-content: center;
   }
 }
+/* At <=730px Excalidraw switches to its mobile layout: the centered toolbar and
+   side panels collapse into a single full-width bottom Island (hamburger on the
+   left, undo/redo on the right, an empty centre). Drop the floating bar into
+   that empty centre and strip its own chrome so it reads as part of the bottom
+   bar rather than a second island stacked above it. z-index lifts above
+   Excalidraw's UI layer (4) so the icons paint on top of the bar's surface. */
+@media (max-width: 730px) {
+  .app-toolbar {
+    bottom: 14px;
+    z-index: 5;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+  }
+  /* Excalidraw drops its footer Help (?) button in mobile layout, so surface
+     our own next to the GitHub link to keep shortcuts/help reachable. */
+  .app-help-btn {
+    display: inline-flex;
+  }
+}
 @media (max-width: 640px) {
   /* Uniform 40px touch squares on phones. */
   .app-toolbar .app-btn,
@@ -175,6 +225,15 @@ body,
     height: 40px;
     padding: 0;
   }
+}
+
+/* The Help (?) entry only fills in for Excalidraw's footer button, which it
+   ships on desktop, so keep ours hidden until the mobile breakpoint reveals it. */
+.app-help-btn {
+  display: none;
+  padding: 0;
+  width: var(--ui-btn-size);
+  justify-content: center;
 }
 
 .theme-toggle {
