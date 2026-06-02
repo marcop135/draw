@@ -76,6 +76,20 @@ body,
   display: none !important;
 }
 
+/* Keep the orientation hint arrows (menu / toolbar / help) as the only welcome
+   overlay. Excalidraw hides them under @media (max-height: 599px); re-assert so
+   the indications show on short/landscape phones too. */
+.excalidraw .welcome-screen-decor-hint {
+  display: flex !important;
+}
+
+/* Dark mode renders the hints in --color-gray-60, which reads too bright on the
+   dark canvas. Step to a darker grey so their contrast matches the subtle look
+   of light mode (--color-gray-40 on white). */
+.app-shell.dark .excalidraw .welcome-screen-decor {
+  color: var(--color-gray-70);
+}
+
 /* Hide the built-in Library sidebar trigger; the app doesn't expose libraries
    and the button collided visually with the floating app-toolbar. */
 .excalidraw .default-sidebar-trigger,
@@ -122,8 +136,10 @@ body,
 @media (max-width: 640px) {
   .app-toolbar {
     top: auto;
+    left: 8px;
     right: 8px;
     bottom: 96px;
+    justify-content: center;
   }
 }
 
@@ -469,13 +485,20 @@ body,
   display: flex;
   flex-direction: column;
   min-width: 200px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
 }
 
-/* On mobile the toolbar sits at the bottom; flip the popup upward. */
+/* On mobile the toolbar sits centered at the bottom; flip the popup upward and
+   centre it over its anchor button so it never clips the viewport edge. */
 @media (max-width: 640px) {
   .menu-pop {
     top: auto;
     bottom: calc(100% + 6px);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    max-height: calc(100dvh - 140px);
   }
 }
 
@@ -498,6 +521,13 @@ body,
 .menu-pop button > svg {
   flex-shrink: 0;
   opacity: 0.85;
+}
+/* Lock every popup icon to one box so the row reads evenly regardless of the
+   size prop passed by each menu item. */
+.menu-pop button > svg,
+.menu-pop-pdf > svg {
+  width: 18px;
+  height: 18px;
 }
 @media (max-width: 640px) {
   .menu-pop button {

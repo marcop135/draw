@@ -11,6 +11,7 @@ import { Excalidraw, MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
 import "@excalidraw/excalidraw/index.css";
 import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 import type { SceneSnapshot } from "./lib/export";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ExportMenu } from "./components/ExportMenu";
 import { GitHubCornerLink } from "./components/GitHubCornerLink";
 import { InsertMenu } from "./components/InsertMenu";
@@ -142,16 +143,6 @@ export default function App() {
           apiRef.current = api;
         }}
         theme={theme}
-        initialData={{
-          appState: {
-            activeTool: {
-              type: "freedraw",
-              customType: null,
-              locked: false,
-              lastActiveTool: null,
-            },
-          },
-        }}
         UIOptions={{
           canvasActions: {
             saveToActiveFile: false,
@@ -203,18 +194,27 @@ export default function App() {
         <RestoreChip onRestore={onRestore} onDiscard={onDiscard} />
       ) : null}
 
-      <Suspense fallback={null}>
-        {modal === "latex" && apiRef.current ? (
-          <LatexModal api={apiRef.current} onClose={() => setModal(null)} />
-        ) : null}
-        {modal === "mermaid" && apiRef.current ? (
-          <MermaidModal api={apiRef.current} onClose={() => setModal(null)} />
-        ) : null}
-        {modal === "markdown" && apiRef.current ? (
-          <MarkdownModal api={apiRef.current} onClose={() => setModal(null)} />
-        ) : null}
-        {aboutOpen ? <AboutModal onClose={() => setAboutOpen(false)} /> : null}
-      </Suspense>
+      <ErrorBoundary
+        onReset={() => {
+          setModal(null);
+          setAboutOpen(false);
+        }}
+      >
+        <Suspense fallback={null}>
+          {modal === "latex" && apiRef.current ? (
+            <LatexModal api={apiRef.current} onClose={() => setModal(null)} />
+          ) : null}
+          {modal === "mermaid" && apiRef.current ? (
+            <MermaidModal api={apiRef.current} onClose={() => setModal(null)} />
+          ) : null}
+          {modal === "markdown" && apiRef.current ? (
+            <MarkdownModal api={apiRef.current} onClose={() => setModal(null)} />
+          ) : null}
+          {aboutOpen ? (
+            <AboutModal onClose={() => setAboutOpen(false)} />
+          ) : null}
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }

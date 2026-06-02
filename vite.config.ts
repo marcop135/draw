@@ -80,8 +80,21 @@ export default defineConfig({
         cleanupOutdatedCaches: true,
         runtimeCaching: [
           {
-            urlPattern: /\/(assets|fonts)\//,
+            // Fonts are content-addressed and never change: cache them hard.
+            urlPattern: /\/fonts\//,
             handler: "CacheFirst",
+            options: {
+              cacheName: "static-fonts",
+              expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
+          {
+            // JS/CSS chunks carry hashed names; revalidate so a new deploy's
+            // chunks land on the next load instead of being pinned for 30 days.
+            // This is what lets the `vite:preloadError` reload recover cleanly
+            // instead of white-screening on a stale, deleted chunk.
+            urlPattern: /\/assets\/.*\.(?:js|css)$/,
+            handler: "StaleWhileRevalidate",
             options: {
               cacheName: "static-assets",
               expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 30 },
