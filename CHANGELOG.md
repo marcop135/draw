@@ -10,6 +10,10 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [1.4.5] - 2026-06-04
+
+- **CI:** Bump `actions/checkout` to v6.0.3 and `actions/setup-node` to v6.4.0 so both run on Node 24 before GitHub drops Node 20 from the runners.
+
 ## [1.4.4] - 2026-06-04
 
 - **Perf:** Load Roboto from the latin-only `@fontsource` entrypoints, dropping the unused cyrillic, greek, vietnamese, and latin-ext woff2 subsets.
