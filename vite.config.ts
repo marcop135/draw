@@ -154,6 +154,9 @@ export default defineConfig({
     target: "es2022",
     sourcemap: false,
     chunkSizeWarningLimit: 2000,
+    // es2022 natively supports <link rel="modulepreload">, so drop Vite's
+    // ~1KB preload polyfill from every entry chunk. Safe for modern-only targets.
+    modulePreload: { polyfill: false },
   },
   test: {
     environment: "jsdom",

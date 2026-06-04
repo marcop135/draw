@@ -5,9 +5,12 @@ import App from "./App";
 import { installDocumentTitleGuard } from "./lib/documentTitleGuard";
 import { SITE_DOCUMENT_TITLE } from "./siteMeta";
 // Self-hosted Roboto (woff2 served from our own bundle, no Google CDN at runtime).
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
+// Latin-only entrypoints: this is an English-only tool, so we skip the cyrillic,
+// greek, math, symbols, vietnamese, and latin-ext subsets the bare per-weight
+// CSS would otherwise pull in (each as its own woff2). One woff2 per weight.
+import "@fontsource/roboto/latin-400.css";
+import "@fontsource/roboto/latin-500.css";
+import "@fontsource/roboto/latin-700.css";
 import "./styles.css";
 
 // Register the service worker for offline support and asset caching.

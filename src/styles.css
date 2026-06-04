@@ -42,7 +42,9 @@ body,
   --ui-bg-solid: #fff;
   --ui-bg-hover: #f3f3f5;
   --ui-fg: #1b1b1f;
-  --ui-muted: #656d76;
+  /* Nudged a touch darker than the prior #656d76 so it clears WCAG AA (4.5:1)
+     on white even after .app-mobile-hint applies opacity: 0.9. */
+  --ui-muted: #5c636b;
   --ui-border: rgba(0, 0, 0, 0.08);
   --ui-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   --ui-shadow-pop: 0 6px 24px rgba(0, 0, 0, 0.18);
@@ -662,4 +664,22 @@ body,
 .menu-pop button:disabled:hover {
   background: transparent;
   color: inherit;
+}
+
+/* Honour the OS "reduce motion" setting by neutralising the transitions and
+   animations this app defines (button/pill hover fades, popup/modal motion).
+   Scoped to app-owned chrome so Excalidraw's own motion handling is untouched. */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .app-btn,
+  .app-shell .app-github-corner,
+  .app-shell .menu-pop,
+  .app-shell .menu-pop button,
+  .app-shell .menu-pop-pill,
+  .app-shell .app-modal,
+  .app-shell .app-modal-backdrop,
+  .app-shell .restore-chip,
+  .app-shell .app-mobile-hint {
+    transition: none !important;
+    animation: none !important;
+  }
 }

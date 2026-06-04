@@ -4,6 +4,9 @@ export const SITE_DOCUMENT_TITLE = "draw.marcopontili.com";
 /** Canonical HTTPS origin for Open Graph (`og:image`), derived from hostname above (no trailing slash). */
 export const SITE_ORIGIN = `https://${SITE_DOCUMENT_TITLE}`;
 
+/** Canonical document URL (origin with trailing slash) for `<link rel="canonical">` and `og:url`. */
+export const SITE_CANONICAL_URL = `${SITE_ORIGIN}/`;
+
 /** PWA `short_name` (launcher / installs). */
 export const SITE_SHORT_NAME = "draw";
 
