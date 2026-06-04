@@ -10,6 +10,18 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [1.4.4] - 2026-06-04
+
+- **Perf:** Load Roboto from the latin-only `@fontsource` entrypoints, dropping the unused cyrillic, greek, vietnamese, and latin-ext woff2 subsets.
+- **Perf:** Disable the `modulePreload` polyfill since the es2022 build target supports `<link rel="modulepreload">` natively.
+- **Enhance:** Trap focus inside the Insert modals, label them via `aria-labelledby`, and return focus to the opener on close.
+- **Enhance:** Close the Insert and Export menus on Escape or outside click, and add trigger `aria-label`s so the icon-only bar stays named below 1300px.
+- **Enhance:** Honour `prefers-reduced-motion` by neutralising app-chrome transitions, and darken `--ui-muted` to clear WCAG AA on white.
+- **Enhance:** Add `role="menuitem"` to the Insert, Export, and PDF-orientation items, with explicit labels on the PDF orientation pills.
+- **Enhance:** Add `rel=canonical`, `og:url`, and iOS/PWA web-app meta to `index.html` and expose `SITE_CANONICAL_URL`; the deliberate noindex stays.
+- **Docs:** Add `CLAUDE.md` with codebase orientation, the release flow, and repo gotchas.
+- **Build:** Add `scripts/audit-shots.mjs` to capture baseline/after screenshots across breakpoints and themes for visual-regression review.
+
 ## [1.4.3] - 2026-06-02
 
 - **Fix:** Stop autosave from wiping the saved scene while a restore is pending, so a reload no longer silently loses unsaved work.

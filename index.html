@@ -4,8 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content="A free, open-source whiteboard for sketching, math (LaTeX), and Mermaid diagrams, with automatic light/dark theme. No login. No tracking." />
+    <!-- Canonical URL. Keep in sync with src/siteMeta.ts (SITE_CANONICAL_URL). -->
+    <link rel="canonical" href="https://draw.marcopontili.com/" />
     <!-- Link previews: og/twitter image rewritten to SITE_ORIGIN at build (vite). -->
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://draw.marcopontili.com/" />
     <meta property="og:title" content="draw" />
     <meta
       property="og:description"
@@ -25,6 +28,11 @@
     <meta name="twitter:image" content="/social-preview.png" />
     <meta name="twitter:image:alt" content="draw: privacy-first whiteboard with LaTeX, Mermaid, and Markdown" />
     <meta name="theme-color" content="#1e1e1e" />
+    <!-- Installable PWA: standalone display + iOS web-app hints. Keep in sync with the VitePWA manifest in vite.config.ts. -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="draw" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
     <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />

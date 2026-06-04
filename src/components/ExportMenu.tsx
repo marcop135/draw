@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   copyPngToClipboard,
   exportExcalidraw,
@@ -34,6 +34,27 @@ export function ExportMenu({ getScene, dark }: Props) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const anchorRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
+    }
+    function onPointer(e: PointerEvent) {
+      if (!anchorRef.current?.contains(e.target as Node)) setOpen(false);
+    }
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", onPointer);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("pointerdown", onPointer);
+    };
+  }, [open]);
 
   async function run(fn: (s: SceneSnapshot) => Promise<void>) {
     setBusy(true);
@@ -49,13 +70,15 @@ export function ExportMenu({ getScene, dark }: Props) {
   }
 
   return (
-    <div className="menu-anchor">
+    <div className="menu-anchor" ref={anchorRef}>
       <button
+        ref={triggerRef}
         type="button"
         className={`app-btn${open ? " is-active" : ""}`}
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
+        aria-label="Export"
       >
         <Download size={18} className="app-btn-icon" />
         <span className="app-btn-label">Export</span>
@@ -63,15 +86,16 @@ export function ExportMenu({ getScene, dark }: Props) {
       </button>
       {open ? (
         <div className={`menu-pop${dark ? " dark" : ""}`} role="menu">
-          <button onClick={() => run(exportExcalidraw)} disabled={busy}>
+          <button role="menuitem" onClick={() => run(exportExcalidraw)} disabled={busy}>
             <PencilSquare size={20} />
             Excalidraw (.excalidraw)
           </button>
-          <button onClick={() => run(exportPng)} disabled={busy}>
+          <button role="menuitem" onClick={() => run(exportPng)} disabled={busy}>
             <FiletypePng size={20} />
             PNG
           </button>
           <button
+            role="menuitem"
             onClick={() => run(copyPngToClipboard)}
             disabled={busy || !clipboardSupported}
             title={
@@ -83,11 +107,11 @@ export function ExportMenu({ getScene, dark }: Props) {
             <Clipboard size={20} />
             Copy PNG to clipboard
           </button>
-          <button onClick={() => run(exportJpeg)} disabled={busy}>
+          <button role="menuitem" onClick={() => run(exportJpeg)} disabled={busy}>
             <FiletypeJpg size={20} />
             JPEG
           </button>
-          <button onClick={() => run(exportSvg)} disabled={busy}>
+          <button role="menuitem" onClick={() => run(exportSvg)} disabled={busy}>
             <FiletypeSvg size={20} />
             SVG
           </button>
@@ -96,27 +120,33 @@ export function ExportMenu({ getScene, dark }: Props) {
             <span className="menu-pop-pdf-label">PDF</span>
             <button
               type="button"
+              role="menuitem"
               className="menu-pop-pill"
               onClick={() => run((s) => exportPdf(s, "auto"))}
               disabled={busy}
+              aria-label="Export PDF, automatic orientation"
               title="Export PDF, orientation derived from canvas ratio"
             >
               auto
             </button>
             <button
               type="button"
+              role="menuitem"
               className="menu-pop-pill"
               onClick={() => run((s) => exportPdf(s, "portrait"))}
               disabled={busy}
+              aria-label="Export PDF, portrait orientation"
               title="Export PDF in portrait orientation"
             >
               portrait
             </button>
             <button
               type="button"
+              role="menuitem"
               className="menu-pop-pill"
               onClick={() => run((s) => exportPdf(s, "landscape"))}
               disabled={busy}
+              aria-label="Export PDF, landscape orientation"
               title="Export PDF in landscape orientation"
             >
               landscape
