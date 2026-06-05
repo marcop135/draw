@@ -197,8 +197,10 @@ body,
 }
 /* The Help (?) entry only fills in for Excalidraw's footer button, which it
    ships on desktop, so keep ours hidden until the mobile breakpoint reveals it.
-   Declared before the media queries so the <=730px override wins on source order. */
-.app-help-btn {
+   The descendant selector raises specificity above `.app-btn { display:
+   inline-flex }` (defined later in the file); without it that base rule wins on
+   source order and the help button leaks onto every desktop width. */
+.app-toolbar .app-help-btn {
   display: none;
   padding: 0;
   width: var(--ui-btn-size);
@@ -229,13 +231,19 @@ body,
     justify-content: center;
   }
 }
-/* At <=730px Excalidraw switches to its mobile layout: the centered toolbar and
-   side panels collapse into a single full-width bottom Island (hamburger on the
-   left, undo/redo on the right, an empty centre). Drop the floating bar into
-   that empty centre and strip its own chrome so it reads as part of the bottom
-   bar rather than a second island stacked above it. z-index lifts above
-   Excalidraw's UI layer (4) so the icons paint on top of the bar's surface. */
-@media (max-width: 730px) {
+/* When Excalidraw switches to its mobile layout the centered toolbar and side
+   panels collapse into a single full-width bottom Island (hamburger on the left,
+   undo/redo on the right, an empty centre). Drop the floating bar into that empty
+   centre and strip its own chrome so it reads as part of the bottom bar rather
+   than a second island stacked above it. z-index lifts above Excalidraw's UI
+   layer (4) so the icons paint on top of the bar's surface.
+
+   The condition mirrors Excalidraw's own breakpoint
+   (width < 730 || (height < 500 && width < 1000)) so this treatment kicks in for
+   landscape phones too. Keying on width alone left the bar in its <=1023 desktop
+   mode (z-index 3, opaque chrome) on landscape phones, where Excalidraw's mobile
+   Island (z-index 4) painted over it and the toolbar vanished. */
+@media (max-width: 729px), (max-height: 499px) and (max-width: 999px) {
   .app-toolbar {
     /* Centre the icons on the native bottom-bar row: its buttons sit at
        14px (bar margin) + 8px (Island padding) + half of a 2rem button =
@@ -251,8 +259,9 @@ body,
     box-shadow: none;
   }
   /* Excalidraw drops its footer Help (?) button in mobile layout, so surface
-     our own next to the GitHub link to keep shortcuts/help reachable. */
-  .app-help-btn {
+     our own next to the GitHub link to keep shortcuts/help reachable. Matches
+     the descendant-selector specificity of the base hide rule above. */
+  .app-toolbar .app-help-btn {
     display: inline-flex;
   }
   /* While a tool is active or something is selected, Excalidraw fills the bottom
