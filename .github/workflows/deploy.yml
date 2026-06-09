@@ -51,6 +51,10 @@ jobs:
           local-dir: ./dist/
           protocol: ftps
           port: 21
+          # Raise the per-operation timeout from the 30s default: the large
+          # Excalidraw/diagram chunks take long enough to upload that the FTPS
+          # control socket idles out on the shared host ("Timeout (control socket)").
+          timeout: 600000
           # TLS "strict" often fails on shared hosts: the FTPS cert CN/SAN matches
           # the provider hostname, not your custom domain (ERR_TLS_CERT_ALTNAME_INVALID).
           # Fix: point FTP_HOST at the hostname on the certificate, or keep security: loose.
