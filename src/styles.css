@@ -264,11 +264,29 @@ body,
   .app-toolbar .app-help-btn {
     display: inline-flex;
   }
-  /* While a tool is active or something is selected, Excalidraw fills the bottom
-     bar with edit/duplicate/delete buttons. Hide the overlay then so the two
-     never collide; it returns once the canvas is back to empty selection. */
-  .app-toolbar--editing {
+  /* The source link also lives in Excalidraw's hamburger menu ("Source code"),
+     so drop it from the crowded mobile bottom strip to give the remaining
+     actions room. */
+  .app-toolbar .app-github-corner {
     display: none;
+  }
+  /* While a tool is active or something is selected, Excalidraw fills the bottom
+     bar with edit/duplicate/delete buttons. Rather than hide our overlay (which
+     made Export unreachable until the user re-picked the selection tool), lift it
+     to float as its own island just above the native bottom bar so Insert/Export
+     stay tappable in any tool state. Restore the island chrome the base mobile
+     rule stripped, since it now sits over the canvas instead of inside the bar.
+     The doubled class outranks the later `.app-toolbar { bottom }` overrides
+     (equal specificity, later source order) so the lift holds at every width. */
+  .app-toolbar.app-toolbar--editing {
+    bottom: 5rem;
+    background: var(--ui-bg-solid);
+    padding: 4px;
+    gap: 4px;
+    box-shadow:
+      0 0 0.93px 0 rgba(0, 0, 0, 0.17),
+      0 0 3.13px 0 rgba(0, 0, 0, 0.08),
+      0 7px 14px 0 rgba(0, 0, 0, 0.05);
   }
   /* Orientation hint under the top toolbar, replacing the desktop-only arrows. */
   .app-mobile-hint {

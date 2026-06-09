@@ -1,7 +1,7 @@
 {
   "name": "draw-marcopontili-com",
   "private": true,
-  "version": "1.4.6",
+  "version": "1.5.0",
   "type": "module",
   "description": "Free whiteboard: Excalidraw with LaTeX (KaTeX), Mermaid-to-shapes, sanitized Markdown, automatic light/dark theme; PNG/JPEG/SVG/PDF export. React + TypeScript + Vite PWA; static, no backend or login.",
   "license": "MIT",
@@ -22,7 +22,6 @@
   },
   "dependencies": {
     "@excalidraw/excalidraw": "^0.18.1",
-    "@excalidraw/mermaid-to-excalidraw": "^2.2.2",
     "@fontsource/roboto": "^5.2.10",
     "bootstrap-icons": "^1.13.1",
     "dompurify": "^3.4.7",

@@ -10,7 +10,7 @@
 
 Live app: https://draw.marcopontili.com
 
-Excalidraw whiteboard with LaTeX, Mermaid, and Markdown inserts. Local-first PWA, no backend, no login.
+Excalidraw whiteboard with LaTeX and Markdown inserts, plus native Mermaid diagrams. Local-first PWA, no backend, no login.
 
 ## Acknowledgements
 
@@ -29,8 +29,8 @@ This app starts from the **[Excalidraw](https://github.com/excalidraw/excalidraw
 ## Tech stack
 
 - **React 18** and **TypeScript** with **Vite 6**
-- **@excalidraw/excalidraw**
-- **KaTeX**, **@excalidraw/mermaid-to-excalidraw**, **marked**, **DOMPurify**, **jsPDF**
+- **@excalidraw/excalidraw** (bundles **mermaid-to-excalidraw** for native diagram import)
+- **KaTeX**, **marked**, **DOMPurify**, **jsPDF**
 - **vite-plugin-pwa** (Workbox) for the service worker
 - **Vitest** and **Playwright** for automated tests
 
@@ -57,7 +57,8 @@ npm run build    # production output in dist/
 
 ## Usage
 
-- **Insert** menu (floating toolbar): add **LaTeX**, **Mermaid**, or **Markdown**.
+- **Insert** menu (floating toolbar): add **LaTeX** or **Markdown**.
+- **Mermaid**: Excalidraw's **More tools** menu -> **Mermaid to Excalidraw** turns diagrams into editable shapes.
 - **Export** menu: download **PNG**, **JPEG**, **SVG**, **PDF**, or **`.excalidraw`**.
 - **Theme** toggle (floating toolbar): cycle automatic (follows the OS) -> light -> dark; the choice is remembered.
 - **Excalidraw** menu (hamburger): theme, background, **Load** scene, defaults.
@@ -67,7 +68,7 @@ npm run build    # production output in dist/
 | Path | Description |
 | --- | --- |
 | `src/` | React app: `App.tsx`, components, `lib/` helpers |
-| `src/lib/` | Export, LaTeX, Markdown, Mermaid adapters |
+| `src/lib/` | Export, LaTeX, Markdown adapters |
 | `src/components/` | Insert and export menus, modals, GitHub repo link |
 | `public/` | Static assets, `robots.txt`, Apache `public/.htaccess` template |
 | `e2e/` | Playwright tests (smoke plus optional readme artefact specs) |

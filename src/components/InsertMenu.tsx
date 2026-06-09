@@ -1,13 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  BracesAsterisk,
-  ChevronDown,
-  Diagram3,
-  Markdown,
-  PlusSquare,
-} from "./icons";
+import { BracesAsterisk, ChevronDown, Markdown, PlusSquare } from "./icons";
 
-type InsertKind = "latex" | "mermaid" | "markdown";
+type InsertKind = "latex" | "markdown";
 
 type Props = {
   onPick: (kind: InsertKind) => void;
@@ -58,10 +52,6 @@ export function InsertMenu({ onPick, dark }: Props) {
           <button role="menuitem" onClick={() => { onPick("latex"); setOpen(false); }}>
             <BracesAsterisk size={20} />
             LaTeX
-          </button>
-          <button role="menuitem" onClick={() => { onPick("mermaid"); setOpen(false); }}>
-            <Diagram3 size={20} />
-            Mermaid
           </button>
           <button role="menuitem" onClick={() => { onPick("markdown"); setOpen(false); }}>
             <Markdown size={20} />
