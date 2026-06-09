@@ -10,6 +10,15 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [1.5.0] - 2026-06-09
+
+- **Enhance:** Drop the custom Insert > Mermaid modal and adapter; use Excalidraw's built-in Mermaid to Excalidraw (More tools menu), which parses the same diagrams into native editable shapes.
+- **Fix:** On phones, keep the action bar above Excalidraw's bottom bar while editing so Export stays reachable in any tool state.
+- **Style:** Drop the GitHub link from the crowded phone bottom bar; it stays in the hamburger menu and on the desktop toolbar.
+- **Enhance:** Show the app name beside the version in the hamburger menu (`draw v1.5.0`).
+- **Build:** Drop the now-unused `@excalidraw/mermaid-to-excalidraw` direct dependency; Excalidraw still bundles its own copy.
+- **Docs:** Correct the README usage, project structure, and tech-stack notes to reflect Mermaid moving to Excalidraw's native menu.
+
 ## [1.4.6] - 2026-06-05
 
 - **Fix:** Show our help (?) button only when Excalidraw hides its own, so it no longer doubles on mid-size screens.

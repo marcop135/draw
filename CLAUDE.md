@@ -27,8 +27,9 @@ PWA. No backend, no login, no tracking.
   localStorage with restore, and three lazy-loaded modals.
 - `src/components/` - app-owned UI. `Modal.tsx` is the shared dialog shell
   (focus trap, Escape, focus return); the LaTeX/Mermaid/Markdown modals wrap it.
-- `src/lib/` - pure-ish logic (export, persist, theme, latex, markdown, mermaid,
+- `src/lib/` - pure-ish logic (export, persist, theme, latex, markdown,
   insertImage, download, documentTitleGuard), each with a colocated `*.test.ts`.
+  Mermaid import is handled by Excalidraw's built-in "Mermaid to Excalidraw".
 - `src/styles.css` - app chrome only. Tokens live on `.app-shell`; theme flips by
   toggling a `dark` class so there is no useEffect/commit timing race. Excalidraw's
   own UI is restyled via scoped overrides; do not restyle its canvas.

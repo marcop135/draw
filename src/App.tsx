@@ -18,7 +18,7 @@ import { InsertMenu } from "./components/InsertMenu";
 import { RestoreChip } from "./components/RestoreChip";
 import { ThemeToggle } from "./components/ThemeToggle";
 import { Diagram3, Github, QuestionCircle } from "./components/icons";
-import { PROJECT_SOURCE_URL } from "./siteMeta";
+import { PROJECT_SOURCE_URL, SITE_SHORT_NAME } from "./siteMeta";
 import {
   clearSnapshot,
   loadSnapshot,
@@ -39,15 +39,12 @@ import { version as APP_VERSION } from "../package.json";
 const LatexModal = lazy(() =>
   import("./components/LatexModal").then((m) => ({ default: m.LatexModal })),
 );
-const MermaidModal = lazy(() =>
-  import("./components/MermaidModal").then((m) => ({ default: m.MermaidModal })),
-);
 const MarkdownModal = lazy(() =>
   import("./components/MarkdownModal").then((m) => ({
     default: m.MarkdownModal,
   })),
 );
-type ModalKind = null | "latex" | "mermaid" | "markdown";
+type ModalKind = null | "latex" | "markdown";
 
 const AUTOSAVE_DEBOUNCE_MS = 800;
 
@@ -198,7 +195,7 @@ export default function App() {
             Built on Excalidraw
           </MainMenu.ItemLink>
           <MainMenu.ItemCustom>
-            <span className="app-menu-about">v{APP_VERSION}</span>
+            <span className="app-menu-about">{SITE_SHORT_NAME} v{APP_VERSION}</span>
           </MainMenu.ItemCustom>
         </MainMenu>
       </Excalidraw>
@@ -235,9 +232,6 @@ export default function App() {
         <Suspense fallback={null}>
           {modal === "latex" && apiRef.current ? (
             <LatexModal api={apiRef.current} onClose={() => setModal(null)} />
-          ) : null}
-          {modal === "mermaid" && apiRef.current ? (
-            <MermaidModal api={apiRef.current} onClose={() => setModal(null)} />
           ) : null}
           {modal === "markdown" && apiRef.current ? (
             <MarkdownModal api={apiRef.current} onClose={() => setModal(null)} />

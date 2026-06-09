@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 /**
  * Run via `npm run capture:readme-gif`; WebM → `docs/readme-demo.gif` via ffmpeg.
  * Tells a short story of what the app does: draw with tools + colours, insert a
- * Mermaid diagram and a LaTeX formula, then flip the theme. Kept ~15s so the
+ * LaTeX formula and a Markdown note, then flip the theme. Kept ~15s so the
  * resulting gif stays small. Insert/theme steps are best-effort (guarded) so a
  * selector miss never aborts the recording.
  */
@@ -89,7 +89,7 @@ test.describe("readme gif artefact", () => {
       ".app-toolbar .menu-anchor:nth-of-type(1) > button",
     );
 
-    async function insertVia(item: "LaTeX" | "Mermaid", settle: number) {
+    async function insertVia(item: "LaTeX" | "Markdown", settle: number) {
       try {
         await insertBtn.click({ timeout: 2000 });
         await dwell(250);
@@ -107,13 +107,13 @@ test.describe("readme gif artefact", () => {
       }
     }
 
-    // Insert a LaTeX formula (KaTeX), then a Mermaid diagram (parsed into
-    // native, editable shapes). LaTeX first so it doesn't land on the diagram.
+    // Insert a LaTeX formula (KaTeX), then a Markdown note (parsed into native,
+    // editable shapes). LaTeX first so it doesn't land on the note.
     await insertVia("LaTeX", 700);
-    await insertVia("Mermaid", 1000);
+    await insertVia("Markdown", 1000);
 
     // Drop the tool (hides the side panel) and frame the whole scene. The
-    // Mermaid insert auto-scrolls to the diagram, so a zoom-to-fit brings every
+    // insert auto-scrolls to the new element, so a zoom-to-fit brings every
     // element (including the shapes drawn earlier) back into one clean frame.
     try {
       await page
