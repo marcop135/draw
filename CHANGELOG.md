@@ -10,6 +10,11 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [1.5.1] - 2026-06-23
+
+- **Build:** Bump `marked` 18.0.4 to 18.0.5 in the production group ([#62](https://github.com/marcop135/draw/pull/62)).
+- **Build:** Bump the dev-tooling group, 9 updates: Playwright, Prettier, Vitest, typescript-eslint, and `@types` ([#68](https://github.com/marcop135/draw/pull/68)).
+
 ## [1.5.0] - 2026-06-09
 
 - **Enhance:** Drop the custom Insert > Mermaid modal and adapter; use Excalidraw's built-in Mermaid to Excalidraw (More tools menu), which parses the same diagrams into native editable shapes.
