@@ -41,22 +41,33 @@ jobs:
         run: npx playwright install chromium --with-deps
       - run: npm run test:e2e
 
-      - name: Sync files via FTP
-        uses: SamKirkland/FTP-Deploy-Action@110f9186c050f71550953127052e77650219c287 # v4.4.0
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME_PRODUCTION }}
-          password: ${{ secrets.FTP_PASSWORD_PRODUCTION }}
-          server-dir: ./
-          local-dir: ./dist/
-          protocol: ftps
-          port: 21
-          # Raise the per-operation timeout from the 30s default: the large
-          # Excalidraw/diagram chunks take long enough to upload that the FTPS
-          # control socket idles out on the shared host ("Timeout (control socket)").
-          timeout: 600000
-          # TLS "strict" often fails on shared hosts: the FTPS cert CN/SAN matches
-          # the provider hostname, not your custom domain (ERR_TLS_CERT_ALTNAME_INVALID).
-          # Fix: point FTP_HOST at the hostname on the certificate, or keep security: loose.
-          security: loose
-          dangerous-clean-slate: false
+      # Prefer SFTP (lftp mirror over ssh), fall back to FTPS with retries.
+      # The shared host's FTPS control socket idles out intermittently
+      # ("connect ETIMEDOUT :21 (control socket)"), so a plain FTPS deploy
+      # flakes; SFTP avoids that when :22 is reachable. lftp's own retry/
+      # timeout settings cover transient drops on whichever transport wins.
+      # If SFTP can't connect on :22, set an SFTP_PORT secret (or the FTPS
+      # branch handles it). dist/ is mirrored into the web root (server-dir ./).
+      - name: Deploy (prefer SFTP, fall back to FTPS)
+        env:
+          DEPLOY_HOST: ${{ secrets.FTP_HOST }}
+          DEPLOY_USER: ${{ secrets.FTP_USERNAME_PRODUCTION }}
+          DEPLOY_PASS: ${{ secrets.FTP_PASSWORD_PRODUCTION }}
+          SFTP_PORT: ${{ secrets.SFTP_PORT }}
+        run: |
+          set -uo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          PORT="${SFTP_PORT:-22}"
+          COMMON="set net:timeout 30; set net:max-retries 3; set net:reconnect-interval-base 10; set mirror:parallel-transfer-count 1;"
+          echo "::group::Attempt SFTP (sftp://$DEPLOY_HOST:$PORT)"
+          if lftp -c "set sftp:auto-confirm yes; $COMMON open -u \"$DEPLOY_USER\",\"$DEPLOY_PASS\" sftp://$DEPLOY_HOST:$PORT; mirror -R --verbose ./dist/ ./"; then
+            echo "::endgroup::"
+            echo "Deployed via SFTP."
+            exit 0
+          fi
+          echo "::endgroup::"
+          echo "SFTP failed; falling back to FTPS on :21."
+          echo "::group::Attempt FTPS (ftp://$DEPLOY_HOST:21)"
+          lftp -c "set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate no; $COMMON open -u \"$DEPLOY_USER\",\"$DEPLOY_PASS\" ftp://$DEPLOY_HOST:21; mirror -R --verbose ./dist/ ./"
+          echo "::endgroup::"
+          echo "Deployed via FTPS."
