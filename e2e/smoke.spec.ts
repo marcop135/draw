@@ -5,7 +5,6 @@ test("home loads and root mounts", async ({ page }) => {
   await expect(page).toHaveTitle(/draw/i);
   await expect(page.locator("#root")).toBeVisible();
 
-  const gh = page.getByRole("link", { name: "Source code on GitHub" });
-  await expect(gh).toBeVisible();
-  await expect(gh).toHaveAttribute("href", "https://github.com/marcop135/draw");
+  // App chrome rendered: the floating toolbar's Export button is present.
+  await expect(page.getByRole("button", { name: "Export" })).toBeVisible();
 });

@@ -4,10 +4,11 @@ Guidance for working in this repo.
 
 ## What this is
 
-`draw.marcopontili.com`: a free, static, single-page whiteboard. Excalidraw plus
-LaTeX (KaTeX), Mermaid-to-shapes, sanitized Markdown, auto light/dark theme, and
-PNG/JPEG/SVG/PDF/`.excalidraw` export. React 19 + TypeScript + Vite, shipped as a
-PWA. No backend, no login, no tracking.
+`draw.marcopontili.com`: a personal, static, single-page whiteboard. The repo is
+private; keep public-facing chrome (source links, social cards, contributor docs)
+out. Excalidraw plus LaTeX (KaTeX), Mermaid-to-shapes, sanitized Markdown, auto
+light/dark theme, and PNG/JPEG/SVG/PDF/`.excalidraw` export. React 19 + TypeScript +
+Vite, shipped as a PWA. No backend, no login, no tracking.
 
 ## Commands
 
@@ -38,18 +39,14 @@ PWA. No backend, no login, no tracking.
 
 - The site is intentionally NOT indexed: `index.html` sets `noindex, nofollow`
   (plus googlebot/bingbot variants). Do not remove or weaken these.
-- `vite.config.ts` has an `injectAbsoluteSocialPreview` plugin that rewrites the
-  `og:image` and `twitter:image` lines to absolute URLs via a literal
-  `replaceAll`. If you reformat those two lines in `index.html`, the rewrite
-  silently stops. Keep them byte-identical or update the plugin.
 - Fonts are self-hosted: Roboto via `@fontsource/roboto/latin-*.css` (latin subset
   only; this is an English tool) and Excalidraw's fonts copied to `dist/fonts/` at
   build by `excalidrawAssetsPlugin`. Runtime never touches a CDN.
 - PWA precache globs in `vite.config.ts` match `assets/index-*.{js,css}`. Renaming
   the entry chunk pattern breaks precache.
 - `siteMeta.ts` exports (`SITE_DOCUMENT_TITLE`, `SITE_ORIGIN`, `SITE_SHORT_NAME`,
-  `PROJECT_SOURCE_URL`, `SITE_CANONICAL_URL`) are imported by `vite.config.ts` and
-  components. Add exports freely; do not rename or remove.
+  `SITE_CANONICAL_URL`) are imported by `vite.config.ts` and components. Add exports
+  freely; do not rename or remove.
 - Build target is `es2022`; `modulePreload.polyfill` is off (native support).
 
 ## Optimization pass (2026-06-04)

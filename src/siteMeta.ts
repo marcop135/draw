@@ -9,6 +9,3 @@ export const SITE_CANONICAL_URL = `${SITE_ORIGIN}/`;
 
 /** PWA `short_name` (launcher / installs). */
 export const SITE_SHORT_NAME = "draw";
-
-/** Public source repo (toolbar GitHub link). */
-export const PROJECT_SOURCE_URL = "https://github.com/marcop135/draw";

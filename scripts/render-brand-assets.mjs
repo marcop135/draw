@@ -1,5 +1,4 @@
 // Renders brand assets at build-time-equivalent quality:
-// - public/social-preview.png  (1280x640, GitHub social card, kept under 1 MB)
 // - public/favicon-16x16.png, favicon-32x32.png, favicon-48x48.png
 // - public/apple-touch-icon.png (180x180)
 // - public/android-chrome-192x192.png, android-chrome-512x512.png
@@ -36,23 +35,7 @@ async function renderSvg(svgPath, width, height, outPath) {
   return buf;
 }
 
-// 1) Social preview: 1280x640 from assets/social-preview.svg
-const socialBuf = await renderSvg(
-  join(root, "assets", "social-preview.svg"),
-  1280,
-  640,
-  join(publicDir, "social-preview.png"),
-);
-console.log(
-  `[social-preview] 1280x640 -> public/social-preview.png (${socialBuf.length} bytes)`,
-);
-if (socialBuf.length >= 1024 * 1024) {
-  throw new Error(
-    `social-preview.png is ${socialBuf.length} bytes, exceeds GitHub's 1 MB limit`,
-  );
-}
-
-// 2) Favicons + apple touch + PWA icons from public/favicon.svg
+// Favicons + apple touch + PWA icons from public/favicon.svg
 const faviconSvg = join(publicDir, "favicon.svg");
 const faviconSizes = [
   [16, "favicon-16x16.png"],
@@ -69,7 +52,7 @@ for (const [size, name] of faviconSizes) {
   console.log(`[favicon] ${size}x${size} -> public/${name} (${buf.length} bytes)`);
 }
 
-// 3) favicon.ico = single 32x32 PNG embedded in ICO container.
+// favicon.ico = single 32x32 PNG embedded in ICO container.
 // Modern browsers (and IE11) read PNG-in-ICO. Spec: ICONDIR (6) + ICONDIRENTRY (16) + image data.
 function buildIco(pngBuf, sizePx) {
   const dir = Buffer.alloc(6);

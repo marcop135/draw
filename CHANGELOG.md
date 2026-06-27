@@ -10,6 +10,13 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [1.6.0] - 2026-06-27
+
+- **Style:** Drop the toolbar GitHub icon and the "Source code" hamburger-menu item; the repo is now private and personal.
+- **Chore:** Remove the social-preview card, the Open Graph/Twitter meta, the canonical link, and the vite social-preview inject plugin.
+- **Docs:** Slim the README to a personal note and delete `SECURITY.md`; the public contributor and vuln-reporting docs no longer apply.
+- **Chore:** Remove the README/brand artifact specs, Playwright readme configs, and the hero/gif render scripts, plus their `capture:*` npm scripts.
+
 ## [1.5.1] - 2026-06-23
 
 - **Build:** Bump `marked` 18.0.4 to 18.0.5 in the production group ([#62](https://github.com/marcop135/draw/pull/62)).

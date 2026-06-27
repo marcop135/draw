@@ -13,12 +13,11 @@ import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 import type { SceneSnapshot } from "./lib/export";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ExportMenu } from "./components/ExportMenu";
-import { GitHubCornerLink } from "./components/GitHubCornerLink";
 import { InsertMenu } from "./components/InsertMenu";
 import { RestoreChip } from "./components/RestoreChip";
 import { ThemeToggle } from "./components/ThemeToggle";
-import { Diagram3, Github, QuestionCircle } from "./components/icons";
-import { PROJECT_SOURCE_URL, SITE_SHORT_NAME } from "./siteMeta";
+import { Diagram3, QuestionCircle } from "./components/icons";
+import { SITE_SHORT_NAME } from "./siteMeta";
 import {
   clearSnapshot,
   loadSnapshot,
@@ -188,9 +187,6 @@ export default function App() {
           <MainMenu.DefaultItems.ToggleTheme />
           <MainMenu.DefaultItems.ChangeCanvasBackground />
           <MainMenu.Separator />
-          <MainMenu.ItemLink href={PROJECT_SOURCE_URL} icon={<Github />}>
-            Source code
-          </MainMenu.ItemLink>
           <MainMenu.ItemLink href={EXCALIDRAW_URL} icon={<Diagram3 />}>
             Built on Excalidraw
           </MainMenu.ItemLink>
@@ -206,7 +202,6 @@ export default function App() {
         />
         <ExportMenu getScene={getScene} dark={theme === "dark"} />
         <ThemeToggle preference={preference} onCycle={onCycleTheme} />
-        <GitHubCornerLink dark={theme === "dark"} />
         <button
           type="button"
           className="app-btn app-help-btn"

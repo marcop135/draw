@@ -165,8 +165,7 @@ body,
 
 /* Keep every toolbar glyph at one size regardless of the size prop each
    component passes. */
-.app-toolbar .app-btn svg,
-.app-toolbar .app-github-corner svg {
+.app-toolbar .app-btn svg {
   width: 18px;
   height: 18px;
 }
@@ -259,16 +258,10 @@ body,
     box-shadow: none;
   }
   /* Excalidraw drops its footer Help (?) button in mobile layout, so surface
-     our own next to the GitHub link to keep shortcuts/help reachable. Matches
-     the descendant-selector specificity of the base hide rule above. */
+     our own to keep shortcuts/help reachable. Matches the descendant-selector
+     specificity of the base hide rule above. */
   .app-toolbar .app-help-btn {
     display: inline-flex;
-  }
-  /* The source link also lives in Excalidraw's hamburger menu ("Source code"),
-     so drop it from the crowded mobile bottom strip to give the remaining
-     actions room. */
-  .app-toolbar .app-github-corner {
-    display: none;
   }
   /* While a tool is active or something is selected, Excalidraw fills the bottom
      bar with edit/duplicate/delete buttons. Rather than hide our overlay (which
@@ -308,8 +301,7 @@ body,
 @media (max-width: 640px) {
   /* Snug 32px-wide touch squares on phones (matching the native bar's button
      width) so the icons sit close together; keep 40px tall for easy tapping. */
-  .app-toolbar .app-btn,
-  .app-toolbar .app-github-corner {
+  .app-toolbar .app-btn {
     width: 32px;
     height: 40px;
     padding: 0;
@@ -476,34 +468,6 @@ body,
   background: var(--ui-accent-bg);
   color: var(--ui-accent-fg);
   border-color: transparent;
-}
-
-.app-github-corner {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  width: var(--ui-btn-size);
-  height: var(--ui-btn-size);
-  border-radius: var(--ui-radius-sm);
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--ui-fg);
-  text-decoration: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  transition: background-color 120ms ease;
-}
-
-.app-github-corner:hover {
-  background: var(--ui-bg-hover);
-}
-
-.app-github-corner:focus-visible {
-  outline: 2px solid var(--ui-focus);
-  outline-offset: 1px;
 }
 
 .app-modal-backdrop {
@@ -698,7 +662,6 @@ body,
    Scoped to app-owned chrome so Excalidraw's own motion handling is untouched. */
 @media (prefers-reduced-motion: reduce) {
   .app-shell .app-btn,
-  .app-shell .app-github-corner,
   .app-shell .menu-pop,
   .app-shell .menu-pop button,
   .app-shell .menu-pop-pill,
