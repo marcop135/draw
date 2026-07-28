@@ -1,7 +1,7 @@
 {
   "name": "draw-marcopontili-com",
   "private": true,
-  "version": "1.6.0",
+  "version": "1.6.1",
   "type": "module",
   "description": "Personal whiteboard: Excalidraw with LaTeX (KaTeX), Mermaid-to-shapes, sanitized Markdown, automatic light/dark theme; PNG/JPEG/SVG/PDF export. React + TypeScript + Vite PWA; static, no backend or login.",
   "license": "MIT",
@@ -22,7 +22,7 @@
     "@excalidraw/excalidraw": "^0.18.1",
     "@fontsource/roboto": "^5.3.0",
     "bootstrap-icons": "^1.13.1",
-    "dompurify": "^3.4.7",
+    "dompurify": "^3.4.12",
     "jspdf": "^4.2.1",
     "katex": "^0.18.1",
     "marked": "^18.0.7",
@@ -51,14 +51,14 @@
     "vitest": "^4.1.10"
   },
   "overrides": {
-    "dompurify": "^3.4.7",
+    "dompurify": "^3.4.12",
     "nanoid": "^5.1.9",
     "uuid": "^14.0.0",
     "esbuild": "^0.25.0",
     "lodash-es": "^4.18.1",
     "serialize-javascript": "^7.0.5",
     "@typescript-eslint/typescript-estree": {
-      "brace-expansion": "^5.0.6"
+      "brace-expansion": "^5.0.8"
     },
     "ws": "^8.20.1"
   }

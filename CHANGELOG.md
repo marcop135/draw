@@ -10,6 +10,16 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [1.6.1] - 2026-07-28
+
+- **Build:** Bump the production group: `@fontsource/roboto`, `katex`, `marked`, `react`, and `react-dom` ([#77](https://github.com/marcop135/draw/pull/77)).
+- **Build:** Bump the dev-tooling group, 8 updates: Playwright, Prettier, Vitest, typescript-eslint, and `@types` ([#74](https://github.com/marcop135/draw/pull/74)).
+- **Build:** Bump `fast-uri` 3.1.2 to 3.1.4 ([#76](https://github.com/marcop135/draw/pull/76)).
+- **Build:** Bump `immutable` 4.3.8 to 4.3.9 ([#78](https://github.com/marcop135/draw/pull/78)).
+- **Build:** Bump `js-yaml` 4.2.0 to 4.3.0 ([#79](https://github.com/marcop135/draw/pull/79)).
+- **CI:** Bump `actions/checkout` to v7.0.0 ([#70](https://github.com/marcop135/draw/pull/70)).
+- **Sec:** Pin `dompurify` `^3.4.12` via overrides to clear audit advisories.
+
 ## [1.6.0] - 2026-06-27
 
 - **Style:** Drop the toolbar GitHub icon and the "Source code" hamburger-menu item; the repo is now private and personal.
