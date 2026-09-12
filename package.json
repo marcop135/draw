@@ -1,7 +1,7 @@
 {
   "name": "draw-marcopontili-com",
   "private": true,
-  "version": "1.6.1",
+  "version": "1.6.2",
   "type": "module",
   "description": "Personal whiteboard: Excalidraw with LaTeX (KaTeX), Mermaid-to-shapes, sanitized Markdown, automatic light/dark theme; PNG/JPEG/SVG/PDF export. React + TypeScript + Vite PWA; static, no backend or login.",
   "license": "MIT",
@@ -22,7 +22,7 @@
     "@excalidraw/excalidraw": "^0.18.1",
     "@fontsource/roboto": "^5.3.0",
     "bootstrap-icons": "^1.13.1",
-    "dompurify": "^3.4.12",
+    "dompurify": "^3.4.15",
     "jspdf": "^4.2.1",
     "katex": "^0.18.1",
     "marked": "^18.0.7",
@@ -30,35 +30,52 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "^1.62.1",
     "@types/katex": "^0.16.7",
     "@types/node": "^22.20.1",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "@typescript-eslint/eslint-plugin": "^8.63.0",
-    "@typescript-eslint/parser": "^8.63.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@typescript-eslint/eslint-plugin": "8.67.0",
+    "@typescript-eslint/parser": "8.67.0",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.39.5",
     "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.5.3",
+    "eslint-plugin-react-refresh": "^0.5.4",
     "globals": "^15.11.0",
     "jsdom": "^26.1.0",
-    "prettier": "^3.9.5",
+    "prettier": "^3.9.6",
     "typescript": "^5.6.2",
-    "typescript-eslint": "^8.63.0",
+    "typescript-eslint": "8.67.0",
     "vite": "^6.4.3",
     "vite-plugin-pwa": "^1.3.0",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   },
   "overrides": {
-    "dompurify": "^3.4.12",
-    "nanoid": "^5.1.9",
+    "dompurify": "^3.4.15",
+    "nanoid": "^5.1.16",
     "uuid": "^14.0.0",
     "esbuild": "^0.25.0",
     "lodash-es": "^4.18.1",
     "serialize-javascript": "^7.0.5",
+    "mermaid": "^11.16.1",
+    "browserslist": "^4.28.9",
+    "baseline-browser-mapping": "^2.11.22",
+    "fast-uri": "^3.1.7",
+    "js-yaml": "^4.3.2",
     "@typescript-eslint/typescript-estree": {
-      "brace-expansion": "^5.0.8"
+      "brace-expansion": "^5.0.9"
+    },
+    "@eslint/config-array": {
+      "brace-expansion": "1.1.18"
+    },
+    "@eslint/eslintrc": {
+      "brace-expansion": "1.1.18"
+    },
+    "eslint": {
+      "brace-expansion": "1.1.18"
+    },
+    "filelist": {
+      "brace-expansion": "2.1.4"
     },
     "ws": "^8.20.1"
   }
