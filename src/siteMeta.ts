@@ -1,10 +1,10 @@
 /** Browser `<title>` and PWA manifest `name` (full hostname). README uses `# draw` as the short product heading. */
 export const SITE_DOCUMENT_TITLE = "draw.marcopontili.com";
 
-/** Canonical HTTPS origin for Open Graph (`og:image`), derived from hostname above (no trailing slash). */
+/** HTTPS origin derived from the document title hostname (no trailing slash). */
 export const SITE_ORIGIN = `https://${SITE_DOCUMENT_TITLE}`;
 
-/** Canonical document URL (origin with trailing slash) for `<link rel="canonical">` and `og:url`. */
+/** Origin with trailing slash. Kept for vite/PWA consumers; do not re-add public SEO/social tags. */
 export const SITE_CANONICAL_URL = `${SITE_ORIGIN}/`;
 
 /** PWA `short_name` (launcher / installs). */

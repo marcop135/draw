@@ -10,6 +10,13 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [1.6.2] - 2026-09-12
+
+- **Sec:** Raise `dompurify` to `^3.4.15` and pin overrides for `nanoid`, `mermaid`, `browserslist`, `fast-uri`, `js-yaml`, and `brace-expansion`.
+- **Build:** Bump the development group: Playwright, Vitest, typescript-eslint, Prettier, and `@types`.
+- **CI:** Bump `actions/checkout` to v7.0.1 and `actions/setup-node` to v7.0.0.
+- **Docs:** Align `CLAUDE.md` and `siteMeta` comments with the private chrome (no GitHub toolbar, no public SEO/social tags).
+
 ## [1.6.1] - 2026-07-28
 
 - **Build:** Bump the production group: `@fontsource/roboto`, `katex`, `marked`, `react`, and `react-dom` ([#77](https://github.com/marcop135/draw/pull/77)).

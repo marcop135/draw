@@ -24,10 +24,10 @@ Vite, shipped as a PWA. No backend, no login, no tracking.
 - `src/main.tsx` - entry: registers the service worker, sets
   `window.EXCALIDRAW_ASSET_PATH`, imports self-hosted Roboto, mounts `<App>`.
 - `src/App.tsx` - the only screen. Hosts `<Excalidraw>`, a floating
-  `.app-toolbar` (Insert / Export / Theme / GitHub / Help), autosave to
-  localStorage with restore, and three lazy-loaded modals.
+  `.app-toolbar` (Insert / Export / Theme / Help), autosave to
+  localStorage with restore, and two lazy-loaded modals (LaTeX, Markdown).
 - `src/components/` - app-owned UI. `Modal.tsx` is the shared dialog shell
-  (focus trap, Escape, focus return); the LaTeX/Mermaid/Markdown modals wrap it.
+  (focus trap, Escape, focus return); the LaTeX and Markdown modals wrap it.
 - `src/lib/` - pure-ish logic (export, persist, theme, latex, markdown,
   insertImage, download, documentTitleGuard), each with a colocated `*.test.ts`.
   Mermaid import is handled by Excalidraw's built-in "Mermaid to Excalidraw".
@@ -63,8 +63,8 @@ Performance, accessibility, SEO, and code-quality audit. Changes:
   `display:none` below 1300px), and explicit labels on the PDF pills.
   `styles.css` added a `prefers-reduced-motion` block and darkened `--ui-muted`
   to clear WCAG AA on white.
-- SEO: `index.html` added `rel=canonical`, `og:url`, and iOS/PWA web-app meta;
-  `siteMeta.ts` added `SITE_CANONICAL_URL`. The noindex directives are unchanged.
+- PWA/meta: iOS/PWA web-app meta and `SITE_CANONICAL_URL` landed here; public
+  canonical/OG tags were removed again in 1.6.0. The noindex directives stay.
 - Code quality: `src/lib` audited; already clean, no changes. Known non-blocking
   item: `utf8ToBase64` is duplicated in `latex.ts` and `markdown.ts`.
 
