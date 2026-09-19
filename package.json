@@ -24,10 +24,10 @@
     "bootstrap-icons": "^1.13.1",
     "dompurify": "^3.4.15",
     "jspdf": "^4.2.1",
-    "katex": "^0.18.1",
-    "marked": "^18.0.7",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "katex": "^0.18.7",
+    "marked": "^18.0.13",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
