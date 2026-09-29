@@ -10,11 +10,11 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
-## [Unreleased]
+## [1.6.3] - 2026-09-29
 
-- **Sec:** Raise `dompurify` to `^3.4.16` (direct and overrides).
-- **Build:** Bump the production group: `katex`, `marked`, `react`, and `react-dom`.
-- **Build:** Bump the development group: typescript-eslint, Prettier, `@types/node`, and `eslint-plugin-react-refresh`.
+- **Sec:** Raise `dompurify` to `^3.4.16` (direct and overrides) ([#98](https://github.com/marcop135/draw/pull/98)).
+- **Build:** Bump the production group: `katex`, `marked`, `react`, and `react-dom` ([#98](https://github.com/marcop135/draw/pull/98)).
+- **Build:** Bump the development group: typescript-eslint, Prettier, `@types/node`, and `eslint-plugin-react-refresh` ([#98](https://github.com/marcop135/draw/pull/98)).
 
 ## [1.6.2] - 2026-09-12
 
