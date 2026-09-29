@@ -10,6 +10,12 @@
 
 **Labels:** **Build**, **Chore**, **CI**, **Docs**, **Enhance**, **Feat**, **Fix**, **Perf**, **Revert**, **Sec**, **Style**; append **(WIP)** only for incomplete work.
 
+## [Unreleased]
+
+- **Sec:** Raise `dompurify` to `^3.4.16` (direct and overrides).
+- **Build:** Bump the production group: `katex`, `marked`, `react`, and `react-dom`.
+- **Build:** Bump the development group: typescript-eslint, Prettier, `@types/node`, and `eslint-plugin-react-refresh`.
+
 ## [1.6.2] - 2026-09-12
 
 - **Sec:** Raise `dompurify` to `^3.4.15` and pin overrides for `nanoid`, `mermaid`, `browserslist`, `fast-uri`, `js-yaml`, and `brace-expansion`.
