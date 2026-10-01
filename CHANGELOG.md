@@ -12,6 +12,8 @@
 
 ## [Unreleased]
 
+- **Docs:** Expand the README for the live private Excalidraw app and replace the MIT claim with proprietary licensing.
+
 ## [1.7.1] - 2026-10-01
 
 - **Docs:** Drop the README banner image and its brand sources; keep social and OG only.
