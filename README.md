@@ -1,7 +1,7 @@
 # draw
 
 [![CI](https://github.com/marcop135/draw/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/marcop135/draw/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-1.7.1-informational)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.7.2-informational)](./CHANGELOG.md)
 
 Personal whiteboard at [draw.marcopontili.com](https://draw.marcopontili.com). The app is live; this repository is **private**.
 
