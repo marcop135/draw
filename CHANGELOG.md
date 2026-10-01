@@ -12,6 +12,9 @@
 
 ## [Unreleased]
 
+- **Docs:** Drop the README banner image and its brand sources; keep social and OG only.
+- **Docs:** Add SECURITY, CONTRIBUTING, Code of Conduct, issue and PR templates.
+
 ## [1.7.0] - 2026-10-01
 
 - **Fix:** Name the tab `draw · Whiteboard with LaTeX, Mermaid and Markdown` instead of the bare hostname.
