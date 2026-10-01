@@ -1,0 +1,110 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "draw",
+    "version": "1.7.0",
+    "summary": "Client-only whiteboard in the browser",
+    "description": "There is no remote drawing or export HTTP API. Agents load https://draw.marcopontili.com/ and drive window.draw via Playwriter (or equivalent browser automation). See /llms.txt and /for-agents.html.",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://draw.marcopontili.com",
+      "description": "Production PWA (static files)"
+    }
+  ],
+  "paths": {
+    "/llms.txt": {
+      "get": {
+        "operationId": "getLlmsTxt",
+        "summary": "Agent site map and when-to-use notes",
+        "responses": {
+          "200": {
+            "description": "Plain-text llms.txt",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth.md": {
+      "get": {
+        "operationId": "getAuthMd",
+        "summary": "Authentication notes (none required)",
+        "responses": {
+          "200": {
+            "description": "Markdown auth document",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/for-agents.html": {
+      "get": {
+        "operationId": "getForAgents",
+        "summary": "Human and agent portal",
+        "responses": {
+          "200": {
+            "description": "HTML portal",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "operationId": "getOpenApi",
+        "summary": "This OpenAPI document",
+        "responses": {
+          "200": {
+            "description": "OpenAPI 3.1 JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/.well-known/api-catalog": {
+      "get": {
+        "operationId": "getApiCatalog",
+        "summary": "RFC 9727 API catalog",
+        "responses": {
+          "200": {
+            "description": "Linkset of discovery documents",
+            "content": {
+              "application/linkset+json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

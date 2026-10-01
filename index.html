@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="description" content="A free, offline-capable whiteboard for sketching, math (LaTeX), and Mermaid diagrams, with automatic light/dark theme. No login. No tracking." />
+    <meta name="description" content="Sketch, write LaTeX math, and turn Mermaid code into editable shapes. Export PNG, SVG, PDF or .excalidraw. Works offline. No login, no tracking." />
     <meta name="theme-color" content="#1e1e1e" />
     <!-- Installable PWA: standalone display + iOS web-app hints. Keep in sync with the VitePWA manifest in vite.config.ts. -->
     <meta name="mobile-web-app-capable" content="yes" />
@@ -14,14 +14,25 @@
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
     <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
     <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
-    <!-- Favicons: SVG primary, PNG fallbacks for older browsers, ICO for legacy /favicon.ico requests, apple-touch-icon for iOS. -->
+    <!-- Favicons: SVG primary, ICO (16/32/48) for legacy /favicon.ico requests, opaque apple-touch-icon for iOS. Regenerate with npm run assets:brand. -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <!-- Keep in sync with src/siteMeta.ts (SITE_DOCUMENT_TITLE) -->
-    <title>draw.marcopontili.com</title>
+    <!-- Social cards. No canonical: the page is noindex. og.png renders from .github/brand/og.svg (npm run brand:images). Keep in sync with src/siteMeta.ts. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://draw.marcopontili.com/" />
+    <meta property="og:site_name" content="draw" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="draw · Whiteboard with LaTeX, Mermaid and Markdown" />
+    <meta property="og:description" content="Sketch, write LaTeX math, and turn Mermaid code into editable shapes. Export PNG, SVG, PDF or .excalidraw. Works offline. No login, no tracking." />
+    <meta property="og:image" content="https://draw.marcopontili.com/og.png?v=1" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="draw: a whiteboard with LaTeX, Mermaid and Markdown inserts" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Keep in sync with src/siteMeta.ts (SITE_PAGE_TITLE) -->
+    <title>draw · Whiteboard with LaTeX, Mermaid and Markdown</title>
   </head>
   <body>
     <div id="root"></div>

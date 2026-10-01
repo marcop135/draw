@@ -53,6 +53,13 @@ export default defineConfig({
         globPatterns: ["index.html", "assets/index-*.{js,css}", "favicon.svg"],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         navigateFallback: "/index.html",
+        // Agent discovery files are static documents, not app routes: never
+        // answer them with the cached app shell.
+        navigateFallbackDenylist: [
+          /^\/for-agents\.html$/,
+          /^\/(?:llms\.txt|auth\.md|openapi\.json)$/,
+          /^\/\.well-known\//,
+        ],
         cleanupOutdatedCaches: true,
         runtimeCaching: [
           {
@@ -87,6 +94,7 @@ export default defineConfig({
         "apple-touch-icon.png",
         "android-chrome-192x192.png",
         "android-chrome-512x512.png",
+        "maskable-512x512.png",
         "robots.txt",
       ],
       manifest: {
@@ -104,19 +112,26 @@ export default defineConfig({
             src: "/favicon.svg",
             sizes: "any",
             type: "image/svg+xml",
-            purpose: "any maskable",
+            purpose: "any",
           },
           {
             src: "/android-chrome-192x192.png",
             sizes: "192x192",
             type: "image/png",
-            purpose: "any maskable",
+            purpose: "any",
           },
           {
             src: "/android-chrome-512x512.png",
             sizes: "512x512",
             type: "image/png",
-            purpose: "any maskable",
+            purpose: "any",
+          },
+          {
+            // Full bleed, glyph inside the 80% safe zone (public/favicon-maskable.svg).
+            src: "/maskable-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable",
           },
         ],
       },

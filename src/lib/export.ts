@@ -64,10 +64,27 @@ async function getSvg(scene: SceneSnapshot): Promise<SVGSVGElement> {
   });
 }
 
-export async function exportSvg(scene: SceneSnapshot): Promise<void> {
+/** Serialized SVG markup of the scene, without triggering a download. */
+export async function renderSvgString(scene: SceneSnapshot): Promise<string> {
   if (!isExportable(scene.elements)) throw new Error("Canvas is empty.");
   const svg = await getSvg(scene);
-  const xml = new XMLSerializer().serializeToString(svg);
+  return new XMLSerializer().serializeToString(svg);
+}
+
+/** PNG data URL of the scene, without triggering a download. */
+export async function renderPngDataUrl(scene: SceneSnapshot): Promise<string> {
+  if (!isExportable(scene.elements)) throw new Error("Canvas is empty.");
+  const blob = await exportToBlob({
+    elements: scene.elements,
+    appState: baseAppState(scene.appState),
+    files: scene.files,
+    mimeType: "image/png",
+  });
+  return blobToDataUrl(blob);
+}
+
+export async function exportSvg(scene: SceneSnapshot): Promise<void> {
+  const xml = await renderSvgString(scene);
   const blob = new Blob([xml], { type: "image/svg+xml;charset=utf-8" });
   downloadBlob(blob, timestampedFilename("svg"));
 }
