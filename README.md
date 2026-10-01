@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/marcop135/draw/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/marcop135/draw/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![Version](https://img.shields.io/badge/version-1.7.0-informational)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.7.1-informational)](./CHANGELOG.md)
 
 Personal whiteboard at [draw.marcopontili.com](https://draw.marcopontili.com). Excalidraw with LaTeX and Markdown inserts, native Mermaid diagrams, system light/dark theme, and PNG/JPEG/SVG/PDF/`.excalidraw` export. Local-first PWA: no backend, no login, no tracking. Built on [Excalidraw](https://github.com/excalidraw/excalidraw) (MIT).
 
