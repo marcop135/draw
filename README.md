@@ -1,5 +1,3 @@
-![draw: a whiteboard with LaTeX, Mermaid and Markdown inserts](.github/brand/readme.png)
-
 # draw
 
 [![CI](https://github.com/marcop135/draw/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/marcop135/draw/actions/workflows/ci.yml)
@@ -39,9 +37,13 @@ npm run lint && npm test && npm run test:e2e
 
 ```bash
 npm run assets:brand          # favicons / app icons from public/favicon*.svg
-npm run brand:images          # README, GitHub social, OG PNGs from .github/brand/
+npm run brand:images          # GitHub social and OG PNGs from .github/brand/
 npm run brand:images:check    # assert those PNGs match the SVGs
 npm run verify:agent-readiness
 ```
+
+## Contributing
+
+Personal project. See [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 Licensed under [MIT](./LICENSE).
