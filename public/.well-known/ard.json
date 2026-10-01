@@ -1,0 +1,64 @@
+{
+  "entries": [
+    {
+      "identifier": "urn:air:draw.marcopontili.com:llms",
+      "displayName": "llms.txt",
+      "type": "text/plain",
+      "mediaType": "text/plain",
+      "url": "https://draw.marcopontili.com/llms.txt",
+      "description": "Site map, when-to-use notes, and Playwriter control overview for draw.",
+      "representativeQueries": [
+        "How should an agent use draw.marcopontili.com?",
+        "When should I sketch a diagram in the browser with LaTeX and Mermaid?"
+      ]
+    },
+    {
+      "identifier": "urn:air:draw.marcopontili.com:auth",
+      "displayName": "auth.md",
+      "type": "text/markdown",
+      "mediaType": "text/markdown",
+      "url": "https://draw.marcopontili.com/auth.md",
+      "description": "Authentication notes: no accounts, API keys, OAuth, or hosted MCP.",
+      "representativeQueries": [
+        "Does draw require an API key?",
+        "How do agents authenticate to draw?"
+      ]
+    },
+    {
+      "identifier": "urn:air:draw.marcopontili.com:openapi",
+      "displayName": "openapi.json",
+      "type": "application/json",
+      "mediaType": "application/json",
+      "url": "https://draw.marcopontili.com/openapi.json",
+      "description": "OpenAPI description of public static surfaces; drawing and export run in the browser only.",
+      "representativeQueries": [
+        "What public URLs does draw expose?",
+        "Is there a draw REST API?"
+      ]
+    },
+    {
+      "identifier": "urn:air:draw.marcopontili.com:for-agents",
+      "displayName": "For agents portal",
+      "type": "text/html",
+      "mediaType": "text/html",
+      "url": "https://draw.marcopontili.com/for-agents.html",
+      "description": "Inventory of agent discovery files and the window.draw control contract.",
+      "representativeQueries": [
+        "Where is the draw agent portal?",
+        "How do I drive draw from Playwriter?"
+      ]
+    },
+    {
+      "identifier": "urn:air:draw.marcopontili.com:agent-skills",
+      "displayName": "Agent skills index",
+      "type": "application/json",
+      "mediaType": "application/json",
+      "url": "https://draw.marcopontili.com/.well-known/agent-skills/index.json",
+      "description": "Published skills for coding agents, including the Playwriter scene workflow.",
+      "representativeQueries": [
+        "What agent skills does draw publish?",
+        "How do I export a PNG from draw with Playwriter?"
+      ]
+    }
+  ]
+}

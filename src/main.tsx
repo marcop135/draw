@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { registerSW } from "virtual:pwa-register";
 import App from "./App";
 import { installDocumentTitleGuard } from "./lib/documentTitleGuard";
-import { SITE_DOCUMENT_TITLE } from "./siteMeta";
+import { SITE_PAGE_TITLE } from "./siteMeta";
 // Self-hosted Roboto (woff2 served from our own bundle, no Google CDN at runtime).
 // Latin-only entrypoints: this is an English-only tool, so we skip the cyrillic,
 // greek, math, symbols, vietnamese, and latin-ext subsets the bare per-weight
@@ -39,7 +39,7 @@ declare global {
 }
 window.EXCALIDRAW_ASSET_PATH = "/";
 
-installDocumentTitleGuard(SITE_DOCUMENT_TITLE);
+installDocumentTitleGuard(SITE_PAGE_TITLE);
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Root element not found");

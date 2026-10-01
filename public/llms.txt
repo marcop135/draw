@@ -1,0 +1,46 @@
+# draw (draw.marcopontili.com)
+
+> Browser whiteboard built on Excalidraw, with LaTeX math, Mermaid-to-shapes and sanitized Markdown inserts. Runs in the browser, works offline, and stores the scene only in localStorage.
+
+Live app: https://draw.marcopontili.com/
+
+## When to use
+
+Use this app when an agent or person needs to sketch a diagram, place rendered LaTeX, or turn Mermaid code into editable shapes, then export the result.
+
+**Good fits**
+
+- Build or edit an Excalidraw scene and export it as PNG or SVG
+- Round-trip `.excalidraw` JSON through a live editor
+- Drive the live UI from a coding agent with Playwriter
+
+**Prefer something else for**
+
+- Server-side or headless batch rendering (this product has no backend)
+- Hosted MCP tools (none; see `/auth.md`)
+- Search indexing (the app is intentionally `noindex`)
+
+## How agents control the app
+
+1. Open https://draw.marcopontili.com/ (or a local Vite server on port 5173).
+2. Wait until `window.draw` is defined.
+3. Call `await window.draw.setScene(json)` with `.excalidraw` JSON (`type: "excalidraw"`, `elements` array, max 20 MB).
+4. Read the scene back with `window.draw.getScene()` (`.excalidraw` JSON string).
+5. Export with `await window.draw.exportImage("png")` (data URL) or `await window.draw.exportImage("svg")` (SVG markup).
+
+Skill: https://draw.marcopontili.com/.well-known/agent-skills/draw-scene/SKILL.md (Playwriter procedure).
+
+## Machine-readable surfaces
+
+- [For agents](https://draw.marcopontili.com/for-agents.html): portal inventory
+- [auth.md](https://draw.marcopontili.com/auth.md): authentication (none)
+- [openapi.json](https://draw.marcopontili.com/openapi.json): public surface description
+- [API catalog](https://draw.marcopontili.com/.well-known/api-catalog): RFC 9727 linkset
+- [ARD catalog](https://draw.marcopontili.com/.well-known/ard.json)
+- [Agent skills index](https://draw.marcopontili.com/.well-known/agent-skills/index.json)
+
+## Notes
+
+- No accounts, API keys, OAuth, or hosted MCP.
+- Scenes stay in the browser session; nothing is uploaded.
+- Crawlers remain disallowed in `robots.txt` by design; this file is for agents that already have the URL.

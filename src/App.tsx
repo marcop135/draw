@@ -7,16 +7,23 @@ import {
   useRef,
   useState,
 } from "react";
-import { Excalidraw, MainMenu, WelcomeScreen } from "@excalidraw/excalidraw";
+import {
+  Excalidraw,
+  MainMenu,
+  WelcomeScreen,
+  loadFromBlob,
+  serializeAsJSON,
+} from "@excalidraw/excalidraw";
 import "@excalidraw/excalidraw/index.css";
 import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
-import type { SceneSnapshot } from "./lib/export";
+import { renderPngDataUrl, renderSvgString, type SceneSnapshot } from "./lib/export";
+import { registerAgentHandlers, unregisterAgentHandlers } from "./lib/agentBridge";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ExportMenu } from "./components/ExportMenu";
 import { InsertMenu } from "./components/InsertMenu";
 import { RestoreChip } from "./components/RestoreChip";
 import { ThemeToggle } from "./components/ThemeToggle";
-import { Diagram3, QuestionCircle } from "./components/icons";
+import { Diagram3, QuestionCircle, Robot } from "./components/icons";
 import { SITE_SHORT_NAME } from "./siteMeta";
 import {
   clearSnapshot,
@@ -48,6 +55,7 @@ type ModalKind = null | "latex" | "markdown";
 const AUTOSAVE_DEBOUNCE_MS = 800;
 
 const EXCALIDRAW_URL = "https://excalidraw.com";
+const FOR_AGENTS_HREF = "/for-agents.html";
 
 export default function App() {
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null);
@@ -102,6 +110,39 @@ export default function App() {
       files: api.getFiles(),
     };
   }, []);
+
+  // window.draw for coding agents (src/lib/agentBridge.ts). Handlers read
+  // apiRef lazily, so they work as soon as Excalidraw hands over its API.
+  useEffect(() => {
+    const requireApi = (): ExcalidrawImperativeAPI => {
+      const api = apiRef.current;
+      if (!api) throw new Error("draw agent bridge is not ready");
+      return api;
+    };
+    registerAgentHandlers({
+      getScene: () => {
+        const api = requireApi();
+        return serializeAsJSON(
+          api.getSceneElements(),
+          api.getAppState(),
+          api.getFiles(),
+          "local",
+        );
+      },
+      setScene: async (json) => {
+        const api = requireApi();
+        const blob = new Blob([json], { type: "application/vnd.excalidraw+json" });
+        const data = await loadFromBlob(blob, null, null);
+        api.updateScene({ elements: data.elements });
+        const files = Object.values(data.files ?? {});
+        if (files.length > 0) api.addFiles(files);
+        api.scrollToContent(undefined, { fitToContent: true });
+      },
+      exportImage: (format) =>
+        format === "png" ? renderPngDataUrl(getScene()) : renderSvgString(getScene()),
+    });
+    return unregisterAgentHandlers;
+  }, [getScene]);
 
   const saveTimer = useRef<number | null>(null);
   useEffect(() => {
@@ -189,6 +230,9 @@ export default function App() {
           <MainMenu.Separator />
           <MainMenu.ItemLink href={EXCALIDRAW_URL} icon={<Diagram3 />}>
             Built on Excalidraw
+          </MainMenu.ItemLink>
+          <MainMenu.ItemLink href={FOR_AGENTS_HREF} icon={<Robot />}>
+            For agents
           </MainMenu.ItemLink>
           <MainMenu.ItemCustom>
             <span className="app-menu-about">{SITE_SHORT_NAME} v{APP_VERSION}</span>

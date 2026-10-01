@@ -2,9 +2,46 @@
 # Disallow:/ for User-agent: * already covers everything that respects RFC 9309,
 # but the explicit blocks below are for crawlers that pattern-match their own
 # UA before falling back to *, and for documenting intent.
+#
+# Agent discovery files are Allow-listed so known-URL agents can fetch them
+# without opening the app UI to crawlers. Start at /llms.txt.
+# Social link-preview bots are allowed so shared links render og:title/og:image.
 
 User-agent: *
 Disallow: /
+Allow: /llms.txt
+Allow: /auth.md
+Allow: /for-agents.html
+Allow: /openapi.json
+Allow: /.well-known/api-catalog
+Allow: /.well-known/ard.json
+Allow: /.well-known/ai-catalog.json
+Allow: /.well-known/agent-skills/
+Content-Signal: ai-train=no, search=no, ai-input=yes
+
+# Social link-preview / unfurl bots
+User-agent: WhatsApp
+Allow: /
+User-agent: facebookexternalhit
+Allow: /
+User-agent: Facebot
+Allow: /
+User-agent: Twitterbot
+Allow: /
+User-agent: LinkedInBot
+Allow: /
+User-agent: Slackbot
+Allow: /
+User-agent: Slackbot-LinkExpanding
+Allow: /
+User-agent: TelegramBot
+Allow: /
+User-agent: Discordbot
+Allow: /
+User-agent: SkypeUriPreview
+Allow: /
+User-agent: Iframely
+Allow: /
 
 # OpenAI
 User-agent: GPTBot

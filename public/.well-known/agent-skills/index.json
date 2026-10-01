@@ -1,0 +1,11 @@
+{
+  "name": "draw.marcopontili.com",
+  "description": "Published agent skills for draw (browser-only whiteboard).",
+  "skills": [
+    {
+      "name": "draw-scene",
+      "description": "Drive the live draw app with Playwriter: load .excalidraw JSON, read the scene back, export PNG or SVG via window.draw.",
+      "url": "https://draw.marcopontili.com/.well-known/agent-skills/draw-scene/SKILL.md"
+    }
+  ]
+}

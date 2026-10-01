@@ -1,0 +1,37 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://draw.marcopontili.com/",
+      "service-desc": [
+        {
+          "href": "https://draw.marcopontili.com/openapi.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://draw.marcopontili.com/for-agents.html",
+          "type": "text/html"
+        },
+        {
+          "href": "https://draw.marcopontili.com/llms.txt",
+          "type": "text/plain"
+        }
+      ],
+      "item": [
+        {
+          "href": "https://draw.marcopontili.com/.well-known/ard.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://draw.marcopontili.com/.well-known/agent-skills/index.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://draw.marcopontili.com/auth.md",
+          "type": "text/markdown"
+        }
+      ]
+    }
+  ]
+}

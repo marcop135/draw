@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>For agents · draw</title>
+    <meta
+      name="description"
+      content="Agent and developer portal for draw: discovery files, auth (none), and Playwriter control via window.draw."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --text: #1f2328;
+        --muted: #656d76;
+        --border: #d0d7de;
+        --bg: #ffffff;
+        --code-bg: #f6f8fa;
+        --link: #0369a1;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --text: #e6edf3;
+          --muted: #8b949e;
+          --border: #30363d;
+          --bg: #0d1117;
+          --code-bg: #161b22;
+          --link: #38bdf8;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        line-height: 1.5;
+        color: var(--text);
+        background: var(--bg);
+      }
+      main {
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 3rem;
+      }
+      h1 {
+        font-size: 1.75rem;
+        margin: 0 0 0.5rem;
+      }
+      h2 {
+        font-size: 1.15rem;
+        margin: 2rem 0 0.75rem;
+      }
+      .lead {
+        color: var(--muted);
+        margin: 0 0 1.5rem;
+      }
+      a {
+        color: var(--link);
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.9em;
+        background: var(--code-bg);
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+      th,
+      td {
+        text-align: left;
+        vertical-align: top;
+        padding: 0.55rem 0.4rem;
+        border-bottom: 1px solid var(--border);
+      }
+      th {
+        font-weight: 600;
+      }
+      .back {
+        margin-top: 2.5rem;
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>For agents</h1>
+      <p class="lead">
+        Discovery and control notes for <strong>draw</strong>, a client-only whiteboard at
+        <a href="https://draw.marcopontili.com/">draw.marcopontili.com</a>.
+      </p>
+
+      <h2>How to use the app</h2>
+      <ol>
+        <li>Open the live app (or local Vite on port <code>5173</code>).</li>
+        <li>Wait until <code>window.draw</code> exists.</li>
+        <li>
+          <code>await window.draw.setScene(json)</code>: <code>.excalidraw</code> JSON string with
+          <code>type: "excalidraw"</code> and an <code>elements</code> array, max 20&nbsp;MB. Replaces the canvas.
+        </li>
+        <li><code>window.draw.getScene()</code>: the current scene as <code>.excalidraw</code> JSON.</li>
+        <li>
+          <code>await window.draw.exportImage("png")</code> returns a data URL;
+          <code>"svg"</code> returns SVG markup. Both throw on an empty canvas.
+        </li>
+      </ol>
+      <p>
+        Coding-agent procedure:
+        <a href="/.well-known/agent-skills/draw-scene/SKILL.md"><code>draw-scene</code> skill</a>.
+      </p>
+
+      <h2>Surfaces</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Resource</th>
+              <th scope="col">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="/llms.txt"><code>/llms.txt</code></a></td>
+              <td>Site map and when-to-use notes.</td>
+            </tr>
+            <tr>
+              <td><a href="/auth.md"><code>/auth.md</code></a></td>
+              <td>Authentication: none required.</td>
+            </tr>
+            <tr>
+              <td><a href="/openapi.json"><code>/openapi.json</code></a></td>
+              <td>OpenAPI for public static paths (no remote drawing API).</td>
+            </tr>
+            <tr>
+              <td><a href="/.well-known/api-catalog"><code>/.well-known/api-catalog</code></a></td>
+              <td>RFC 9727 API catalog (linkset).</td>
+            </tr>
+            <tr>
+              <td><a href="/.well-known/ard.json"><code>/.well-known/ard.json</code></a></td>
+              <td>Agentic Resource Discovery catalog (twin: <code>ai-catalog.json</code>).</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="/.well-known/agent-skills/index.json"><code>/.well-known/agent-skills/index.json</code></a>
+              </td>
+              <td>Published agent skills index.</td>
+            </tr>
+            <tr>
+              <td><a href="/"><code>/</code></a></td>
+              <td>App UI; agents use <code>window.draw</code> here.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>What this is not</h2>
+      <ul>
+        <li>No hosted MCP or WebMCP tools.</li>
+        <li>No server-side upload, storage, or export endpoint.</li>
+        <li>No API keys or OAuth.</li>
+      </ul>
+
+      <p class="back"><a href="/">← Back to the whiteboard</a></p>
+    </main>
+  </body>
+</html>
