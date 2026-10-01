@@ -12,6 +12,8 @@
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-10-01
+
 - **Fix:** Name the tab `draw · Whiteboard with LaTeX, Mermaid and Markdown` instead of the bare hostname.
 - **Fix:** Render favicons with transparent corners, ship a 16/32/48 `favicon.ico`, and add a separate maskable icon.
 - **Style:** Move the favicon and app icons to md2pdf's deep sky gradient.
@@ -20,7 +22,7 @@
 - **Feat:** Add "For agents" to the hamburger menu and ship `llms.txt`, `auth.md`, `openapi.json`, and `.well-known` catalogs.
 - **Enhance:** Allow agent discovery files and social unfurl bots in `robots.txt`; add a `Content-Signal` line.
 - **Build:** Add `sharp` (dev), `brand:images`, `brand:images:check`, and `verify:agent-readiness`.
-- **Docs:** Expand the README with badges, quick start, layout, and brand/agent script notes.
+- **Docs:** Expand the README with badges, quick start, layout, and brand/agent script notes ([#101](https://github.com/marcop135/draw/pull/101)).
 
 ## [1.6.3] - 2026-09-29
 
