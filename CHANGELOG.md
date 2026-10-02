@@ -12,6 +12,8 @@
 
 ## [Unreleased]
 
+- **Enhance:** Credit the app as "Built on Excalidraw by marcop135" in the menu, linking both names.
+
 ## [1.7.2] - 2026-10-01
 
 - **Docs:** Expand the README for the live private Excalidraw app and replace the MIT claim with proprietary licensing.

@@ -55,6 +55,7 @@ type ModalKind = null | "latex" | "markdown";
 const AUTOSAVE_DEBOUNCE_MS = 800;
 
 const EXCALIDRAW_URL = "https://excalidraw.com";
+const GITHUB_PROFILE_URL = "https://github.com/marcop135";
 const FOR_AGENTS_HREF = "/for-agents.html";
 
 export default function App() {
@@ -228,9 +229,19 @@ export default function App() {
           <MainMenu.DefaultItems.ToggleTheme />
           <MainMenu.DefaultItems.ChangeCanvasBackground />
           <MainMenu.Separator />
-          <MainMenu.ItemLink href={EXCALIDRAW_URL} icon={<Diagram3 />}>
-            Built on Excalidraw
-          </MainMenu.ItemLink>
+          <MainMenu.ItemCustom className="app-menu-credit">
+            <Diagram3 aria-hidden="true" />
+            <span>
+              Built on{" "}
+              <a href={EXCALIDRAW_URL} target="_blank" rel="noopener noreferrer">
+                Excalidraw
+              </a>{" "}
+              by{" "}
+              <a href={GITHUB_PROFILE_URL} target="_blank" rel="noopener noreferrer">
+                marcop135
+              </a>
+            </span>
+          </MainMenu.ItemCustom>
           <MainMenu.ItemLink href={FOR_AGENTS_HREF} icon={<Robot />}>
             For agents
           </MainMenu.ItemLink>
