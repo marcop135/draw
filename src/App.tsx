@@ -12,6 +12,7 @@ import {
   MainMenu,
   WelcomeScreen,
   loadFromBlob,
+  restoreElements,
   serializeAsJSON,
 } from "@excalidraw/excalidraw";
 import "@excalidraw/excalidraw/index.css";
@@ -169,8 +170,10 @@ export default function App() {
       setPendingRestore(null);
       return;
     }
+    // localStorage is untrusted input: run it through Excalidraw's own
+    // validation, as file import does, before it reaches the scene.
     api.updateScene({
-      elements: snap.elements,
+      elements: restoreElements(snap.elements, null, { repairBindings: true }),
     });
     if (snap.files && Object.keys(snap.files).length > 0) {
       api.addFiles(Object.values(snap.files));
