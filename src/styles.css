@@ -203,13 +203,10 @@ body,
 }
 
 .excalidraw .dropdown-menu .app-menu-credit a {
-  color: var(--color-primary);
-  text-decoration: none;
-  border-radius: 2px;
-}
-
-.excalidraw .dropdown-menu .app-menu-credit a:hover {
+  color: inherit;
   text-decoration: underline;
+  text-underline-offset: 2px;
+  border-radius: 2px;
 }
 
 .excalidraw .dropdown-menu .app-menu-credit a:focus-visible {

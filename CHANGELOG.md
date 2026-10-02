@@ -13,6 +13,9 @@
 ## [Unreleased]
 
 - **Enhance:** Credit "Built on Excalidraw by marcop135" with both names linked, below For agents, both in smaller menu type.
+- **Fix:** Declare only the self-hosted Excalidraw fonts, ending hundreds of CSP errors from the esm.sh fallback on load.
+- **Fix:** Route Excalidraw's deprecated `unload` listener to `pagehide` so Chrome stops flagging it and bfcache works.
+- **Fix:** Serve the Excalidraw fonts on the dev server instead of an HTML fallback that fails to decode.
 
 ## [1.7.2] - 2026-10-01
 
