@@ -11,26 +11,31 @@ export async function renderLatex(
 ): Promise<{ dataUrl: string; width: number; height: number }> {
   const fontSize = options.fontSize ?? 24;
 
-  // Render to plain HTML with KaTeX (synchronous, throws on parse error).
-  const html = katex.renderToString(tex, {
+  // Render to MathML with KaTeX (synchronous, throws on parse error). The
+  // result becomes an <img>-loaded SVG, which cannot reach KaTeX's stylesheet
+  // or fonts; KaTeX's HTML output needs both for superscripts, fractions and
+  // roots, while MathML is laid out by the browser itself.
+  const rendered = katex.renderToString(tex, {
     displayMode: options.displayMode ?? true,
     throwOnError: true,
-    output: "html",
+    output: "mathml",
     trust: false,
     strict: "error",
   });
+  // Keep only the <math> element: the page's `.katex` rules would otherwise
+  // size the probe differently from the stylesheet-less image.
+  const html = rendered.slice(
+    rendered.indexOf("<math"),
+    rendered.lastIndexOf("</math>") + "</math>".length,
+  );
+  const boxStyle =
+    `display:inline-block;padding:0.15em 0.25em;font-size:${fontSize}px;` +
+    `font-family:math,'Cambria Math','STIX Two Math','Latin Modern Math',serif;` +
+    `line-height:1.2;color:#000;background:transparent;`;
 
   // Measure by mounting offscreen.
   const probe = document.createElement("div");
-  probe.style.cssText = `
-    position: absolute;
-    left: -10000px;
-    top: 0;
-    visibility: hidden;
-    font-size: ${fontSize}px;
-    color: #000;
-    background: transparent;
-  `;
+  probe.style.cssText = `position:absolute;left:-10000px;top:0;visibility:hidden;${boxStyle}`;
   probe.innerHTML = html;
   document.body.appendChild(probe);
   // Force layout.
@@ -39,16 +44,12 @@ export async function renderLatex(
   const height = Math.max(1, Math.ceil(rect.height));
   document.body.removeChild(probe);
 
-  // Wrap the rendered KaTeX HTML inside an SVG foreignObject so it stays
-  // crisp at any zoom level. We embed the KaTeX stylesheet (already in the
-  // bundle via `import "katex/dist/katex.min.css"` from the modal) by inlining
-  // its computed styles. To keep things simple and avoid CSS scraping, we
-  // embed only the minimum needed font-size / colour and rely on KaTeX's
-  // inline styles which it emits per-glyph in `output: "html"` mode.
+  // Wrap the MathML inside an SVG foreignObject so it stays crisp at any
+  // zoom level.
   const svgMarkup = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
   <foreignObject width="${width}" height="${height}">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="font-size:${fontSize}px;color:#000;background:transparent;line-height:1.2;">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="${boxStyle}">
       ${html}
     </div>
   </foreignObject>
