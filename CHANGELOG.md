@@ -12,7 +12,7 @@
 
 ## [Unreleased]
 
-- **Enhance:** Credit the app as "Built on Excalidraw by marcop135" in the menu, linking both names.
+- **Enhance:** Credit "Built on Excalidraw by marcop135" with both names linked, below For agents, both in smaller menu type.
 
 ## [1.7.2] - 2026-10-01
 

@@ -229,6 +229,13 @@ export default function App() {
           <MainMenu.DefaultItems.ToggleTheme />
           <MainMenu.DefaultItems.ChangeCanvasBackground />
           <MainMenu.Separator />
+          <MainMenu.ItemLink
+            href={FOR_AGENTS_HREF}
+            icon={<Robot />}
+            className="app-menu-small"
+          >
+            For agents
+          </MainMenu.ItemLink>
           <MainMenu.ItemCustom className="app-menu-credit">
             <Diagram3 aria-hidden="true" />
             <span>
@@ -242,9 +249,6 @@ export default function App() {
               </a>
             </span>
           </MainMenu.ItemCustom>
-          <MainMenu.ItemLink href={FOR_AGENTS_HREF} icon={<Robot />}>
-            For agents
-          </MainMenu.ItemLink>
           <MainMenu.ItemCustom>
             <span className="app-menu-about">{SITE_SHORT_NAME} v{APP_VERSION}</span>
           </MainMenu.ItemCustom>
