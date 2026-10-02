@@ -8,7 +8,7 @@
 # draw
 
 [![CI](https://github.com/marcop135/draw/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/marcop135/draw/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-1.8.1-informational)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.9.0-informational)](./CHANGELOG.md)
 [![Built on Excalidraw](https://img.shields.io/badge/built%20on-Excalidraw-6965DB)](https://github.com/excalidraw/excalidraw)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
 

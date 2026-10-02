@@ -12,6 +12,8 @@
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-10-02
+
 - **Fix:** Keep superscripts, fractions and roots in inserted LaTeX by placing KaTeX's MathML instead of unstyled HTML.
 - **Docs:** Rewrite the README around one board, with a light/dark banner and desktop and mobile screenshots.
 - **Docs:** Add `npm run readme:shots` to re-capture the README screenshots in both themes.
