@@ -12,6 +12,10 @@
 
 ## [Unreleased]
 
+## [1.8.1] - 2026-10-02
+
+- **CI:** Keep the cPanel `.ftpquota` file out of the deploy's stale-file list and prune pass.
+
 ## [1.8.0] - 2026-10-02
 
 - **Enhance:** Credit "Built on Excalidraw by marcop135" with both names linked, below For agents, both in smaller menu type.
