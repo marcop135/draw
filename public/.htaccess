@@ -1,22 +1,33 @@
-# Security headers: applied to every response Apache serves from this dir.
+# Security headers: applied to every response Apache serves from this dir,
+# error pages included (`always`). 'wasm-unsafe-eval' lets Excalidraw's font
+# subsetting WebAssembly run without allowing JS eval.
 <IfModule mod_headers.c>
-  Header set Content-Security-Policy "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; worker-src 'self'; manifest-src 'self'; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
-  Header set X-Content-Type-Options "nosniff"
-  Header set Referrer-Policy "strict-origin-when-cross-origin"
-  Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
-  Header set X-Frame-Options "DENY"
-  # `always` covers error responses too. Skip `preload` until HTTPS has been
-  # stable for a few weeks; preload is a one-way door (max-age >= 2yr).
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; manifest-src 'self'; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set X-Frame-Options "DENY"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  # Skip `preload` until HTTPS has been stable for a few weeks; preload
+  # is a one-way door (max-age >= 2yr).
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
   # Belt-and-braces with the <meta name="robots"> tags + robots.txt: this
   # header reaches crawlers that ignore HTML and fetch raw assets too.
-  Header set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex"
+  Header always set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex"
 </IfModule>
 
-# Long-cache hashed Vite assets (JS / CSS / fonts / images).
+# Long-cache only content-hashed files: Vite output in /assets/ and the
+# Excalidraw fonts in /fonts/. Icons, og.png and other fixed names get a day,
+# so a replaced file reaches visitors without a rename.
+# <FilesMatch> only sees the basename, so the folder is matched on the request
+# path; both rules live in the section because <Files> merges last.
+<IfModule mod_setenvif.c>
+  SetEnvIf Request_URI "^/(assets|fonts)/" DRAW_HASHED_ASSET
+</IfModule>
 <FilesMatch "\.(js|mjs|css|woff2?|svg|png|jpg|jpeg|webp|ico)$">
   <IfModule mod_headers.c>
-    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header set Cache-Control "public, max-age=86400" env=!DRAW_HASHED_ASSET
+    Header set Cache-Control "public, max-age=31536000, immutable" env=DRAW_HASHED_ASSET
   </IfModule>
 </FilesMatch>
 

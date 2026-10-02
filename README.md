@@ -39,7 +39,7 @@ See [SECURITY.md](SECURITY.md) for vulnerability reports.
 
 ## Quick start
 
-Node 20 (`nvm use`).
+Node 22 (`nvm use`).
 
 ```bash
 npm ci
