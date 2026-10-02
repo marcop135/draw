@@ -6,23 +6,49 @@ name: Deploy site to production (manual)
 # the code, deploys are an explicit decision.
 on:
   workflow_dispatch:
+    inputs:
+      prune:
+        description: Delete server files that are no longer in dist/ (review the dry-run list from a previous run first)
+        type: boolean
+        default: false
 
 concurrency:
   group: deploy-production
   cancel-in-progress: false
 
+# Deploys authenticate with the FTP/SFTP and Cloudflare secrets, never GITHUB_TOKEN.
+permissions:
+  contents: read
+
 jobs:
   web-deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    # Only main ships to production, whichever branch the run was started from.
+    if: github.ref == 'refs/heads/main'
     steps:
+      - name: Check deploy secrets
+        env:
+          FTPS_HOST: ${{ secrets.FTPS_HOST }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: |
+          missing=""
+          [ -n "$FTPS_HOST" ] || missing="$missing FTPS_HOST"
+          [ -n "$CLOUDFLARE_API_TOKEN" ] || missing="$missing CLOUDFLARE_API_TOKEN"
+          [ -n "$CLOUDFLARE_ZONE_ID" ] || missing="$missing CLOUDFLARE_ZONE_ID"
+          if [ -n "$missing" ]; then
+            echo "::error::Set repository secrets:$missing"
+            exit 1
+          fi
+
       - name: Get latest code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install Node dependencies
@@ -41,33 +67,74 @@ jobs:
         run: npx playwright install chromium --with-deps
       - run: npm run test:e2e
 
-      # Prefer SFTP (lftp mirror over ssh), fall back to FTPS with retries.
-      # The shared host's FTPS control socket idles out intermittently
-      # ("connect ETIMEDOUT :21 (control socket)"), so a plain FTPS deploy
-      # flakes; SFTP avoids that when :22 is reachable. lftp's own retry/
-      # timeout settings cover transient drops on whichever transport wins.
-      # If SFTP can't connect on :22, set an SFTP_PORT secret (or the FTPS
-      # branch handles it). dist/ is mirrored into the web root (server-dir ./).
-      - name: Deploy (prefer SFTP, fall back to FTPS)
+      # SFTP runs only with a pinned host key (SFTP_KNOWN_HOSTS, from
+      # `ssh-keyscan -p <port> <host>`), so an unknown key aborts instead of
+      # being trusted on first use. FTPS connects to FTPS_HOST, the Netsons
+      # server hostname its certificate covers, and verifies that certificate.
+      # The shared host's FTPS control socket idles out intermittently, so
+      # lftp's retry/timeout settings cover transient drops.
+      - name: Deploy (SFTP with a pinned key, else FTPS)
         env:
           DEPLOY_HOST: ${{ secrets.FTP_HOST }}
+          FTPS_HOST: ${{ secrets.FTPS_HOST }}
           DEPLOY_USER: ${{ secrets.FTP_USERNAME_PRODUCTION }}
           DEPLOY_PASS: ${{ secrets.FTP_PASSWORD_PRODUCTION }}
           SFTP_PORT: ${{ secrets.SFTP_PORT }}
+          SFTP_KNOWN_HOSTS: ${{ secrets.SFTP_KNOWN_HOSTS }}
+          PRUNE: ${{ inputs.prune }}
         run: |
           set -uo pipefail
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
           PORT="${SFTP_PORT:-22}"
           COMMON="set net:timeout 30; set net:max-retries 3; set net:reconnect-interval-base 10; set mirror:parallel-transfer-count 1;"
-          echo "::group::Attempt SFTP (sftp://$DEPLOY_HOST:$PORT)"
-          if lftp -c "set sftp:auto-confirm yes; $COMMON open -u \"$DEPLOY_USER\",\"$DEPLOY_PASS\" sftp://$DEPLOY_HOST:$PORT; mirror -R --verbose ./dist/ ./"; then
+          FTPS="set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate true; set ssl:check-hostname true;"
+          EXCLUDES="--exclude '^\.well-known/acme-challenge/' --exclude '^\.well-known/cpanel-dcv/' --exclude '^\.well-known/pki-validation/' --exclude '^cgi-bin/' --exclude '^error_log\$'"
+          MIRROR="mirror -R --verbose $EXCLUDES ./dist/ ./"
+          if [ "$PRUNE" = "true" ]; then
+            MIRROR="mirror -R --delete --verbose $EXCLUDES ./dist/ ./"
+          fi
+
+          if [ -n "$SFTP_KNOWN_HOSTS" ]; then
+            install -d -m 700 "$HOME/.ssh"
+            printf '%s\n' "$SFTP_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+            chmod 600 "$HOME/.ssh/known_hosts"
+            echo "::group::Attempt SFTP (sftp://$DEPLOY_HOST:$PORT)"
+            if lftp -c "set sftp:connect-program 'ssh -a -x -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts'; $COMMON open -u \"$DEPLOY_USER\",\"$DEPLOY_PASS\" sftp://$DEPLOY_HOST:$PORT; $MIRROR"; then
+              echo "::endgroup::"
+              echo "Deployed via SFTP."
+              exit 0
+            fi
             echo "::endgroup::"
-            echo "Deployed via SFTP."
-            exit 0
+            echo "SFTP failed; falling back to FTPS on :21."
+          else
+            echo "No SFTP_KNOWN_HOSTS secret; deploying over FTPS."
+          fi
+
+          echo "::group::Stale server files (dry run, deleted only with prune)"
+          lftp -c "$FTPS $COMMON open -u \"$DEPLOY_USER\",\"$DEPLOY_PASS\" ftp://$FTPS_HOST:21; mirror -R --delete --dry-run $EXCLUDES ./dist/ ./" | grep -E '^rm ' || echo "None."
+          echo "::endgroup::"
+
+          echo "::group::Attempt FTPS (ftp://$FTPS_HOST:21)"
+          if ! lftp -c "$FTPS $COMMON open -u \"$DEPLOY_USER\",\"$DEPLOY_PASS\" ftp://$FTPS_HOST:21; $MIRROR"; then
+            echo "::endgroup::"
+            echo "::error::FTPS deploy failed."
+            exit 1
           fi
           echo "::endgroup::"
-          echo "SFTP failed; falling back to FTPS on :21."
-          echo "::group::Attempt FTPS (ftp://$DEPLOY_HOST:21)"
-          lftp -c "set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate no; $COMMON open -u \"$DEPLOY_USER\",\"$DEPLOY_PASS\" ftp://$DEPLOY_HOST:21; mirror -R --verbose ./dist/ ./"
-          echo "::endgroup::"
           echo "Deployed via FTPS."
+
+      # The host is proxied (orange) behind Cloudflare. Purge only this
+      # hostname, after the origin sync succeeded, so the next edge fetch pulls
+      # the new dist/ and the apex cache in the same zone stays warm.
+      - name: Purge Cloudflare cache
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: |
+          resp="$(curl -sS -X POST \
+            "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data '{"hosts":["draw.marcopontili.com"]}')"
+          echo "$resp" | jq .
+          echo "$resp" | jq -e '.success == true' >/dev/null

@@ -12,6 +12,21 @@
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-10-02
+
+- **Enhance:** Credit "Built on Excalidraw by marcop135" with both names linked, below For agents, both in smaller menu type.
+- **Fix:** Declare only the self-hosted Excalidraw fonts, ending hundreds of CSP errors from the esm.sh fallback on load.
+- **Fix:** Route Excalidraw's deprecated `unload` listener to `pagehide` so Chrome stops flagging it and bfcache works.
+- **Fix:** Serve the Excalidraw fonts on the dev server instead of an HTML fallback that fails to decode.
+- **Fix:** Fail the deploy when the FTPS upload fails instead of reporting success.
+- **Sec:** Verify the FTPS certificate, pin the SFTP host key, and refuse production deploys from branches other than main.
+- **Sec:** Restrict workflow tokens to read-only contents and audit production dependencies in CI on develop and main.
+- **Sec:** Send every security header on error responses too, and add COOP and `upgrade-insecure-requests` to the policy.
+- **Sec:** Validate restored autosave data with Excalidraw's own restore before it reaches the canvas.
+- **Perf:** Long-cache only content-hashed assets and fonts; icons and the social image now refresh within a day.
+- **CI:** Purge the Cloudflare cache for draw after each production deploy, and list stale server files on every run.
+- **Build:** Move CI, deploy, and `.nvmrc` from Node 20, now end of life, to Node 22.
+
 ## [1.7.2] - 2026-10-01
 
 - **Docs:** Expand the README for the live private Excalidraw app and replace the MIT claim with proprietary licensing.
