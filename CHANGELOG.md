@@ -12,6 +12,15 @@
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-10-02
+
+- **Fix:** Keep superscripts, fractions and roots in inserted LaTeX by placing KaTeX's MathML instead of unstyled HTML.
+- **Docs:** Rewrite the README around one board, with a light/dark banner and desktop and mobile screenshots.
+- **Docs:** Add `npm run readme:shots` to re-capture the README screenshots in both themes.
+- **Style:** Redraw the README banner as a labeled draw window, in light and dark.
+- **Style:** Simplify the GitHub social and OG images to a light app mark, name and tagline that read at thumbnail size.
+- **Chore:** Release draw under the MIT license.
+
 ## [1.8.1] - 2026-10-02
 
 - **CI:** Keep the cPanel `.ftpquota` file out of the deploy's stale-file list and prune pass.

@@ -21,6 +21,7 @@ Vite, shipped as a PWA. No backend, no login, no tracking.
 - `npm run assets:brand` - favicon/app icons from `public/favicon*.svg`
 - `npm run brand:images` / `brand:images:check` - README, GitHub social and OG
   PNGs from `.github/brand/*.svg` (repo-brand kit; do not edit kit files)
+- `npm run readme:shots` - README screenshots to `docs/readme/` (needs `npm run preview`)
 - `npm run verify:agent-readiness` - agent discovery files in `dist/` + bridge
 
 ## Architecture
