@@ -170,6 +170,50 @@ body,
   height: 18px;
 }
 
+/* For agents link: same smaller type as the credit line below it. */
+.excalidraw .dropdown-menu .dropdown-menu-item.app-menu-small {
+  height: 1.75rem;
+  font-size: 0.75rem;
+}
+
+.excalidraw .dropdown-menu .dropdown-menu-item.app-menu-small svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-inline: 0.0625rem;
+}
+
+/* "Built on Excalidraw by marcop135" credit: an ItemCustom aligned with the
+   ItemLink icons above it, in smaller type so it reads as a credit line. */
+.excalidraw .dropdown-menu .dropdown-menu-item-custom.app-menu-credit {
+  align-items: center;
+  height: 1.75rem;
+  margin: 1px;
+  padding: 0 0.5rem;
+  width: calc(100% - 2px);
+  border: 1px solid transparent;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.excalidraw .dropdown-menu .app-menu-credit svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-inline: 0.0625rem;
+  flex: none;
+}
+
+.excalidraw .dropdown-menu .app-menu-credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  border-radius: 2px;
+}
+
+.excalidraw .dropdown-menu .app-menu-credit a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
 /* Version line inside the Excalidraw hamburger menu, aligned to the left edge
    of the item icons above it. */
 .app-menu-about {
