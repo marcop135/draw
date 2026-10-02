@@ -1,9 +1,17 @@
 import { defineConfig } from "vitest/config";
+import type { Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
-import { copyFileSync, mkdirSync, readdirSync, statSync } from "node:fs";
+import {
+  copyFileSync,
+  createReadStream,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  statSync,
+} from "node:fs";
 import { SITE_DOCUMENT_TITLE, SITE_SHORT_NAME } from "./src/siteMeta";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -21,15 +29,40 @@ function copyDirSync(src: string, dest: string) {
 // Self-host Excalidraw fonts so the runtime never reaches a CDN.
 // Excalidraw reads window.EXCALIDRAW_ASSET_PATH (set in main.tsx) and looks
 // for fonts under <asset_path>fonts/. We mirror that layout into dist/fonts.
-function excalidrawAssetsPlugin() {
+// The dev server serves the same directory at /fonts/, so dev never falls back
+// to index.html for a font request (which fails to decode as woff2).
+const EXCALIDRAW_FONTS_DIR = resolve(
+  __dirname,
+  "node_modules/@excalidraw/excalidraw/dist/prod/fonts",
+);
+
+function excalidrawAssetsPlugin(): Plugin {
+  let isBuild = false;
   return {
     name: "copy-excalidraw-assets",
-    apply: "build" as const,
+    configResolved(config) {
+      isBuild = config.command === "build";
+    },
+    configureServer(server) {
+      server.middlewares.use("/fonts", (req, res, next) => {
+        const path = decodeURIComponent((req.url ?? "").split("?")[0]);
+        const file = resolve(EXCALIDRAW_FONTS_DIR, `.${path}`);
+        if (
+          !file.startsWith(EXCALIDRAW_FONTS_DIR + sep) ||
+          !existsSync(file) ||
+          !statSync(file).isFile()
+        ) {
+          next();
+          return;
+        }
+        res.setHeader("Content-Type", "font/woff2");
+        createReadStream(file).pipe(res);
+      });
+    },
     closeBundle() {
-      const src = resolve(
-        __dirname,
-        "node_modules/@excalidraw/excalidraw/dist/prod/fonts",
-      );
+      // Vite also calls closeBundle when the dev server stops; copy on build only.
+      if (!isBuild) return;
+      const src = EXCALIDRAW_FONTS_DIR;
       const dest = resolve(__dirname, "dist/fonts");
       try {
         copyDirSync(src, dest);

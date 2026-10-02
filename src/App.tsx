@@ -12,6 +12,7 @@ import {
   MainMenu,
   WelcomeScreen,
   loadFromBlob,
+  restoreElements,
   serializeAsJSON,
 } from "@excalidraw/excalidraw";
 import "@excalidraw/excalidraw/index.css";
@@ -55,6 +56,7 @@ type ModalKind = null | "latex" | "markdown";
 const AUTOSAVE_DEBOUNCE_MS = 800;
 
 const EXCALIDRAW_URL = "https://excalidraw.com";
+const GITHUB_PROFILE_URL = "https://github.com/marcop135";
 const FOR_AGENTS_HREF = "/for-agents.html";
 
 export default function App() {
@@ -168,8 +170,10 @@ export default function App() {
       setPendingRestore(null);
       return;
     }
+    // localStorage is untrusted input: run it through Excalidraw's own
+    // validation, as file import does, before it reaches the scene.
     api.updateScene({
-      elements: snap.elements,
+      elements: restoreElements(snap.elements, null, { repairBindings: true }),
     });
     if (snap.files && Object.keys(snap.files).length > 0) {
       api.addFiles(Object.values(snap.files));
@@ -228,12 +232,26 @@ export default function App() {
           <MainMenu.DefaultItems.ToggleTheme />
           <MainMenu.DefaultItems.ChangeCanvasBackground />
           <MainMenu.Separator />
-          <MainMenu.ItemLink href={EXCALIDRAW_URL} icon={<Diagram3 />}>
-            Built on Excalidraw
-          </MainMenu.ItemLink>
-          <MainMenu.ItemLink href={FOR_AGENTS_HREF} icon={<Robot />}>
+          <MainMenu.ItemLink
+            href={FOR_AGENTS_HREF}
+            icon={<Robot />}
+            className="app-menu-small"
+          >
             For agents
           </MainMenu.ItemLink>
+          <MainMenu.ItemCustom className="app-menu-credit">
+            <Diagram3 aria-hidden="true" />
+            <span>
+              Built on{" "}
+              <a href={EXCALIDRAW_URL} target="_blank" rel="noopener noreferrer">
+                Excalidraw
+              </a>{" "}
+              by{" "}
+              <a href={GITHUB_PROFILE_URL} target="_blank" rel="noopener noreferrer">
+                marcop135
+              </a>
+            </span>
+          </MainMenu.ItemCustom>
           <MainMenu.ItemCustom>
             <span className="app-menu-about">{SITE_SHORT_NAME} v{APP_VERSION}</span>
           </MainMenu.ItemCustom>
