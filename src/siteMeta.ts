@@ -14,4 +14,4 @@ export const SITE_SHORT_NAME = "draw";
 export const SITE_PAGE_TITLE = "draw · Whiteboard with LaTeX, Mermaid and Markdown";
 
 /** Absolute `og:image` URL; rendered from `.github/brand/og.svg`. Bump `?v=` when the image changes. */
-export const SITE_OG_IMAGE = `${SITE_ORIGIN}/og.png?v=1`;
+export const SITE_OG_IMAGE = `${SITE_ORIGIN}/og.png?v=2`;
