@@ -2,6 +2,8 @@ version: 2
 updates:
   - package-ecosystem: npm
     directory: "/"
+    # PRs land on the integration branch; main only takes release merges.
+    target-branch: develop
     schedule:
       interval: weekly
     ignore:
@@ -22,5 +24,6 @@ updates:
 
   - package-ecosystem: github-actions
     directory: "/"
+    target-branch: develop
     schedule:
       interval: monthly

@@ -9,6 +9,8 @@ import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 type Props = {
   api: ExcalidrawImperativeAPI;
   onClose: () => void;
+  /** Reopen an inserted image: prefill its source and replace it on save. */
+  edit?: { id: string; source: string };
 };
 
 const SAMPLE = `# Heading
@@ -23,8 +25,8 @@ some code block
 \`\`\`
 `;
 
-export function MarkdownModal({ api, onClose }: Props) {
-  const [src, setSrc] = useState(SAMPLE);
+export function MarkdownModal({ api, onClose, edit }: Props) {
+  const [src, setSrc] = useState(edit?.source ?? SAMPLE);
   const [previewHtml, setPreviewHtml] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -58,7 +60,7 @@ export function MarkdownModal({ api, onClose }: Props) {
         width: out.width,
         height: out.height,
         mimeType: "image/svg+xml",
-      });
+      }, { source: { kind: "markdown", source: src }, replaceId: edit?.id });
       onClose();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to render Markdown.");
@@ -69,7 +71,7 @@ export function MarkdownModal({ api, onClose }: Props) {
 
   return (
     <Modal
-      title="Insert Markdown"
+      title={edit ? "Edit Markdown" : "Insert Markdown"}
       onClose={onClose}
       footer={
         <>
@@ -81,7 +83,7 @@ export function MarkdownModal({ api, onClose }: Props) {
             onClick={insert}
             disabled={busy || !src.trim()}
           >
-            Insert
+            {edit ? "Update" : "Insert"}
           </button>
         </>
       }

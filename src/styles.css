@@ -1,3 +1,14 @@
+/* Canvas color before React mounts, so the first paint and Safari's bar tint
+   match the theme (applyThemeColor in src/lib/theme.ts takes over after). */
+html {
+  background: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  html {
+    background: #121212;
+  }
+}
+
 html,
 body,
 #root {
@@ -183,7 +194,8 @@ body,
 }
 
 /* "Built on Excalidraw by marcop135" credit: an ItemCustom aligned with the
-   ItemLink icons above it, in smaller type so it reads as a credit line. */
+   ItemLink icons above it, in smaller type so it reads as a credit line.
+   Links keep the text color and weight. */
 .excalidraw .dropdown-menu .dropdown-menu-item-custom.app-menu-credit {
   align-items: center;
   height: 1.75rem;
@@ -204,6 +216,7 @@ body,
 
 .excalidraw .dropdown-menu .app-menu-credit a {
   color: inherit;
+  font-weight: inherit;
   text-decoration: underline;
   text-underline-offset: 2px;
   border-radius: 2px;
@@ -342,16 +355,50 @@ body,
     opacity: 0.9;
   }
 }
+/* Phone layout: Excalidraw ships 29-32px targets with 16px glyphs, below the
+   44px touch guideline. One target size (--m-btn) and one glyph size (--m-icon)
+   for the top tool strip, the right lock/hand strip, the bottom bar and this
+   app's buttons so the three bars read as one system. The top strip cannot
+   widen (11 tools across ~370px), so it grows in height and glyph only. */
+.excalidraw.excalidraw--mobile {
+  --m-btn: 2.75rem;
+  --m-icon: 1.375rem;
+}
+.excalidraw.excalidraw--mobile .App-toolbar--mobile .ToolIcon__icon {
+  height: var(--m-btn);
+}
+.excalidraw.excalidraw--mobile .App-toolbar--mobile .ToolIcon__icon svg,
+.excalidraw.excalidraw--mobile .mobile-misc-tools-container .ToolIcon__icon svg,
+.excalidraw.excalidraw--mobile .App-toolbar-content .ToolIcon__icon svg,
+.excalidraw.excalidraw--mobile .dropdown-menu-button--mobile svg {
+  width: var(--m-icon);
+  height: var(--m-icon);
+}
+.excalidraw.excalidraw--mobile .mobile-misc-tools-container .ToolIcon__icon,
+.excalidraw.excalidraw--mobile .App-toolbar-content .ToolIcon__icon,
+.excalidraw.excalidraw--mobile .dropdown-menu-button--mobile {
+  width: var(--m-btn);
+  height: var(--m-btn);
+}
 @media (max-width: 640px) {
-  /* Snug 32px-wide touch squares on phones (matching the native bar's button
-     width) so the icons sit close together; keep 40px tall for easy tapping. */
+  /* 44px tall like the native bar; 40px wide so four buttons fit between the
+     hamburger and undo/redo down to 360px viewports. */
   .app-toolbar .app-btn {
-    width: 32px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.75rem;
     padding: 0;
   }
+  .app-toolbar .app-btn svg {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+  /* Centre on the native bottom bar: 14px margin + 8px padding + half of a
+     44px button = 44px from the viewport bottom, minus half our 44px button. */
   .app-toolbar {
-    bottom: 18px;
+    bottom: 22px;
+  }
+  .app-toolbar.app-toolbar--editing {
+    bottom: 5.5rem;
   }
 }
 
@@ -361,14 +408,19 @@ body,
   justify-content: center;
 }
 
-.restore-chip {
+/* Floating notice (storage warning): bottom-centre on desktop, the one free
+   edge; under the top tool strip once the app toolbar takes the bottom. */
+.app-chip {
   position: absolute;
-  top: 12px;
-  left: 12px;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 9;
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  max-width: calc(100vw - 24px);
+  box-sizing: border-box;
   padding: 6px 8px 6px 12px;
   background: var(--ui-bg);
   color: var(--ui-fg);
@@ -378,23 +430,128 @@ body,
   backdrop-filter: blur(6px);
   font-size: 13px;
 }
-.restore-chip .app-btn {
+.app-chip--warn > svg {
+  flex: none;
+  color: #c2410c;
+}
+.app-shell.dark .app-chip--warn > svg {
+  color: #fdba74;
+}
+.app-chip .app-btn {
   height: 28px;
   padding: 0 10px;
   font-size: 12px;
 }
-.restore-chip-primary {
+.app-chip-primary {
   background: var(--ui-accent-bg);
   color: var(--ui-accent-fg);
   border-color: transparent;
 }
-@media (max-width: 640px) {
-  .restore-chip {
-    top: 12px;
-    left: 8px;
-    right: 8px;
-    justify-content: center;
+@media (max-width: 1023px) {
+  .app-chip {
+    top: 76px;
+    bottom: auto;
   }
+}
+@media (max-width: 640px) {
+  .app-chip {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: calc(100vw - 16px);
+  }
+}
+
+/* Boards dialog: one row per board, open on the name, actions on the right. */
+.boards-new {
+  align-self: flex-start;
+  background: var(--ui-accent-bg);
+  color: var(--ui-accent-fg);
+}
+.boards-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.boards-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 48px;
+  padding: 0 4px 0 0;
+  border-radius: var(--ui-radius-sm);
+}
+.boards-row.is-current {
+  background: var(--ui-bg-hover);
+}
+.boards-open,
+.boards-rename {
+  flex: 1;
+  min-width: 0;
+}
+.boards-open {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: var(--ui-radius-sm);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.boards-open:hover {
+  background: var(--ui-bg-hover);
+}
+.boards-open:focus-visible {
+  outline: 2px solid var(--ui-focus);
+  outline-offset: -2px;
+}
+.boards-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 500;
+}
+.boards-meta {
+  font-size: 12px;
+  color: var(--ui-muted);
+}
+.boards-rename input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid var(--ui-focus);
+  border-radius: var(--ui-radius-sm);
+  background: var(--ui-bg-solid);
+  color: var(--ui-fg);
+  font: inherit;
+  font-size: 16px;
+}
+.boards-actions,
+.boards-confirm {
+  display: inline-flex;
+  flex: none;
+  gap: 2px;
+}
+.boards-actions .app-btn {
+  width: var(--ui-btn-size);
+  padding: 0;
+  justify-content: center;
+}
+.boards-danger {
+  background: #c92a2a;
+  color: #fff;
+}
+.boards-danger:hover {
+  background: #a51d1d;
 }
 
 .about-list {
@@ -711,7 +868,7 @@ body,
   .app-shell .menu-pop-pill,
   .app-shell .app-modal,
   .app-shell .app-modal-backdrop,
-  .app-shell .restore-chip,
+  .app-shell .app-chip,
   .app-shell .app-mobile-hint {
     transition: none !important;
     animation: none !important;

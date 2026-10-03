@@ -12,6 +12,19 @@
 
 ## [Unreleased]
 
+- **Feat:** Keep several named boards in IndexedDB, with a Boards dialog to create, open, rename and delete them.
+- **Feat:** Reopen the last board on load, replacing the "Restore last session?" chip; the old autosave migrates once.
+- **Feat:** Warn with a download option when a board cannot be saved, instead of dropping the save silently.
+- **Feat:** Reopen LaTeX and Markdown inserts for editing by double-click or Insert → Edit selected.
+- **Feat:** Open `.excalidraw` files from the OS and accept shared images and scenes in the installed app.
+- **Feat:** Tint the browser chrome to the canvas in light and dark, following the toggle, Safari 26 included.
+- **Enhance:** Enlarge phone tap targets to 44px with 22px icons across the top, side and bottom bars.
+- **Style:** Link the menu credit to the Excalidraw and draw repos, in the text color and weight.
+- **Style:** Match the brand images' icon and heading to md2pdf: flat app mark, 70px Catamaran, solid ink.
+- **Style:** Raise the tagline contrast in the README banner and the GitHub social and OG images.
+- **Sec:** Override Excalidraw's `sass` to 1.105 so `braces` (GHSA-vfj7-8cjw-p6xm) leaves the production tree.
+- **Docs:** Shorten the README to features, screenshots, privacy, development and the tech stack.
+
 ## [1.9.0] - 2026-10-02
 
 - **Fix:** Keep superscripts, fractions and roots in inserted LaTeX by placing KaTeX's MathML instead of unstyled HTML.

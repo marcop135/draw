@@ -5,7 +5,7 @@ Guidance for working in this repo.
 ## What this is
 
 `draw.marcopontili.com`: a personal, static, single-page whiteboard. The repo is
-private; keep source links and contributor docs out. Social cards (`og:*`,
+public (MIT); the hamburger credit links to it. Social cards (`og:*`,
 `public/og.png`) and the brand images in `.github/brand/` are in. Excalidraw plus LaTeX (KaTeX), Mermaid-to-shapes, sanitized Markdown, auto
 light/dark theme, and PNG/JPEG/SVG/PDF/`.excalidraw` export. React 19 + TypeScript +
 Vite, shipped as a PWA. No backend, no login, no tracking.
@@ -29,12 +29,19 @@ Vite, shipped as a PWA. No backend, no login, no tracking.
 - `src/main.tsx` - entry: registers the service worker, sets
   `window.EXCALIDRAW_ASSET_PATH`, imports self-hosted Roboto, mounts `<App>`.
 - `src/App.tsx` - the only screen. Hosts `<Excalidraw>`, a floating
-  `.app-toolbar` (Insert / Export / Theme / Help), autosave to
-  localStorage with restore, and two lazy-loaded modals (LaTeX, Markdown).
+  `.app-toolbar` (Insert / Export / Theme / Help), boards autosaved to
+  IndexedDB (`src/lib/boards.ts`, one Excalidraw mount per board via `key`),
+  and lazy-loaded modals (LaTeX, Markdown, Boards). LaTeX/Markdown images keep
+  their source in `customData.drawInsert` so double-click reopens the editor.
 - `src/components/` - app-owned UI. `Modal.tsx` is the shared dialog shell
-  (focus trap, Escape, focus return); the LaTeX and Markdown modals wrap it.
-- `src/lib/` - pure-ish logic (export, persist, theme, latex, markdown,
-  insertImage, download, documentTitleGuard), each with a colocated `*.test.ts`.
+  (focus trap, Escape, focus return); the LaTeX, Markdown and Boards modals wrap it.
+- `src/lib/` - pure-ish logic (export, boards, db, persist, importFiles, theme,
+  latex, markdown, insertImage, download, documentTitleGuard), mostly with a
+  colocated `*.test.ts`. `persist.ts` only reads the pre-IndexedDB
+  localStorage scene so `boards.ts` can migrate it.
+- `public/share-target-sw.js` - Web Share Target handler, pulled into the
+  Workbox service worker via `workbox.importScripts`; the manifest also
+  declares `file_handlers` for `.excalidraw` (read via `window.launchQueue`).
   Mermaid import is handled by Excalidraw's built-in "Mermaid to Excalidraw".
 - `src/lib/agentBridge.ts` - `window.draw` (`getScene`, `setScene`,
   `exportImage`) for coding agents, registered from `App.tsx`; the hamburger
