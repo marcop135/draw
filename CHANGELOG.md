@@ -12,6 +12,10 @@
 
 ## [Unreleased]
 
+## [1.10.1] - 2026-10-04
+
+- **Build:** Bump KaTeX to 0.18.10 for LaTeX inserts.
+
 ## [1.10.0] - 2026-10-04
 
 - **Feat:** Keep several named boards in IndexedDB, with a Boards dialog to create, open, rename and delete them.
