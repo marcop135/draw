@@ -22,6 +22,7 @@
 - **Style:** Link the menu credit to the Excalidraw and draw repos, in the text color and weight.
 - **Style:** Match the brand images' icon and heading to md2pdf: flat app mark, 70px Catamaran, solid ink.
 - **Style:** Raise the tagline contrast in the README banner and the GitHub social and OG images.
+- **Sec:** Override Excalidraw's `sass` to 1.105 so `braces` (GHSA-vfj7-8cjw-p6xm) leaves the production tree.
 - **Docs:** Shorten the README to features, screenshots, privacy, development and the tech stack.
 
 ## [1.9.0] - 2026-10-02
