@@ -15,7 +15,7 @@
 ## [1.10.0] - 2026-10-04
 
 - **Feat:** Keep several named boards in IndexedDB, with a Boards dialog to create, open, rename and delete them.
-- **Feat:** Reopen the last board on load, replacing the "Restore last session?" chip; the old autosave migrates once.
+- **Feat:** Reopen the last board on load, replacing the "Restore last session?" chip; the old autosave is copied in once.
 - **Feat:** Warn with a download option when a board cannot be saved, instead of dropping the save silently.
 - **Feat:** Reopen LaTeX and Markdown inserts for editing by double-click or Insert → Edit selected.
 - **Feat:** Open `.excalidraw` files from the OS and accept shared images and scenes in the installed app.

@@ -4,7 +4,7 @@ import type {
 } from "@excalidraw/excalidraw/element/types";
 import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types";
 import { idbDelete, idbGet, idbGetAll, idbPut } from "./db";
-import { clearSnapshot, loadSnapshot } from "./persist";
+import { loadSnapshot } from "./persist";
 
 /** The slice of AppState a board keeps between visits. */
 export type BoardAppState = Pick<AppState, "viewBackgroundColor">;
@@ -28,6 +28,7 @@ export type SceneInput = {
 };
 
 const CURRENT_KEY = "currentBoard";
+const LEGACY_MIGRATED_KEY = "legacyMigrated";
 export const DEFAULT_BOARD_NAME = "Untitled";
 
 export function newBoardId(): string {
@@ -121,12 +122,14 @@ export function openInitialBoard(): Promise<Board> {
 }
 
 async function resolveInitialBoard(): Promise<Board> {
-  const legacy = loadSnapshot();
+  // The localStorage scene is copied once and left in place, so rolling back
+  // to a pre-boards release still finds it; the flag stops a second copy.
+  const legacy = (await idbGet<boolean>("meta", LEGACY_MIGRATED_KEY)) ? null : loadSnapshot();
   if (legacy) {
     const board = createBoard(DEFAULT_BOARD_NAME, legacy);
     await saveBoard(board);
     await setCurrentBoardId(board.id);
-    clearSnapshot();
+    await idbPut("meta", true, LEGACY_MIGRATED_KEY);
     return board;
   }
   const currentId = await idbGet<string>("meta", CURRENT_KEY);

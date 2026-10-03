@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { clearSnapshot, LEGACY_KEY, loadSnapshot } from "./persist";
+import { LEGACY_KEY, loadSnapshot } from "./persist";
 
 const liveElement = { id: "el-1", type: "rectangle", isDeleted: false };
 const deletedElement = { id: "el-2", type: "rectangle", isDeleted: true };
@@ -42,11 +42,5 @@ describe("legacy localStorage snapshot", () => {
   it("returns null on corrupted JSON", () => {
     window.localStorage.setItem(LEGACY_KEY, "{not json");
     expect(loadSnapshot()).toBeNull();
-  });
-
-  it("clearSnapshot removes the entry", () => {
-    store({ v: 1, elements: [liveElement], appState: {}, files: {} });
-    clearSnapshot();
-    expect(window.localStorage.getItem(LEGACY_KEY)).toBeNull();
   });
 });
