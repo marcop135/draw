@@ -12,6 +12,8 @@
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-10-04
+
 - **Feat:** Keep several named boards in IndexedDB, with a Boards dialog to create, open, rename and delete them.
 - **Feat:** Reopen the last board on load, replacing the "Restore last session?" chip; the old autosave migrates once.
 - **Feat:** Warn with a download option when a board cannot be saved, instead of dropping the save silently.
