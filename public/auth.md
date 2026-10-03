@@ -7,6 +7,6 @@ draw does **not** require authentication.
 - No OAuth or OpenID Connect
 - No hosted MCP server
 
-The product is a client-only Progressive Web App. Scenes stay in the browser (localStorage). Agents drive the live UI with Playwriter and `window.draw` (see `/llms.txt` and `/for-agents.html`).
+The product is a client-only Progressive Web App. Boards stay in the browser (IndexedDB). Agents drive the live UI with Playwriter and `window.draw` (see `/llms.txt` and `/for-agents.html`).
 
 There is no remote endpoint to authorize.
