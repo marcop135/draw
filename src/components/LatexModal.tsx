@@ -9,12 +9,14 @@ import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 type Props = {
   api: ExcalidrawImperativeAPI;
   onClose: () => void;
+  /** Reopen an inserted image: prefill its source and replace it on save. */
+  edit?: { id: string; source: string };
 };
 
 const SAMPLE = "\\int_{0}^{\\infty} e^{-x^{2}}\\,dx = \\frac{\\sqrt{\\pi}}{2}";
 
-export function LatexModal({ api, onClose }: Props) {
-  const [tex, setTex] = useState(SAMPLE);
+export function LatexModal({ api, onClose, edit }: Props) {
+  const [tex, setTex] = useState(edit?.source ?? SAMPLE);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -51,7 +53,7 @@ export function LatexModal({ api, onClose }: Props) {
         width: out.width,
         height: out.height,
         mimeType: "image/svg+xml",
-      });
+      }, { source: { kind: "latex", source: tex }, replaceId: edit?.id });
       onClose();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to render LaTeX.");
@@ -62,7 +64,7 @@ export function LatexModal({ api, onClose }: Props) {
 
   return (
     <Modal
-      title="Insert LaTeX"
+      title={edit ? "Edit LaTeX" : "Insert LaTeX"}
       onClose={onClose}
       footer={
         <>
@@ -74,7 +76,7 @@ export function LatexModal({ api, onClose }: Props) {
             onClick={insert}
             disabled={busy || !!previewHtml.error || !tex.trim()}
           >
-            Insert
+            {edit ? "Update" : "Insert"}
           </button>
         </>
       }

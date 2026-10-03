@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { BracesAsterisk, ChevronDown, Markdown, PlusSquare } from "./icons";
+import { BracesAsterisk, ChevronDown, Markdown, PencilSquare, PlusSquare } from "./icons";
 
 type InsertKind = "latex" | "markdown";
 
 type Props = {
   onPick: (kind: InsertKind) => void;
   dark: boolean;
+  /** Set while one LaTeX/Markdown insert is selected: offers to edit it. */
+  editKind?: InsertKind | null;
+  onEdit?: () => void;
 };
 
-export function InsertMenu({ onPick, dark }: Props) {
+export function InsertMenu({ onPick, dark, editKind, onEdit }: Props) {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -49,6 +52,12 @@ export function InsertMenu({ onPick, dark }: Props) {
       </button>
       {open ? (
         <div className={`menu-pop${dark ? " dark" : ""}`} role="menu">
+          {editKind && onEdit ? (
+            <button role="menuitem" onClick={() => { onEdit(); setOpen(false); }}>
+              <PencilSquare size={20} />
+              Edit selected {editKind === "latex" ? "LaTeX" : "Markdown"}
+            </button>
+          ) : null}
           <button role="menuitem" onClick={() => { onPick("latex"); setOpen(false); }}>
             <BracesAsterisk size={20} />
             LaTeX

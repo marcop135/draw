@@ -94,6 +94,8 @@ export default defineConfig({
           /^\/\.well-known\//,
         ],
         cleanupOutdatedCaches: true,
+        // Web Share Target: stashes shared files and redirects to the app.
+        importScripts: ["share-target-sw.js"],
         runtimeCaching: [
           {
             // Fonts are content-addressed and never change: cache them hard.
@@ -129,17 +131,53 @@ export default defineConfig({
         "android-chrome-512x512.png",
         "maskable-512x512.png",
         "robots.txt",
+        "share-target-sw.js",
       ],
       manifest: {
         name: SITE_DOCUMENT_TITLE,
         short_name: SITE_SHORT_NAME,
         description:
           "A free, offline-capable whiteboard. Sketch, math (LaTeX), Mermaid diagrams, Markdown notes. No login, no tracking.",
-        theme_color: "#1e1e1e",
-        background_color: "#1e1e1e",
+        // Matches the dark canvas and index.html's dark theme-color; the
+        // manifest takes one value, so the light scheme relies on the meta.
+        theme_color: "#121212",
+        background_color: "#121212",
         display: "standalone",
         start_url: "/",
         scope: "/",
+        // Installed app: open .excalidraw files from the OS (read through
+        // window.launchQueue in src/lib/importFiles.ts) in the existing window.
+        file_handlers: [
+          {
+            action: "/",
+            accept: { "application/vnd.excalidraw+json": [".excalidraw"] },
+          },
+        ],
+        launch_handler: { client_mode: "focus-existing" },
+        // System share sheet: images go onto the current board, .excalidraw
+        // files open as new boards (public/share-target-sw.js).
+        share_target: {
+          action: "/share-target",
+          method: "POST",
+          enctype: "multipart/form-data",
+          params: {
+            files: [
+              {
+                name: "files",
+                accept: [
+                  "image/png",
+                  "image/jpeg",
+                  "image/webp",
+                  "image/gif",
+                  "image/svg+xml",
+                  "application/vnd.excalidraw+json",
+                  "application/json",
+                  ".excalidraw",
+                ],
+              },
+            ],
+          },
+        },
         icons: [
           {
             src: "/favicon.svg",

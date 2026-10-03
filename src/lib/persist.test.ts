@@ -1,35 +1,25 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { clearSnapshot, loadSnapshot, saveSnapshot } from "./persist";
+import { beforeEach, describe, expect, it } from "vitest";
+import { LEGACY_KEY, loadSnapshot } from "./persist";
 
-const liveElement = {
-  id: "el-1",
-  type: "rectangle",
-  isDeleted: false,
-} as unknown as Parameters<typeof saveSnapshot>[0]["elements"][number];
+const liveElement = { id: "el-1", type: "rectangle", isDeleted: false };
+const deletedElement = { id: "el-2", type: "rectangle", isDeleted: true };
 
-const deletedElement = {
-  id: "el-2",
-  type: "rectangle",
-  isDeleted: true,
-} as unknown as Parameters<typeof saveSnapshot>[0]["elements"][number];
+const store = (value: unknown) =>
+  window.localStorage.setItem(LEGACY_KEY, JSON.stringify(value));
 
-describe("persist", () => {
+describe("legacy localStorage snapshot", () => {
   beforeEach(() => {
     window.localStorage.clear();
   });
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it("round-trips a live snapshot", () => {
-    saveSnapshot({
+  it("reads a live snapshot", () => {
+    store({
+      v: 1,
       elements: [liveElement],
       appState: { viewBackgroundColor: "#ffffff" },
       files: {},
     });
     const loaded = loadSnapshot();
-    expect(loaded).not.toBeNull();
     expect(loaded?.elements).toHaveLength(1);
     expect(loaded?.appState.viewBackgroundColor).toBe("#ffffff");
   });
@@ -38,61 +28,19 @@ describe("persist", () => {
     expect(loadSnapshot()).toBeNull();
   });
 
-  it("skips persistence when no live elements", () => {
-    saveSnapshot({ elements: [deletedElement], appState: {}, files: {} });
-    expect(window.localStorage.getItem("draw:scene:v1")).toBeNull();
-  });
-
-  it("discards stored snapshots that have only deleted elements", () => {
-    window.localStorage.setItem(
-      "draw:scene:v1",
-      JSON.stringify({ v: 1, elements: [deletedElement], appState: {}, files: {} }),
-    );
+  it("ignores snapshots that have only deleted elements", () => {
+    store({ v: 1, elements: [deletedElement], appState: {}, files: {} });
     expect(loadSnapshot()).toBeNull();
   });
 
   it("discards and returns null on version mismatch", () => {
-    window.localStorage.setItem(
-      "draw:scene:v1",
-      JSON.stringify({ v: 99, elements: [liveElement] }),
-    );
+    store({ v: 99, elements: [liveElement] });
     expect(loadSnapshot()).toBeNull();
-    expect(window.localStorage.getItem("draw:scene:v1")).toBeNull();
+    expect(window.localStorage.getItem(LEGACY_KEY)).toBeNull();
   });
 
-  it("strips non-serializable AppState fields like collaborators", () => {
-    const collaborators = new Map();
-    collaborators.set("a", { username: "x" });
-    saveSnapshot({
-      elements: [liveElement],
-      appState: { collaborators } as unknown as Parameters<typeof saveSnapshot>[0]["appState"],
-      files: {},
-    });
-    const raw = window.localStorage.getItem("draw:scene:v1");
-    expect(raw).not.toBeNull();
-    expect(raw).not.toContain("collaborators");
-  });
-
-  it("loadSnapshot returns null on corrupted JSON", () => {
-    window.localStorage.setItem("draw:scene:v1", "{not json");
+  it("returns null on corrupted JSON", () => {
+    window.localStorage.setItem(LEGACY_KEY, "{not json");
     expect(loadSnapshot()).toBeNull();
-  });
-
-  it("clearSnapshot removes the entry", () => {
-    saveSnapshot({ elements: [liveElement], appState: {}, files: {} });
-    clearSnapshot();
-    expect(window.localStorage.getItem("draw:scene:v1")).toBeNull();
-  });
-
-  it("swallows setItem errors (quota / private mode)", () => {
-    const spy = vi
-      .spyOn(Storage.prototype, "setItem")
-      .mockImplementation(() => {
-        throw new Error("QuotaExceededError");
-      });
-    expect(() =>
-      saveSnapshot({ elements: [liveElement], appState: {}, files: {} }),
-    ).not.toThrow();
-    expect(spy).toHaveBeenCalled();
   });
 });

@@ -47,3 +47,25 @@ export function nextPreference(pref: ThemePreference): ThemePreference {
   if (pref === "light") return "dark";
   return "system";
 }
+
+/** Canvas background per theme, used for the browser's theme-color. */
+export const THEME_COLOR: Record<ResolvedTheme, string> = {
+  light: "#ffffff",
+  dark: "#121212",
+};
+
+/** Point every theme-color meta at the resolved theme, so an in-app override
+    wins over the media-query defaults in index.html. Also paint the root
+    background: Safari 26 ignores theme-color and tints its bars from the page
+    background instead. */
+export function applyThemeColor(theme: ResolvedTheme): void {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  root.style.backgroundColor = THEME_COLOR[theme];
+  root.style.colorScheme = theme;
+  document
+    .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
+    .forEach((meta) => {
+      meta.content = THEME_COLOR[theme];
+    });
+}
