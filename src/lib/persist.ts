@@ -1,5 +1,6 @@
 // Reader for the pre-IndexedDB autosave in localStorage. Boards (boards.ts)
-// replaced it; openInitialBoard migrates a stored scene once, then clears it.
+// replaced it; openInitialBoard copies a stored scene once and leaves it in
+// place so a rollback to a pre-boards release still finds it.
 import type { NonDeletedExcalidrawElement } from "@excalidraw/excalidraw/element/types";
 import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types";
 
@@ -30,13 +31,5 @@ export function loadSnapshot(): PersistedSnapshot | null {
     };
   } catch {
     return null;
-  }
-}
-
-export function clearSnapshot(): void {
-  try {
-    window.localStorage.removeItem(LEGACY_KEY);
-  } catch {
-    // ignore
   }
 }
