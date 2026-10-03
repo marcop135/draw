@@ -1,6 +1,6 @@
 # draw (draw.marcopontili.com)
 
-> Browser whiteboard built on Excalidraw, with LaTeX math, Mermaid-to-shapes and sanitized Markdown inserts. Runs in the browser, works offline, and stores the scene only in localStorage.
+> Browser whiteboard built on Excalidraw, with LaTeX math, Mermaid-to-shapes and sanitized Markdown inserts. Runs in the browser, works offline, and stores boards only in the browser (IndexedDB).
 
 Live app: https://draw.marcopontili.com/
 

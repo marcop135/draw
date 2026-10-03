@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
+  applyThemeColor,
   loadPreference,
   nextPreference,
   resolveTheme,
@@ -64,5 +65,19 @@ describe("theme", () => {
     expect(nextPreference("system")).toBe("light");
     expect(nextPreference("light")).toBe("dark");
     expect(nextPreference("dark")).toBe("system");
+  });
+});
+
+describe("applyThemeColor", () => {
+  it("retints every theme-color meta and the root background", () => {
+    document.head.innerHTML =
+      '<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">' +
+      '<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121212">';
+    applyThemeColor("dark");
+    const metas = [...document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')];
+    expect(metas.map((m) => m.content)).toEqual(["#121212", "#121212"]);
+    expect(document.documentElement.style.colorScheme).toBe("dark");
+    applyThemeColor("light");
+    expect(metas.map((m) => m.content)).toEqual(["#ffffff", "#ffffff"]);
   });
 });

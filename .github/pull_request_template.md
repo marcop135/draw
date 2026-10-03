@@ -4,7 +4,15 @@
 
 ## Related issues
 
-<!-- e.g. Closes #123 -->
+Closes #
+
+## Type of change
+
+- [ ] Fix
+- [ ] Feature or enhancement
+- [ ] Docs
+- [ ] Chore, build or CI
+- [ ] Security
 
 ## Checklist
 
