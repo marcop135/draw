@@ -4,7 +4,7 @@
 # draw
 
 [![CI](https://github.com/marcop135/draw/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/marcop135/draw/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-1.10.0-informational)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.10.1-informational)](./CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
 
 [Excalidraw](https://github.com/excalidraw/excalidraw) with typeset math, Markdown notes and PDF export. No account, no upload, works offline.
