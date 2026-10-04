@@ -4,12 +4,15 @@
 
 ## Setup
 
-Node 22 (`nvm use`).
+Node 22 (`.nvmrc`; `nvm use`).
 
 ```bash
 npm ci
 npm run dev      # http://localhost:5173
 ```
+
+`postinstall` installs Playwright Chromium locally and both Linux and Windows esbuild/rollup
+optional binaries so the same `node_modules` works from WSL and from Windows.
 
 ## Checks before a PR
 
