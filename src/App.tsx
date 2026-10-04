@@ -322,7 +322,15 @@ export default function App() {
     if (!boardId || !current) return null;
     return {
       elements: restoreElements(current.elements, null, { repairBindings: true }),
-      appState: current.appState,
+      appState: {
+        ...current.appState,
+        activeTool: {
+          type: "freedraw",
+          customType: null,
+          locked: false,
+          lastActiveTool: null,
+        },
+      },
       files: current.files,
       scrollToContent: true,
     };
