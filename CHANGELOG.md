@@ -12,8 +12,10 @@
 
 ## [Unreleased]
 
-- **Style:** Regroup the Export menu into full-row Scene, Image, Vector and PDF actions.
+## [1.11.0] - 2026-10-04
+
 - **Enhance:** Pre-select the freedraw (pencil) tool when a board opens.
+- **Style:** Regroup the Export menu into full-row Scene, Image, Vector and PDF actions.
 - **Docs:** Rewrite the README as a use-case story with Privacy and Security split and a commands doc.
 
 ## [1.10.1] - 2026-10-04

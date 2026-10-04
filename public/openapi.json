@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "draw",
-    "version": "1.10.1",
+    "version": "1.11.0",
     "summary": "Client-only whiteboard in the browser",
     "description": "There is no remote drawing or export HTTP API. Agents load https://draw.marcopontili.com/ and drive window.draw via Playwriter (or equivalent browser automation). See /llms.txt and /for-agents.html.",
     "license": {
