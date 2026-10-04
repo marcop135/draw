@@ -86,13 +86,28 @@ export function ExportMenu({ getScene, dark }: Props) {
       </button>
       {open ? (
         <div className={`menu-pop${dark ? " dark" : ""}`} role="menu">
+          <div className="menu-pop-section" role="presentation">
+            Scene
+          </div>
           <button role="menuitem" onClick={() => run(exportExcalidraw)} disabled={busy}>
             <PencilSquare size={20} />
-            Excalidraw (.excalidraw)
+            <span className="menu-pop-item-text">
+              <span>Excalidraw</span>
+              <span className="menu-pop-item-meta">.excalidraw</span>
+            </span>
           </button>
+
+          <div className="menu-pop-sep" role="separator" />
+          <div className="menu-pop-section" role="presentation">
+            Image
+          </div>
           <button role="menuitem" onClick={() => run(exportPng)} disabled={busy}>
             <FiletypePng size={20} />
             PNG
+          </button>
+          <button role="menuitem" onClick={() => run(exportJpeg)} disabled={busy}>
+            <FiletypeJpg size={20} />
+            JPEG
           </button>
           <button
             role="menuitem"
@@ -105,53 +120,65 @@ export function ExportMenu({ getScene, dark }: Props) {
             }
           >
             <Clipboard size={20} />
-            Copy PNG to clipboard
+            <span className="menu-pop-item-text">
+              <span>Copy PNG</span>
+              <span className="menu-pop-item-meta">clipboard</span>
+            </span>
           </button>
-          <button role="menuitem" onClick={() => run(exportJpeg)} disabled={busy}>
-            <FiletypeJpg size={20} />
-            JPEG
-          </button>
+
+          <div className="menu-pop-sep" role="separator" />
+          <div className="menu-pop-section" role="presentation">
+            Vector
+          </div>
           <button role="menuitem" onClick={() => run(exportSvg)} disabled={busy}>
             <FiletypeSvg size={20} />
             SVG
           </button>
-          <div className="menu-pop-pdf" role="group" aria-label="Export PDF">
-            <FiletypePdf size={20} />
-            <span className="menu-pop-pdf-label">PDF</span>
-            <button
-              type="button"
-              role="menuitem"
-              className="menu-pop-pill"
-              onClick={() => run((s) => exportPdf(s, "auto"))}
-              disabled={busy}
-              aria-label="Export PDF, automatic orientation"
-              title="Export PDF, orientation derived from canvas ratio"
-            >
-              auto
-            </button>
-            <button
-              type="button"
-              role="menuitem"
-              className="menu-pop-pill"
-              onClick={() => run((s) => exportPdf(s, "portrait"))}
-              disabled={busy}
-              aria-label="Export PDF, portrait orientation"
-              title="Export PDF in portrait orientation"
-            >
-              portrait
-            </button>
-            <button
-              type="button"
-              role="menuitem"
-              className="menu-pop-pill"
-              onClick={() => run((s) => exportPdf(s, "landscape"))}
-              disabled={busy}
-              aria-label="Export PDF, landscape orientation"
-              title="Export PDF in landscape orientation"
-            >
-              landscape
-            </button>
+
+          <div className="menu-pop-sep" role="separator" />
+          <div className="menu-pop-section" role="presentation">
+            PDF
           </div>
+          <button
+            role="menuitem"
+            onClick={() => run((s) => exportPdf(s, "auto"))}
+            disabled={busy}
+            aria-label="Export PDF, automatic orientation"
+            title="Orientation derived from canvas ratio"
+          >
+            <FiletypePdf size={20} />
+            <span className="menu-pop-item-text">
+              <span>PDF</span>
+              <span className="menu-pop-item-meta">auto</span>
+            </span>
+          </button>
+          <button
+            role="menuitem"
+            onClick={() => run((s) => exportPdf(s, "portrait"))}
+            disabled={busy}
+            aria-label="Export PDF, portrait orientation"
+            title="Export PDF in portrait orientation"
+          >
+            <FiletypePdf size={20} />
+            <span className="menu-pop-item-text">
+              <span>PDF</span>
+              <span className="menu-pop-item-meta">portrait</span>
+            </span>
+          </button>
+          <button
+            role="menuitem"
+            onClick={() => run((s) => exportPdf(s, "landscape"))}
+            disabled={busy}
+            aria-label="Export PDF, landscape orientation"
+            title="Export PDF in landscape orientation"
+          >
+            <FiletypePdf size={20} />
+            <span className="menu-pop-item-text">
+              <span>PDF</span>
+              <span className="menu-pop-item-meta">landscape</span>
+            </span>
+          </button>
+
           {error ? (
             <p className="app-error" style={{ padding: "6px 12px" }}>
               {error}
