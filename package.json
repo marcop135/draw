@@ -16,7 +16,7 @@
     "lint": "eslint . --max-warnings=0",
     "lint:ci": "eslint . --max-warnings=0",
     "format": "prettier --write .",
-    "postinstall": "node scripts/ensure-playwright.mjs",
+    "postinstall": "node scripts/ensure-playwright.mjs && node scripts/ensure-native-optional.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
