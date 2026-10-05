@@ -7,6 +7,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix the phone hamburger menu stacking under the overlay action bar and sitting too low on the taller bottom bar.
+
 ## [1.11.1] - 2026-10-05
 
 ### Changed
