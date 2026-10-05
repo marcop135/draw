@@ -402,6 +402,20 @@ body,
   }
 }
 
+/* Excalidraw anchors the mobile hamburger at bottom:55px for its stock 32px
+   buttons. Our 44px touch targets (--m-btn) make the bottom Island taller, so
+   lift the menu clear of the button row (and the centred overlay icons). */
+.excalidraw.excalidraw--mobile .App-toolbar-content .dropdown-menu--mobile {
+  bottom: 4.75rem;
+}
+
+/* Mobile overlay icons sit at z-index 5 so they paint on the bottom Island
+   (layerUI 4). While the hamburger menu is open, drop them back under layerUI
+   so the menu (and its credit / version rows) are not covered. */
+.app-shell:has(.dropdown-menu--mobile) .app-toolbar {
+  z-index: 3;
+}
+
 .theme-toggle {
   padding: 0;
   width: var(--ui-btn-size);
