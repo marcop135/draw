@@ -7,6 +7,17 @@
 
 ## [Unreleased]
 
+## [1.11.1] - 2026-10-05
+
+### Changed
+
+- Standardize the changelog on Keep a Changelog sections with Format/Voice/Length/Links preamble and inline links.
+- Tighten the README intro and drop the Authors section.
+
+### Fixed
+
+- Install Linux and Windows esbuild/rollup binaries after npm install.
+
 ## [1.11.0] - 2026-10-04
 
 ### Changed
