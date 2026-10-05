@@ -3,7 +3,7 @@
 
 # draw
 
-You need a whiteboard for a sketch, a formula, a note, or a quick flowchart. Open the app, draw on the canvas, drop in LaTeX or Markdown when you need them, and export when you are done. No account, no upload, and it keeps working offline.
+Built on [Excalidraw](https://github.com/excalidraw/excalidraw). A whiteboard for sketches, formulas, notes, and quick flowcharts. Draw, drop in LaTeX or Markdown, export when done. No account, no upload, works offline.
 
 **Live app: [draw.marcopontili.com](https://draw.marcopontili.com)**
 
@@ -22,13 +22,15 @@ You need a whiteboard for a sketch, a formula, a note, or a quick flowchart. Ope
 
 ## How it works
 
-1. Sketch on the [Excalidraw](https://github.com/excalidraw/excalidraw) canvas: shapes, arrows, freehand, text.
+1. Sketch on the Excalidraw canvas: shapes, arrows, freehand, text.
 2. Use **Insert** for LaTeX formulas, Markdown notes, or Mermaid diagrams when a sketch alone is not enough. Double-click an inserted image to edit its source.
 3. Export as PNG, JPEG, SVG, PDF, or `.excalidraw`, or copy the scene to the clipboard.
 
 Boards autosave in the browser. On a phone, Insert, Export, theme and help sit in the bottom bar with 44px touch targets. The app follows your system theme, or pick light or dark from the toolbar.
 
 ## What you get
+
+Excalidraw, with these extras on top.
 
 - **LaTeX**: KaTeX formulas placed as sharp images; double-click to edit.
 - **Markdown**: sanitized GitHub-flavored notes placed as images; double-click to edit.
@@ -69,10 +71,6 @@ More commands: [docs/commands.md](docs/commands.md).
 
 Read [CONTRIBUTING.md](./CONTRIBUTING.md), then [report a bug](https://github.com/marcop135/draw/issues/new?template=01-bug-report.yml) or [request a feature](https://github.com/marcop135/draw/issues/new?template=02-feature-request.yml).
 
-## Authors
-
-[Marco Pontili](https://marcopontili.com) and the [Excalidraw](https://github.com/excalidraw/excalidraw) contributors
-
 ## License
 
-[MIT](./LICENSE). [Excalidraw](https://github.com/excalidraw/excalidraw) is MIT as well.
+[MIT](./LICENSE).
