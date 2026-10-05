@@ -42,7 +42,7 @@
 
 ### Security
 
-- Override Excalidraw's `sass` to 1.105 so `braces` (GHSA-vfj7-8cjw-p6xm) leaves the production tree.
+- Override Excalidraw's `sass` to 1.105 so `braces` ([GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)) leaves the production tree.
 
 ## [1.9.0] - 2026-10-02
 
@@ -71,7 +71,7 @@
 - Credit "Built on Excalidraw by marcop135" with both names linked, below For agents, both in smaller menu type.
 - Long-cache only content-hashed assets and fonts; icons and the social image now refresh within a day.
 - Purge the Cloudflare cache for draw after each production deploy, and list stale server files on every run.
-- Move CI, deploy, and `.nvmrc` from Node 20, now end of life, to Node 22.
+- Move CI, deploy, and [`.nvmrc`](https://github.com/marcop135/draw/blob/develop/.nvmrc) from Node 20, now end of life, to Node 22.
 
 ### Fixed
 
@@ -222,7 +222,7 @@
 - Add `role="menuitem"` to the Insert, Export, and PDF-orientation items, with explicit labels on the PDF orientation pills.
 - Add `rel=canonical`, `og:url`, and iOS/PWA web-app meta to `index.html` and expose `SITE_CANONICAL_URL`; the deliberate noindex stays.
 - Add [`CLAUDE.md`](https://github.com/marcop135/draw/blob/develop/CLAUDE.md) with codebase orientation, the release flow, and repo gotchas.
-- Add `scripts/audit-shots.mjs` to capture baseline/after screenshots across breakpoints and themes for visual-regression review.
+- Add [`scripts/audit-shots.mjs`](https://github.com/marcop135/draw/blob/develop/scripts/audit-shots.mjs) to capture baseline/after screenshots across breakpoints and themes for visual-regression review.
 
 ## [1.4.3] - 2026-06-02
 
@@ -314,7 +314,7 @@
 
 ### Changed
 
-- Replace `@phosphor-icons/react` with self-hosted `bootstrap-icons`; centralize inline SVG-component wrappers in `src/components/icons.tsx` so only the paths the app uses are shipped (chevron-down, github, pencil-square, filetype-png/jpg/svg/pdf, braces-asterisk, diagram-3, markdown).
+- Replace `@phosphor-icons/react` with self-hosted `bootstrap-icons`; centralize inline SVG-component wrappers in [`src/components/icons.tsx`](https://github.com/marcop135/draw/blob/develop/src/components/icons.tsx) so only the paths the app uses are shipped (chevron-down, github, pencil-square, filetype-png/jpg/svg/pdf, braces-asterisk, diagram-3, markdown).
 - Introduce shared design tokens on `#root` (`--ui-radius`, `--ui-bg`, `--ui-border`, `--ui-fg`, `--ui-accent-bg`, `--ui-accent-fg`, `--ui-shadow`, `--ui-btn-size`); `#root.dark` flips the palette in one place. Toolbar, buttons, GitHub link, modals, and dropdowns all consume the same variables so the three bars read as one system.
 - Match Excalidraw's selected-tool lavender chip (`#e0dfff` / `#6965db`) on the active/open state of every floating `app-btn` so the custom toolbar visually pairs with the stock toolbar's selected pencil.
 - Bump icon size to 18px in the toolbar and 20px in dropdown rows; tighten gaps, paddings, and transitions for a consistent hover/focus/active feel.
@@ -337,21 +337,21 @@
 
 ### Removed
 
-- Drop the README banner copy prebuild step; the new `npm run assets:brand` (`scripts/render-brand-assets.mjs`) regenerates the social card and favicon variants on demand from `assets/social-preview.svg` and `public/favicon.svg` via headless Chromium, with the rendered PNGs and ICO committed to `public/` so CI builds don't need a browser.
+- Drop the README banner copy prebuild step; the new `npm run assets:brand` ([`scripts/render-brand-assets.mjs`](https://github.com/marcop135/draw/blob/develop/scripts/render-brand-assets.mjs)) regenerates the social card and favicon variants on demand from `assets/social-preview.svg` and [`public/favicon.svg`](https://github.com/marcop135/draw/blob/develop/public/favicon.svg) via headless Chromium, with the rendered PNGs and ICO committed to [`public/`](https://github.com/marcop135/draw/blob/develop/public/) so CI builds don't need a browser.
 
 ## [1.0.5] - 2026-05-08
 
 ### Added
 
-- Add a version chip in the app toolbar that reads from `package.json`; hide it under 420px to save thumb space.
+- Add a version chip in the app toolbar that reads from [`package.json`](https://github.com/marcop135/draw/blob/develop/package.json); hide it under 420px to save thumb space.
 
 ### Changed
 
 - Replace the inline Octocat SVG and chevron glyphs with Phosphor icons in Insert, Export, and the GitHub link.
 - Tighten toolbar buttons to 12px font, 7px by 12px padding, 36px height, with a 13px / 40px touch-friendly bump under 640px.
 - Self-host Roboto via `@fontsource/roboto` so the Excalidraw UI, modal textareas, and markdown SVG never hit Google's CDN.
-- Centralize Phosphor icon imports in `src/components/icons.tsx` so each icon is tree-shaken individually.
-- Alphabetize devDependencies in `package.json` (`jsdom`, `vite-plugin-pwa`, `vitest`).
+- Centralize Phosphor icon imports in [`src/components/icons.tsx`](https://github.com/marcop135/draw/blob/develop/src/components/icons.tsx) so each icon is tree-shaken individually.
+- Alphabetize devDependencies in [`package.json`](https://github.com/marcop135/draw/blob/develop/package.json) (`jsdom`, `vite-plugin-pwa`, `vitest`).
 
 ### Removed
 
@@ -418,7 +418,7 @@
 
 ### Changed
 
-- Verify production responds with HTTP 200 and the CSP, robots, and HTML headers from `dist/.htaccess` reach clients.
+- Verify production responds with HTTP 200 and the CSP, robots, and HTML headers from [`dist/.htaccess`](https://github.com/marcop135/draw/blob/develop/dist/.htaccess) reach clients.
 
 ### Fixed
 
@@ -429,9 +429,9 @@
 
 ### Security
 
-- Bump Vite `^5.4.8` to `^6.4.2` to clear GHSA-4w7w-66w2-5vf9 (path traversal in optimized-deps `.map` handling).
+- Bump Vite `^5.4.8` to `^6.4.2` to clear [GHSA-4w7w-66w2-5vf9](https://github.com/advisories/GHSA-4w7w-66w2-5vf9) (path traversal in optimized-deps `.map` handling).
 - Pin patched `dompurify`, `nanoid`, `uuid`, `esbuild`, and `lodash-es` via `overrides`; `npm audit` now reports zero vulnerabilities.
-- Add `public/robots.txt` blocking common crawlers and AI bots, plus `<meta name="robots">` and an `X-Robots-Tag` header.
+- Add [`public/robots.txt`](https://github.com/marcop135/draw/blob/develop/public/robots.txt) blocking common crawlers and AI bots, plus `<meta name="robots">` and an `X-Robots-Tag` header.
 
 ## [0.1.0] - 2026-04-25
 
@@ -448,4 +448,4 @@
 
 ### Security
 
-- Ship `dist/.htaccess` with a hard CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, and HSTS.
+- Ship [`dist/.htaccess`](https://github.com/marcop135/draw/blob/develop/dist/.htaccess) with a hard CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, and HSTS.
