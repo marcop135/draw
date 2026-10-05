@@ -140,7 +140,7 @@
 
 - Bump the development group: Playwright, Vitest, typescript-eslint, Prettier, and `@types`.
 - Bump `actions/checkout` to v7.0.1 and `actions/setup-node` to v7.0.0.
-- Align `CLAUDE.md` and `siteMeta` comments with the private chrome (no GitHub toolbar, no public SEO/social tags).
+- Align [`CLAUDE.md`](https://github.com/marcop135/draw/blob/develop/CLAUDE.md) and `siteMeta` comments with the private chrome (no GitHub toolbar, no public SEO/social tags).
 
 ### Security
 
@@ -165,7 +165,7 @@
 
 ### Changed
 
-- Slim the README to a personal note and delete `SECURITY.md`; the public contributor and vuln-reporting docs no longer apply.
+- Slim the README to a personal note and delete [`SECURITY.md`](https://github.com/marcop135/draw/blob/develop/SECURITY.md); the public contributor and vuln-reporting docs no longer apply.
 
 ### Removed
 
@@ -221,7 +221,7 @@
 - Honour `prefers-reduced-motion` by neutralising app-chrome transitions, and darken `--ui-muted` to clear WCAG AA on white.
 - Add `role="menuitem"` to the Insert, Export, and PDF-orientation items, with explicit labels on the PDF orientation pills.
 - Add `rel=canonical`, `og:url`, and iOS/PWA web-app meta to `index.html` and expose `SITE_CANONICAL_URL`; the deliberate noindex stays.
-- Add `CLAUDE.md` with codebase orientation, the release flow, and repo gotchas.
+- Add [`CLAUDE.md`](https://github.com/marcop135/draw/blob/develop/CLAUDE.md) with codebase orientation, the release flow, and repo gotchas.
 - Add `scripts/audit-shots.mjs` to capture baseline/after screenshots across breakpoints and themes for visual-regression review.
 
 ## [1.4.3] - 2026-06-02
@@ -318,7 +318,7 @@
 - Introduce shared design tokens on `#root` (`--ui-radius`, `--ui-bg`, `--ui-border`, `--ui-fg`, `--ui-accent-bg`, `--ui-accent-fg`, `--ui-shadow`, `--ui-btn-size`); `#root.dark` flips the palette in one place. Toolbar, buttons, GitHub link, modals, and dropdowns all consume the same variables so the three bars read as one system.
 - Match Excalidraw's selected-tool lavender chip (`#e0dfff` / `#6965db`) on the active/open state of every floating `app-btn` so the custom toolbar visually pairs with the stock toolbar's selected pencil.
 - Bump icon size to 18px in the toolbar and 20px in dropdown rows; tighten gaps, paddings, and transitions for a consistent hover/focus/active feel.
-- Bump `react`/`react-dom` to 19.2.6, `marked` to 18.0.3, `katex` to 0.16.47, `mermaid` to 11.15.0, `@babel/plugin-transform-modules-systemjs` to 7.29.4, and `fast-uri` to 3.1.2 via Dependabot (#37, #38, #39, #40).
+- Bump `react`/`react-dom` to 19.2.6, `marked` to 18.0.3, `katex` to 0.16.47, `mermaid` to 11.15.0, `@babel/plugin-transform-modules-systemjs` to 7.29.4, and `fast-uri` to 3.1.2 via Dependabot ([#37](https://github.com/marcop135/draw/issues/37), [#38](https://github.com/marcop135/draw/issues/38), [#39](https://github.com/marcop135/draw/issues/39), [#40](https://github.com/marcop135/draw/issues/40)).
 
 ### Fixed
 
