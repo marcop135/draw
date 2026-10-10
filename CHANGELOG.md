@@ -7,6 +7,16 @@
 
 ## [Unreleased]
 
+## [1.11.3] - 2026-10-10
+
+### Changed
+
+- Replace the local `site-audit` skill with an `## Audit contract` in CLAUDE.md, read by the global `site-audit` skill.
+
+### Security
+
+- Bump `source-map-js` to 1.2.2 for the high-severity source-map DoS ([GHSA-68fv-2mgg-jv7q](https://github.com/advisories/GHSA-68fv-2mgg-jv7q)).
+
 ## [1.11.2] - 2026-10-05
 
 ### Fixed
