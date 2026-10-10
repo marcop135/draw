@@ -87,10 +87,19 @@ Performance, accessibility, SEO, and code-quality audit. Changes:
 - Code quality: `src/lib` audited; already clean, no changes. Known non-blocking
   item: `utf8ToBase64` is duplicated in `latex.ts` and `markdown.ts`.
 
-## Auditing
+## Audit contract
 
-`node scripts/audit-shots.mjs <label>` captures screenshots to
-`docs/audit/<label>/` across desktop/tablet/mobile in light and dark (plus the
-Insert menu and LaTeX modal on desktop). Run `baseline` before changes and
-`after` once done, then diff. Requires `npm run preview` running on 4173. The
-full workflow is the `site-audit` skill in `.claude/skills/`.
+Read by the user-level `site-audit` skill (performance, a11y, SEO, code quality).
+
+- Server: `npm run build`, then `npm run preview -- --host 127.0.0.1 --port 4173`. Restart it on the fresh `dist` before the after set.
+- Screenshots: `node scripts/audit-shots.mjs <label>` writes `docs/audit/<label>/`: desktop 1440x900, tablet 820x1180, mobile 390x844, light and dark, plus the Insert menu and LaTeX modal on desktop. Key views are UI states, not pages; the Excalidraw canvas is nondeterministic, so compare app chrome and overlays.
+- Checks: `node node_modules/typescript/bin/tsc -b`, `npm run lint`, `npm test`, `npm run build`, then `npm run test:e2e`.
+
+| Lane | Owns | Goals |
+|---|---|---|
+| Performance / build | `vite.config.ts`, `src/main.tsx`, `tsconfig*.json` | Font subsetting, modulePreload, build flags, chunking only when provably safe |
+| Accessibility | `src/App.tsx`, `src/components/*.tsx`, `src/styles.css` | Dialog and focus semantics, menu keyboard close, icon-button names, reduced motion, contrast |
+| SEO / metadata | `index.html`, `public/robots.txt`, `src/siteMeta.ts` | Canonical, `og:url`, PWA meta |
+| Code quality | `src/lib/*.ts`, `eslint.config.js` | Dead code, types, lint; no behavior change |
+
+Pitfalls: keep `noindex`. Keep the `og:image` `replaceAll` in `vite.config.ts` and the `assets/index-*` precache glob. Fonts stay self-hosted. Do not rename `siteMeta.ts` exports. A focus-management change must not steal focus from a child `autoFocus`.
