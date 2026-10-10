@@ -7,6 +7,8 @@
 
 ## [Unreleased]
 
+## [1.11.3] - 2026-10-10
+
 ### Changed
 
 - Replace the local `site-audit` skill with an `## Audit contract` section in CLAUDE.md, read by the global `site-audit` skill.
