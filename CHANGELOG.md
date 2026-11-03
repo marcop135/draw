@@ -7,6 +7,14 @@
 
 ## [Unreleased]
 
+## [1.13.1] - 2026-11-03
+
+### Security
+
+- Update Vite to 6.4.5 ([#166](https://github.com/marcop135/whiteboard/pull/166)).
+- Update fast-uri to 3.1.9 ([#180](https://github.com/marcop135/whiteboard/pull/180)).
+- Update serialize-javascript to 7.1.4 ([#186](https://github.com/marcop135/whiteboard/pull/186)).
+
 ## [1.13.0] - 2026-10-30
 
 ### Added
