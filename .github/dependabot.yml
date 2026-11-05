@@ -5,7 +5,7 @@ updates:
     # PRs land on the integration branch; main only takes release merges.
     target-branch: develop
     schedule:
-      interval: weekly
+      interval: monthly
     ignore:
       - dependency-name: "*"
         update-types:

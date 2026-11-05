@@ -7,6 +7,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Check for npm updates monthly instead of weekly.
+
 ## [1.13.1] - 2026-11-03
 
 ### Security
