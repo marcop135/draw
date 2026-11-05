@@ -10,8 +10,8 @@
 ### Changed
 
 - Check for npm updates monthly instead of weekly.
-- Load analytics through a cookieless Matomo Tag Manager container that also measures time on page and script errors
-- List the anonymous interaction events in the privacy page
+- Load analytics through a cookieless Matomo Tag Manager container, adding time on page and script errors ([#194](https://github.com/marcop135/whiteboard/pull/194), [#193](https://github.com/marcop135/whiteboard/issues/193)).
+- List the anonymous interaction events in the privacy page ([#194](https://github.com/marcop135/whiteboard/pull/194)).
 
 ### Fixed
 
