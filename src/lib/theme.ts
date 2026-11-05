@@ -62,7 +62,8 @@ export function applyThemeColor(theme: ResolvedTheme): void {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
   root.style.backgroundColor = THEME_COLOR[theme];
-  root.style.colorScheme = theme;
+  // "light only" keeps Safari Adaptive Dark Mode off a forced light theme.
+  root.style.colorScheme = theme === "light" ? "light only" : "dark";
   document
     .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
     .forEach((meta) => {

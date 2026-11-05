@@ -1,6 +1,7 @@
 /* Canvas color before React mounts, so the first paint and Safari's bar tint
    match the theme (applyThemeColor in src/lib/theme.ts takes over after). */
 html {
+  color-scheme: light dark;
   background: #ffffff;
 }
 @media (prefers-color-scheme: dark) {
