@@ -13,7 +13,7 @@
 
 ### Fixed
 
-- Keep Safari's Adaptive Dark Mode from darkening the app when the light theme is chosen ([#191](https://github.com/marcop135/whiteboard/issues/191)).
+- Keep Safari's Adaptive Dark Mode from darkening the app when the light theme is chosen ([#192](https://github.com/marcop135/whiteboard/pull/192), [#191](https://github.com/marcop135/whiteboard/issues/191)).
 
 ## [1.13.1] - 2026-11-03
 
