@@ -7,6 +7,8 @@
 
 ## [Unreleased]
 
+## [1.14.0] - 2026-11-05
+
 ### Changed
 
 - Check for npm updates monthly instead of weekly.
