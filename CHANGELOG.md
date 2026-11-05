@@ -11,6 +11,10 @@
 
 - Check for npm updates monthly instead of weekly.
 
+### Fixed
+
+- Keep Safari's Adaptive Dark Mode from darkening the app when the light theme is chosen ([#191](https://github.com/marcop135/whiteboard/issues/191)).
+
 ## [1.13.1] - 2026-11-03
 
 ### Security
